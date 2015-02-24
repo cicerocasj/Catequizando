@@ -1,62 +1,73 @@
 {% extends 'base/base.html' %}
+
 {% block css %}
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css"/>
-    <link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css"/>
+{#    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css"/>#}
+{#    <link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css"/>#}
+    <link href="/static/css/bootstrap-social" media="screen" rel="stylesheet" type="text/css"/>
 {% endblock %}
+
 {% block js %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% endblock %}
-{% block body %}
-    <div class="container">
-        <br/>
 
-        <h1 class="text-center">{% trans %}Login Options{% endtrans %}</h1>
-        <br/>
-        <br/>
-        <br/>
-
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <div class="well">
-                    <h2>Email</h2><br/>
-
-                    <form action="{{ login_passwordless_path }}" method="post">
-                        <div class="input-group">
-                            <input type="email" name="email" placeholder="{% trans %}Type your email{% endtrans %}"
-                                   class="form-control"/>
-      <span class="input-group-btn">
-           <button class="btn btn-success" type="submit">Login</button>
-      </span>
+{% block login %}
+    <div class="container login">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="padded">
+                <div class="login box" style="margin-top: 80px;">
+                    <div class="box-header">
+                        <span class="title">Login</span>
+                    </div>
+                    <div class="box-content padded">
+                        <form class="separate-sections" action="{{ login_passwordless_path }}" method="post">
+                            <div class="input-group addon-left">
+                                <span class="input-group-addon">
+                                  <i class="icon-user"></i>
+                                </span>
+                                <input type="email" name="email"  placeholder="usuário">
+                            </div>
+                            {#<div class="input-group addon-left">
+                                <span class="input-group-addon">
+                                  <i class="icon-key"></i>
+                                </span>
+                                <input type="password" placeholder="senha">
+                            </div>#}
+                            <div>
+                                <button class="btn btn-blue btn-block" type="submit">
+                                    Login <i class="icon-signin"></i>
+                                </button>
+                            </div>
+                            {{ csrf_input() }}
+                        </form>
+                        <div class="text-center block">
+                            <a href="sign_up.html">
+                                Não tem uma conta? <strong>cadastre-se</strong>
+                            </a>
                         </div>
-                        {{ csrf_input() }}
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="well">
-                    <h2>Google</h2><br/>
-                    <a href="{{ login_google_path }}" class="btn btn-social btn-google-plus"><i
-                            class="fa fa-google-plus"></i>Google</a>
-                </div>
-            </div>
-            <div class="col-md-4 text-center">
-                <div class="well">
-                    <h2>Facebook</h2><br/>
-                    <button class="btn btn-social btn-facebook" onclick="fb_login();">
-                        <i class="fa fa-facebook"></i>
-                        Facebook
-                    </button>
-                    <form id="fbform" action="{{ login_facebook_path }}" method="post">
-                        {{ csrf_input() }}
-                        <input id="tokeninput" type="hidden" name="token"/>
-                    </form>
+                        <h5 class="text-center">ou</h5>
+                        <div>
+                            <p class="block">
+                                <a href="{{ login_google_path }}"
+                                   class="btn btn-social btn-google-plus btn-block">
+                                    <i class="fa fa-google-plus"></i>
+                                    Google
+                                </a>
+                            </p>
+                            <button class="btn btn-facebook btn-block" onclick="fb_login();">
+                                <i class="icon-facebook-sign"></i>
+                                Facebook
+                            </button>
+                            <form id="fbform" action="{{ login_facebook_path }}" method="post">
+                                {{ csrf_input() }}
+                                <input id="tokeninput" type="hidden" name="token"/>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {# see https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.0#}
     <script>
-
         var checkFacebookLogin = function () {
             var fbform = $('#fbform');
             var tokeninput = $('#tokeninput');
@@ -112,7 +123,5 @@
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-
-
     </script>
 {% endblock %}
