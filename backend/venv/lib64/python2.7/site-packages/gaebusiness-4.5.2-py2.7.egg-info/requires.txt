@@ -1,3 +1,0 @@
-gaeforms>=0.12
-pytz>=2014.4
-Babel>=1.3
