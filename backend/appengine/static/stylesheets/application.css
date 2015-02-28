@@ -6867,7 +6867,7 @@ i {
 }
 
 .padded {
-    padding: 15px
+    padding: 15px 28px 15px 0px;
 }
 
 .nopadding {
