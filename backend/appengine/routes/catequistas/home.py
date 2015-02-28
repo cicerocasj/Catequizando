@@ -10,4 +10,4 @@ from config.template_middleware import TemplateResponse
 def index():
     context = {}
     context["nav_active"] = 'catequista'
-    return TemplateResponse(context, template_path='/catequista/index.html')
+    return TemplateResponse(context, template_path='/catequistas/index.html')

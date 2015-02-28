@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from config.template_middleware import TemplateResponse
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_not_required, permissions
+from config.template_middleware import TemplateResponse
 
 
 @login_not_required
@@ -10,4 +10,4 @@ from gaepermission.decorator import login_not_required
 def index():
     context = {}
     context["nav_active"] = 'turmas'
-    return TemplateResponse(context, template_path='/turmas.html')
+    return TemplateResponse(context, template_path='/turmas/index.html')
