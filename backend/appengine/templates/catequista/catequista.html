@@ -67,6 +67,49 @@
                                                            data-prompt-position="topLeft" placeholder="Celular">
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2">Turmas</label>
+                                                <div class="col-lg-8">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tipo</th>
+                                                                    <th>Dias</th>
+                                                                    <th>Hora</th>
+                                                                    <th>Local</th>
+                                                                    <th>Catequizandos</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% if groups %}
+                                                                    {% for group in groups %}
+                                                                        <tr>
+                                                                            <td><a href="/turmas/turma/1">{{ group.type }}</a></td>
+                                                                            <td>{{ group.day }}</td>
+                                                                            <td>{{ group.hours }}</td>
+                                                                            <td>{{ group.local }}</td>
+                                                                            <td>{{ group.catechized }}</td>
+                                                                            <td>
+                                                                                <div class="btn-group">
+                                                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+                                                                                    <ul class="dropdown-menu">
+                                                                                        <li><a href="/turmas/turma/1">Ver esta turma</a></li>
+                                                                                        <li><a href="/turmas/">Ver todas turmas</a></li>
+                                                                                        <li class="divider"></li>
+                                                                                        <li><a href="#">Remover esta turma</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

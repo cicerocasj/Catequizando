@@ -21,5 +21,21 @@ def index(id=0):
         context["phone"] = u'3333-3333'
         context["cellphone"] = u'98888-8888'
         context["avatar"] = u'avatar1.jpg'
+        context["groups"] = [
+            {'type': 'crisma 3', 'day': 'quarta', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 16}
+        ]
+
+        if key_id == 2:
+            context["id"] = id
+            context["name"] = u'Maria Aparecida da Silva'
+            context["email"] = u'maria@outlook.com'
+            context["address"] = u'Rua Ortolandia, 9999, Vista Linda - São José dos Campos'
+            context["phone"] = u'3333-3333'
+            context["cellphone"] = u'98888-8888'
+            context["avatar"] = u'avatar2.jpg'
+            context["groups"] = [
+                {'type': 'crisma 2', 'day': u'terça', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 10},
+                {'type': 'eucaristia 1', 'day': u'sábado', 'hours': '9:00 - 10:30', 'local': u'Capela São Marcos', 'catechized': 22}
+            ]
     context["nav_active"] = 'catequista'
     return TemplateResponse(context, template_path='/catequista/catequista.html')
