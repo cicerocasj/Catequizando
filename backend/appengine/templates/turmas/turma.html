@@ -6,10 +6,10 @@
                 <div class="pull-left header">
                     <h3 class="title">
                         <i class="icon-sitemap"></i>
-                        {% if name %}
-                            {{ name }}
+                        {% if type %}
+                            {{ type }}
                         {% else %}
-                            Novo turma
+                            Nova turma
                         {% endif %}
                     </h3>
                 </div>
@@ -25,49 +25,73 @@
                 <div class="span12">
                     <div class="box">
                         <div class="box-header">
-                            <span class="title"><i class="icon-pencil"></i> Dados pessoais</span>
+                            <span class="title"><i class="icon-pencil"></i> Dados informativos</span>
                         </div>
                         <div class="box-content">
                             <form class="form-horizontal fill-up validatable">
                                 <div class="row">
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-12">
                                         <div class="padded">
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Nome</label>
-                                                <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ name }}"
-                                                           data-prompt-position="topLeft" placeholder="Nome completo">
+                                                <label class="control-label col-lg-2">Tipo</label>
+                                                <div class="col-lg-3">
+                                                    <select name="type" id="" class="validate[required]"
+                                                            data-prompt-position="topLeft">
+                                                        <option value="0"></option>
+                                                        <option value="1">Pré catequese</option>
+                                                        <option value="2">Eucaristia 1</option>
+                                                        <option value="2">Eucaristia 2</option>
+                                                        <option value="2">Eucaristia 3</option>
+                                                        <option value="2">Crisma 1</option>
+                                                        <option value="2">Crisma 2</option>
+                                                        <option value="2" selected>Crisma 3</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Email</label>
+                                                <label class="control-label col-lg-2">Dia</label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ email }}"
-                                                           data-prompt-position="topLeft" placeholder="Email">
+                                                    <input type="text" class="validate[required]" value="{{ day }}"
+                                                           data-prompt-position="topLeft" placeholder="Dia da semana">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Endereço</label>
+                                                <label class="control-label col-lg-2">Hora inicial</label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ address }}"
-                                                           data-prompt-position="topLeft" placeholder="Endereço completo">
+                                                    <input type="text" class="validate[required]" value="{{ initial_hour }}"
+                                                           data-prompt-position="topLeft" placeholder="Hora inicial">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Telefone</label>
+                                                <label class="control-label col-lg-2">Hora de termino</label>
+                                                <div class="col-lg-8">
+                                                    <input type="text" class="validate[required]" value="{{ end_hour }}"
+                                                           data-prompt-position="topLeft" placeholder="Hora de termino">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2">Local</label>
                                                 <div class="col-lg-4">
-                                                    <input type="text" class="validate[required]" value="{{ phone }}"
-                                                           data-prompt-position="topLeft" placeholder="Telefone fixo">
+                                                    <select name="catechized" id="">
+                                                        <option value="1">Paróquia São Sebastião</option>
+                                                        <option value="2">Capela São Marcos</option>
+                                                    </select>
+{#                                                    <input type="text" class="validate[required]" value="{{ local }}"#}
+{#                                                           data-prompt-position="topLeft" placeholder="local dos encontros">#}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Celular</label>
+                                                <label class="control-label col-lg-2">Catequizandos</label>
                                                 <div class="col-lg-4">
-                                                    <input type="text" class="validate[required]" value="{{ cellphone }}"
-                                                           data-prompt-position="topLeft" placeholder="Celular">
+                                                    <select name="catechized" id="" multiple="multiple">
+                                                        <option value="1">Guilherme Bosco</option>
+                                                        <option value="2">Denise Braga</option>
+                                                    </select>
+{#                                                    <input type="text" class="validate[required]" value="{{ local }}"#}
+{#                                                           data-prompt-position="topLeft" placeholder="local dos encontros">#}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            {#<div class="form-group">
                                                 <label class="control-label col-lg-2">Turmas</label>
                                                 <div class="col-lg-8">
                                                     <div class="table-responsive">
@@ -109,24 +133,13 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="avatar profile_photo">
-                                            <span>
-                                                {% if avatar %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/{{ avatar }}"/>
-                                                {% else %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
-                                                {% endif %}
-                                            </span>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
-                                    <a class="btn btn-default" href="/catequistas">Cancelar</a>
+                                    <a class="btn btn-default" href="/turmas">Cancelar</a>
                                 </div>
                             </form>
                         </div>
