@@ -37,5 +37,5 @@ def index(id=0):
                 {'type': 'crisma 2', 'day': u'terça', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 10},
                 {'type': 'eucaristia 1', 'day': u'sábado', 'hours': '9:00 - 10:30', 'local': u'Capela São Marcos', 'catechized': 22}
             ]
-    context["nav_active"] = 'catequista'
+    context["nav_active"] = 'catequistas'
     return TemplateResponse(context, template_path='/catequistas/catequista.html')

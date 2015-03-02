@@ -23,3 +23,11 @@
     padding: 5px;
     margin: 5px;
 }
+
+.news-text span{
+    font-weight: bold;
+}
+
+.news-time{
+    font-weight: bold;
+}
