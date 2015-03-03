@@ -51,8 +51,17 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2">Dia</label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ day }}"
-                                                           data-prompt-position="topLeft" placeholder="Dia da semana">
+                                                    <select name="day" id="" class="validate[required]"
+                                                            data-prompt-position="topLeft">
+                                                        <option value="0"></option>
+                                                        <option value="1" {% if day == 'Segunda-feira' %}selected="selected" {% endif %}>Segunda-feira</option>
+                                                        <option value="2" {% if day == 'Terça-feira' %}selected="selected" {% endif %}>Terça-feira</option>
+                                                        <option value="3" {% if day == 'Quarta-feira' %}selected="selected" {% endif %}>Quarta-feira</option>
+                                                        <option value="4" {% if day == 'Quinta-feira' %}selected="selected" {% endif %}>Quinta-feira</option>
+                                                        <option value="5" {% if day == 'Sexta-feira' %}selected="selected" {% endif %}>Sexta-feira</option>
+                                                        <option value="6" {% if day == 'Sábado-feira' %}selected="selected" {% endif %}>Sábado</option>
+                                                        <option value="7" {% if day == 'Domingo-feira' %}selected="selected" {% endif %}>Domingo</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -73,8 +82,8 @@
                                                 <label class="control-label col-lg-2">Local</label>
                                                 <div class="col-lg-4">
                                                     <select name="catechized" id="">
-                                                        <option value="1">Paróquia São Sebastião</option>
-                                                        <option value="2">Capela São Marcos</option>
+                                                        <option value="1" {% if day == 'Paróquia São Sebastião' %}selected="selected" {% endif %}>Paróquia São Sebastião</option>
+                                                        <option value="2" {% if day == 'Capela São Marcos' %}selected="selected" {% endif %}>Capela São Marcos</option>
                                                     </select>
 {#                                                    <input type="text" class="validate[required]" value="{{ local }}"#}
 {#                                                           data-prompt-position="topLeft" placeholder="local dos encontros">#}
