@@ -1,110 +1,99 @@
 <div class="navbar navbar-top navbar-inverse">
     <div class="navbar-inner">
         <div class="container-fluid">
-
-            <a class="brand" href="/">Paróquia São Sebastião</a>
-
-            <div class="nav-collapse nav-collapse-top collapse">
-
+            <a class="brand" href="/">Paróquia São Sebastião - Catequese</a>
+            <ul class="nav pull-right">
+                <li class="toggle-primary-sidebar hidden-desktop collapsed" data-toggle="collapse" data-target=".nav-collapse-primary"><button type="button" class="btn btn-navbar"><i class="icon-th-list"></i></button></li>
+                <li class="hidden-desktop collapsed" data-toggle="collapse" data-target=".nav-collapse-top"><button type="button" class="btn btn-navbar"><i class="icon-align-justify"></i></button></li>
+            </ul>
+            <div class="nav-collapse nav-collapse-top collapse" style="height: 0px;">
                 <ul class="nav full pull-right">
                     <li class="dropdown user-avatar">
-
-                        <!-- the dropdown has a custom user-avatar class, this is the small avatar with the badge -->
-
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <span>
-                    <img class="menu-avatar" src="/static/images/avatars/avatar1.jpg"/> <span>Cícero Alves<i
-                          class="icon-caret-down"></i></span>
+                    <img class="menu-avatar" src="/static/images/avatars/avatar1.jpg"> <span>Cícero Alves<i class="icon-caret-down"></i></span>
                     <span class="badge badge-dark-red">5</span>
                   </span>
                         </a>
-
                         <ul class="dropdown-menu">
-
                             <li class="with-image">
                                 <div class="avatar">
-                                    <img src="/static/images/avatars/avatar1.jpg"/>
+                                    <img src="/static/images/avatars/avatar1.jpg">
                                 </div>
                                 <span>Cícero Alves</span>
                             </li>
-
                             <li class="divider"></li>
-
                             <li><a href="#"><i class="icon-user"></i> <span>Meu perfil</span></a></li>
-                            <li><a href="#"><i class="icon-envelope"></i> <span>Mensagens</span> <span
-                                    class="label label-dark-red pull-right">5</span></a></li>
                             <li><a href="#"><i class="icon-off"></i> <span>Sair</span></a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
-
-
         </div>
     </div>
 </div>
 {% if not hide_navbar %}
     <div class="sidebar-background">
-    <div class="primary-sidebar-background"></div>
-</div>
-<div class="primary-sidebar">
-    <ul class="nav nav-collapse collapse nav-collapse-primary">
-        <li {% if nav_active == 'inicio' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/">
-                <i class="icon-home icon-2x"></i>
-                <span>Início</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'turmas' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/turmas">
-                <i class="icon-sitemap icon-2x"></i>
-                <span>Turmas</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'catequistas' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/catequistas">
-                <i class="icon-user icon-2x"></i>
-                <span>Catequistas</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'catequizandos' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/catequizandos">
-                <i class="icon-star-empty icon-2x"></i>
-                <span>Catequizandos</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'chamadas' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/chamadas">
-                <i class="icon-edit icon-2x"></i>
-                <span>Chamadas</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'encontros' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/encontros">
-                <i class="icon-comments icon-2x"></i>
-                <span>Encontros</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'eventos' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/eventos">
-                <i class="icon-calendar icon-2x"></i>
-                <span>Eventos</span>
-            </a>
-        </li>
-        <li {% if nav_active == 'noticias' %}class="active"{% endif %}>
-            <span class="glow"></span>
-            <a href="/noticias">
-                <i class=" icon-info-sign icon-2x"></i>
-                <span>Notícias</span>
-            </a>
-        </li>
-    </ul>
-</div>
+        <div class="primary-sidebar-background"></div>
+    </div>
+    <div class="primary-sidebar">
+        <ul class="nav nav-collapse collapse nav-collapse-primary">
+            <li {% if nav_active == 'inicio' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/">
+                    <i class="icon-home icon-2x"></i>
+                    <span>Início</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'turmas' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/turmas">
+                    <i class="icon-sitemap icon-2x"></i>
+                    <span>Turmas</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'catequistas' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/catequistas">
+                    <i class="icon-user icon-2x"></i>
+                    <span>Catequistas</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'catequizandos' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/catequizandos">
+                    <i class="icon-star-empty icon-2x"></i>
+                    <span>Catequizandos</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'chamadas' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/chamadas">
+                    <i class="icon-edit icon-2x"></i>
+                    <span>Chamadas</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'encontros' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/encontros">
+                    <i class="icon-comments icon-2x"></i>
+                    <span>Encontros</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'eventos' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/eventos">
+                    <i class="icon-calendar icon-2x"></i>
+                    <span>Eventos</span>
+                </a>
+            </li>
+            <li {% if nav_active == 'noticias' %}class="active"{% endif %}>
+                <span class="glow"></span>
+                <a href="/noticias">
+                    <i class=" icon-info-sign icon-2x"></i>
+                    <span>Notícias</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 {% endif %}
