@@ -21,7 +21,7 @@
 {% block body %}
     <div class="container-fluid padded">
         <div class="row-fluid">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <div class="span12">
                     <div class="box">
                         <div class="box-header">
@@ -30,11 +30,11 @@
                         <div class="box-content">
                             <form class="form-horizontal fill-up validatable">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-md-12">
                                         <div class="padded">
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Tipo</label>
-                                                <div class="col-lg-3">
+                                                <label class="control-label col-md-2">Tipo</label>
+                                                <div class="col-md-3">
                                                     <select name="type" id="" class="validate[required]"
                                                             data-prompt-position="topLeft">
                                                         <option value="0"></option>
@@ -49,8 +49,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Dia</label>
-                                                <div class="col-lg-8">
+                                                <label class="control-label col-md-2">Dia</label>
+                                                <div class="col-md-3">
                                                     <select name="day" id="" class="validate[required]"
                                                             data-prompt-position="topLeft">
                                                         <option value="0"></option>
@@ -65,22 +65,22 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Hora inicial</label>
-                                                <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ initial_hour }}"
+                                                <label class="control-label col-md-2">Hora inicial</label>
+                                                <div class="col-md-3">
+                                                    <input type="time" class="validate[required]" value="{{ initial_hour }}"
                                                            data-prompt-position="topLeft" placeholder="Hora inicial">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Hora de termino</label>
-                                                <div class="col-lg-8">
-                                                    <input type="text" class="validate[required]" value="{{ end_hour }}"
+                                                <label class="control-label col-md-2">Hora de termino</label>
+                                                <div class="col-md-3">
+                                                    <input type="time" class="validate[required]" value="{{ end_hour }}"
                                                            data-prompt-position="topLeft" placeholder="Hora de termino">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Local</label>
-                                                <div class="col-lg-4">
+                                                <label class="control-label col-md-2">Local</label>
+                                                <div class="col-md-4">
                                                     <select name="catechized" id="">
                                                         <option value="1" {% if day == 'Paróquia São Sebastião' %}selected="selected" {% endif %}>Paróquia São Sebastião</option>
                                                         <option value="2" {% if day == 'Capela São Marcos' %}selected="selected" {% endif %}>Capela São Marcos</option>
@@ -90,8 +90,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2">Catequizandos</label>
-                                                <div class="col-lg-4">
+                                                <label class="control-label col-md-2">Catequizandos</label>
+                                                <div class="col-md-4">
                                                     <select name="catechized" id="" multiple="multiple">
                                                         <option value="1">Guilherme Bosco</option>
                                                         <option value="2">Denise Braga</option>
@@ -101,8 +101,8 @@
                                                 </div>
                                             </div>
                                             {#<div class="form-group">
-                                                <label class="control-label col-lg-2">Turmas</label>
-                                                <div class="col-lg-8">
+                                                <label class="control-label col-md-2">Turmas</label>
+                                                <div class="col-md-8">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-hover table-striped">
                                                             <thead>
