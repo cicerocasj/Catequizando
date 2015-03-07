@@ -31,3 +31,12 @@
 .news-time{
     font-weight: bold;
 }
+
+.calls th:last-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.calls th, .calls td:last-child{
+    text-align: center !important;
+}
