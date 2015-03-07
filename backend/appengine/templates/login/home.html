@@ -3,7 +3,8 @@
 {% block css %}
 {#    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css"/>#}
 {#    <link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css"/>#}
-    <link href="/static/css/bootstrap-social" media="screen" rel="stylesheet" type="text/css"/>
+{#    <link href="/static/bootstrap/css/bootstrap-social.css" media="screen" rel="stylesheet" type="text/css"/>#}
+    <link href="/static/bootstrap/css/bootstrap-social.css" media="screen" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block js %}
@@ -44,23 +45,24 @@
                                 Não tem uma conta? <strong>cadastre-se</strong>
                             </a>
                         </div>
-                        <h5 class="text-center">ou</h5>
-                        <div>
-                            <p class="block">
-                                <a href="{{ login_google_path }}"
-                                   class="btn btn-social btn-google-plus btn-block">
-                                    <i class="fa fa-google-plus"></i>
+                        <div class="social-auth-links text-center">
+                            <p>OU</p>
+                            <div class="form-row social-margin">
+                                <a href="{{ login_google_path }}" class="btn btn-block btn-social btn-google-plus btn-flat">
+                                    <i class="icon-google-plus"></i>
                                     Google
                                 </a>
-                            </p>
-                            <button class="btn btn-facebook btn-block" onclick="fb_login();">
-                                <i class="icon-facebook-sign"></i>
-                                Facebook
-                            </button>
-                            <form id="fbform" action="{{ login_facebook_path }}" method="post">
-                                {{ csrf_input() }}
-                                <input id="tokeninput" type="hidden" name="token"/>
-                            </form>
+                            </div>
+                            <div class="form-row social-margin" style="margin-top: 5px;">
+                                <button class="btn btn-block btn-social btn-facebook btn-flat" onclick="fb_login();">
+                                    <i class="icon-facebook"></i>
+                                    Facebook
+                                </button>
+                                <form id="fbform" action="{{ login_facebook_path }}" method="post">
+                                    {{ csrf_input() }}
+                                    <input id="tokeninput" type="hidden" name="token">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

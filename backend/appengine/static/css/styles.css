@@ -40,3 +40,11 @@
 .calls th, .calls td:last-child{
     text-align: center !important;
 }
+
+.login div.box-content.padded{
+    padding: 10px;
+}
+
+a.btn.btn-social.btn-google-plus{
+    background-image: none;
+}
