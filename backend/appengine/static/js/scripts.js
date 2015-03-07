@@ -1,7 +1,15 @@
 $(document).ready(function(){
     // clique do checkbox --- checked active
-    var input_checkbox = $("div.icheckbox_flat-aero");
+    var input_fake_checkbox = $("ins.iCheck-helper");
+    input_fake_checkbox.click(function(e){
+        console.log("cicero");
+
+        //$(e).hasClass("checked");
+    });
+
+    var input_checkbox = $("input.icheck");
     input_checkbox.click(function(e){
-        $(e).hasClass("checked")
+        console.log("cicero");
+        $(e).hasClass("checked");
     });
 });
