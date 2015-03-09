@@ -32,6 +32,16 @@
     font-weight: bold;
 }
 
+.calls-view th{
+    width: 100%;
+    white-space: nowrap;
+}
+
+.calls-view th{
+    width: 0;
+    white-space: nowrap;
+}
+
 .calls th:last-child {
     width: 1px;
     white-space: nowrap;

@@ -66,27 +66,12 @@
                     <span>Catequizandos</span>
                 </a>
             </li>
-            <li class="dark-nav {% if nav_active == 'chamadas' %}active{% endif %}">
+            <li {% if nav_active == 'chamadas' %}class="active"{% endif %}>
                 <span class="glow"></span>
-                <a class="accordion-toggle collapsed" data-toggle="collapse" href="#tnnmk7rjLZ">
+                <a href="/chamadas">
                     <i class="icon-edit icon-2x"></i>
-                    <span>
-                        Chamadas
-                        <i class="icon-caret-down"></i>
-                    </span>
+                    <span>Chamadas</span>
                 </a>
-                <ul id="tnnmk7rjLZ" class="collapse" style="height: 0px;">
-                    <li class="">
-                        <a href="/chamadas">
-                            <i class="icon-hand-up"></i> Ver listas
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="../ui_lab/widgets.html">
-                            <i class="icon-plus-sign-alt"></i> Widgets
-                        </a>
-                    </li>
-                </ul>
             </li>
             <li {% if nav_active == 'encontros' %}class="active"{% endif %}>
                 <span class="glow"></span>

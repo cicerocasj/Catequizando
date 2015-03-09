@@ -9,7 +9,7 @@
                         {% if type %}
                             {{ type }}
                         {% else %}
-                            Nova chamada
+                            Editar chamadas
                         {% endif %}
                     </h3>
                 </div>
@@ -25,12 +25,7 @@
                 <div class="span12">
                     <div class="box">
                         <div class="box-header">
-                            <span class="title">Lista de catequistas</span>
-                            <ul class="box-toolbar">
-                                <li>
-                                    <span>{{ date }}</span>
-                                </li>
-                            </ul>
+                            <span class="title"><i class="icon-pencil"></i> Dados informativos</span>
                         </div>
                         <div class="box-content">
                             <form class="form-horizontal fill-up validatable">
@@ -38,18 +33,26 @@
                                     <div class="col-md-12">
                                         <div class="padded">
                                             <div class="form-group">
+                                                <label class="control-label col-md-2">Encontro</label>
+                                                <div class="col-md-3">
+                                                    <select name="type" id="" class="validate[required]"
+                                                            data-prompt-position="topLeft">
+                                                        <option value="0"></option>
+                                                        <option value="1" selected>Encontro 1 - Acolhida</option>
+                                                        <option value="2">Encontro 2 - Campanha da fratenidade</option>
+                                                        <option value="2">Encontro 3 - Campanha da fratenidade</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {#<div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>
                                                 <div class="col-md-8">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover table-striped calls-view">
+                                                        <table class="table table-bordered table-hover table-striped calls">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Nome</th>
-                                                                    <th>11/03</th>
-                                                                    <th>18/03</th>
-                                                                    <th>25/03</th>
-                                                                    <th>1/04</th>
-                                                                    <th>8/04</th>
+                                                                    <th>Presença</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -57,19 +60,9 @@
                                                                 <tr>
                                                                     <td>{{ cat }}</td>
                                                                     <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -77,7 +70,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>

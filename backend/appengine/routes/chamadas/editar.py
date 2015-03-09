@@ -23,4 +23,4 @@ def index(id=0):
         ]
 
     context["nav_active"] = 'chamadas'
-    return TemplateResponse(context, template_path='/chamadas/chamada.html')
+    return TemplateResponse(context, template_path='/chamadas/editar.html')
