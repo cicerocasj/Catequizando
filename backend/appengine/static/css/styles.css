@@ -32,9 +32,17 @@
     font-weight: bold;
 }
 
-.calls-view th{
+.calls-view th:first-child{
     width: 100%;
     white-space: nowrap;
+}
+
+.calls-view i.icon-check{
+    color: green;
+}
+
+.calls-view i.icon-check-empty{
+    color: red;
 }
 
 .calls-view th{

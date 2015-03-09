@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{% block header_title %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="area-top clearfix">
+                <div class="pull-left header">
+                    <h3 class="title">
+                        <i class="icon-edit"></i>
+                        {% if type %}
+                            {{ type }}
+                        {% else %}
+                            Crisma 2 - Cícero Alves
+                        {% endif %}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid padded">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <div class="span12">
+                    <div class="box">
+                        <div class="box-header">
+                            <span class="title">Lista de catequizando</span>
+                            <ul class="box-toolbar">
+                                <li>
+                                    <span>{{ date }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="box-content">
+                            <form class="form-horizontal fill-up validatable">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="padded">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Catequizandos</label>
+                                                <div class="col-md-8">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover table-striped calls-view">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nome</th>
+                                                                    <th>11/03</th>
+                                                                    <th>18/03</th>
+                                                                    <th>25/03</th>
+                                                                    <th>1/04</th>
+                                                                    <th>8/04</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for cat in catechized %}
+                                                                <tr>
+                                                                    <td>{{ cat.name }}</td>
+                                                                    {% for present in cat.presents %}
+                                                                        {% if present %}
+                                                                            <td><i class="icon-check"></i></td>
+                                                                        {% else %}
+                                                                            <td><i class="icon-check-empty"></i></td>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <a class="btn btn-success" href="/chamadas/chamada/1">Editar esta chamada</a>
+                                    <a class="btn btn-default" href="/chamadas">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

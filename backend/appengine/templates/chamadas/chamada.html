@@ -38,6 +38,18 @@
                                     <div class="col-md-12">
                                         <div class="padded">
                                             <div class="form-group">
+                                                <label class="control-label col-md-2">Encontro</label>
+                                                <div class="col-md-3">
+                                                    <select name="type" id="" class="validate[required]"
+                                                            data-prompt-position="topLeft">
+                                                        <option value="0"></option>
+                                                        <option value="1" selected>Encontro 1 - Acolhida</option>
+                                                        <option value="2">Encontro 2 - Campanha da fratenidade</option>
+                                                        <option value="2">Encontro 3 - Campanha da fratenidade</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>
                                                 <div class="col-md-8">
                                                     <div class="table-responsive">
@@ -45,11 +57,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>Nome</th>
-                                                                    <th>11/03</th>
-                                                                    <th>18/03</th>
-                                                                    <th>25/03</th>
-                                                                    <th>1/04</th>
-                                                                    <th>8/04</th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -57,19 +65,9 @@
                                                                 <tr>
                                                                     <td>{{ cat }}</td>
                                                                     <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="icon-check"></i>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -78,6 +76,126 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {#<div class="form-group">
+                                                <label class="control-label col-md-2">Catequizandos</label>
+                                                <div class="col-md-8">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover table-striped calls">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nome</th>
+                                                                    <th>Presença</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Ailton Gamarra</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Debora de Souza</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Maicon Dias</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Edson Silva</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr><tr>
+                                                                    <td>Michel Bastos</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Luiz Fabiano</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Reinaldo Velazques</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Bruno Dias</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr><tr>
+                                                                    <td>Margarida Mota</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Francisco Paiva</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tatiana Almeida</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Celso Alves</td>
+                                                                    <td>
+                                                                        <div class="icheckbox_flat-aero check-fake">
+                                                                            <input type="checkbox" class="icheck">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>
