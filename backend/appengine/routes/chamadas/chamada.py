@@ -16,11 +16,13 @@ def index(id=0):
     if key_id:
         context["id"] = id
         context["groups"] = u'Cícero Alves dos Santos Junior'
-        context["catechized"] = [
-            u"Ailton Gamarra", u'Debora de Souza', u'Maicon Dias', u'Edson Silva', u'Michel Bastos',
-            u'Luiz Fabiano', u'Reinaldo Velazques', u'Bruno Dias', u'Margarida Mota', u'Francisco Paiva',
-            u'Tatiana Almeida', u'Celso Alves'
-        ]
+        context["date"] = u'1111-11-13'
+        context["name"] = u'Crisma 2  - Cícero Alves'
+    context["catechized"] = [
+        u"Ailton Gamarra", u'Debora de Souza', u'Maicon Dias', u'Edson Silva', u'Michel Bastos',
+        u'Luiz Fabiano', u'Reinaldo Velazques', u'Bruno Dias', u'Margarida Mota', u'Francisco Paiva',
+        u'Tatiana Almeida', u'Celso Alves'
+    ]
 
     context["nav_active"] = 'chamadas'
     return TemplateResponse(context, template_path='/chamadas/chamada.html')
