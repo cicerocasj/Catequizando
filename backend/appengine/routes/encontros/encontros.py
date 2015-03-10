@@ -26,4 +26,4 @@ Ele também descreveu a internet como “uma dádiva de Deus”, mas alertou que
         '''
         context["link"] = u'http://g1.globo.com/tecnologia/noticia/2014/08/papa-fala-para-jovens-nao-perderem-tempo-com-internet-e-smartphones.html'
     context["nav_active"] = 'encontros'
-    return TemplateResponse(context, template_path='/encontros/noticia.html')
+    return TemplateResponse(context, template_path='/encontros/encontro.html')

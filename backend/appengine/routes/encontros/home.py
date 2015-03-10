@@ -9,5 +9,5 @@ from config.template_middleware import TemplateResponse
 @no_csrf
 def index():
     context = {}
-    context["nav_active"] = 'noticias'
+    context["nav_active"] = 'encontros'
     return TemplateResponse(context, template_path='/encontros/index.html')
