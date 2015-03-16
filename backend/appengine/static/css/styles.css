@@ -73,3 +73,8 @@ a.btn.btn-social.btn-google-plus{
     left: 0!important;
     position: absolute!important;
 }
+
+.user-avatar .avatar img{
+    width: 100px;
+    height: 100px;
+}
