@@ -32,43 +32,35 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <i class="icon-sitemap"></i>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>16</span> Fev
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="noticias/noticia/1">Papa fala com os jovens de Roma</a></p>
+                            {% if noticias %}
+                                {% for noticia in noticias %}
+                                    <div class="box-section">
+                                        <div class="news-time">
+                                            <span>{{ noticia.creation.day }}</span>
+{#                                            {% trans %}{{ noticia.creation.strftime('%b') }}{% endtrans %}#}
+                                            {{ noticia.creation.strftime('%b') }}
+                                        </div>
+                                        <div class="news-content">
+                                            <div class="news-title" title="Alterar">
+                                                <p><a href="noticias/noticia/{{ noticia.key.id() }}">{{ noticia.title }}</a></p>
+                                            </div>
+                                            <div class="news-text">
+                                                <a href="{{ noticia.link }}">
+                                                    {{ noticia.link }}
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="news-text">
-                                        <a href="http://g1.globo.com/tecnologia/noticia/2014/08/papa-fala-para-jovens-nao-perderem-tempo-com-internet-e-smartphones.html">
-                                            http://g1.globo.com/tecnologia/noticia/2014/08/papa-fala-para-jovens-nao-perderem-tempo-com-internet-e-smartphones.html</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <i class="icon-sitemap"></i>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>26</span> Jan
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="noticias/noticia/1">Seu Ademar é eleito o novo coordenador da catequese</a></p>
-                                    </div>
-                                    <div class="news-text">
-                                        <a href="//www.google.com">www.google.com</a>
+                                {% endfor %}
+                            {% else %}
+                                <div class="box-section">
+                                    <div class="news-content">
+                                        <div class="news-title" title="Alterar">
+                                            <p>Nenhuma noticia cadastrada</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
