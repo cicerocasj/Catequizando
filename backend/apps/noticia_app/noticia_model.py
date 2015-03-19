@@ -9,4 +9,3 @@ class Noticia(Node):
     title = ndb.StringProperty(required=True)
     content = ndb.StringProperty(required=True)
     link = ndb.StringProperty(required=True)
-
