@@ -12,6 +12,6 @@ def index():
     context = {}
     query = Noticia.query_by_creation_desc()
     noticias = query.fetch()
-    context['noticias'] = noticias
+    context['notices'] = noticias
     context["nav_active"] = 'noticias'
     return TemplateResponse(context, template_path='/noticias/index.html')

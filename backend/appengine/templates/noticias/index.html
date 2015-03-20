@@ -32,21 +32,21 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            {% if noticias %}
-                                {% for noticia in noticias %}
+                            {% if notices %}
+                                {% for notice in notices %}
                                     <div class="box-section">
                                         <div class="news-time">
-                                            <span>{{ noticia.creation.day }}</span>
+                                            <span>{{ notice.creation.day }}</span>
 {#                                            {% trans %}{{ noticia.creation.strftime('%b') }}{% endtrans %}#}
-                                            {{ noticia.creation.strftime('%b') }}
+                                            {{ notice.creation.strftime('%b') }}
                                         </div>
                                         <div class="news-content">
                                             <div class="news-title" title="Alterar">
-                                                <p><a href="noticias/noticia/{{ noticia.key.id() }}">{{ noticia.title }}</a></p>
+                                                <p><a href="noticias/noticia/{{ notice.key.id() }}">{{ notice.title }}</a></p>
                                             </div>
                                             <div class="news-text">
-                                                <a href="{{ noticia.link }}">
-                                                    {{ noticia.link }}
+                                                <a href="{{ notice.link }}">
+                                                    {{ notice.link }}
                                                 </a>
                                             </div>
                                         </div>
