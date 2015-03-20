@@ -2,7 +2,7 @@
 {% if notice %}
     {% set title=notice.title or None %}
     {% set content=notice.content or None %}
-    {% set link=notice.link or None %}
+    {% set link=notice.objetive or None %}
 {% endif %}
 {% block header_title %}
     <div class="container-fluid">
@@ -24,7 +24,6 @@
 {% endblock %}
 
 {% block body %}
-    {% set noticia=noticia or None %}
     {% set errors=errors or None %}
     <div class="container-fluid padded">
         <div class="row-fluid">
@@ -43,13 +42,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Titulo</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" name="title" value="{{ title }}"/>
+                                                    <input class="validate[required]" type="text" name="title" value="{{ title }}"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Conteúdo</label>
                                                 <div class="col-md-8">
-                                                    <textarea name="content" rows="10">{{ content }}</textarea>
+                                                    <textarea class="validate[required]" name="content" rows="10">{{ content }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">

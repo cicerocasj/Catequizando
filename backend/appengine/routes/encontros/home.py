@@ -10,6 +10,6 @@ def index():
     context = {}
     query = Encontro.query_by_creation_desc()
     meeting = query.fetch()
-    context['meeting'] = meeting
+    context['meetings'] = meeting
     context["nav_active"] = 'encontros'
     return TemplateResponse(context, template_path='/encontros/index.html')

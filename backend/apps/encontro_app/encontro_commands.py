@@ -13,7 +13,7 @@ class EncontroSaveForm(ModelForm):
     """
     _model_class = Encontro
     _include = [Encontro.content, 
-                Encontro.link, 
+                Encontro.objetive,
                 Encontro.title]
 
 
