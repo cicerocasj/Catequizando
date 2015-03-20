@@ -1,4 +1,9 @@
 {% extends 'base/base.html' %}
+{% if notice %}
+    {% set title=notice.title or None %}
+    {% set content=notice.content or None %}
+    {% set link=notice.link or None %}
+{% endif %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -6,8 +11,8 @@
                 <div class="pull-left header">
                     <h3 class="title">
                         <i class="icon-info-sign"></i>
-                        {% if notice.title %}
-                            {{ notice.title }}
+                        {% if notice and title %}
+                            {{ title }}
                         {% else %}
                             Nova noticia
                         {% endif %}
@@ -38,19 +43,19 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Titulo</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" name="title" value="{{ notice.title }}"/>
+                                                    <input type="text" name="title" value="{{ title }}"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Conteúdo</label>
                                                 <div class="col-md-8">
-                                                    <textarea name="content" rows="10">{{ notice.content }}</textarea>
+                                                    <textarea name="content" rows="10">{{ content }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Link(se existir)</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" name="link" value="{{ notice.link }}"/>
+                                                    <input type="text" name="link" value="{{ link }}"/>
                                                 </div>
                                             </div>
                                         </div>

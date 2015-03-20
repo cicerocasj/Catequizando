@@ -10,7 +10,7 @@ from config.template_middleware import TemplateResponse
 @no_csrf
 def index():
     context = {}
-    query = Noticia.query().order(Noticia.key)
+    query = Noticia.query_by_creation_desc()
     noticias = query.fetch()
     context['noticias'] = noticias
     context["nav_active"] = 'noticias'
