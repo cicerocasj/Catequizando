@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from catequizando_app import catequizando_commands, catequizando_facade
+import logging
+from google.appengine.ext import blobstore
 from catequizando_app.catequizando_model import Catequizando
-from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
-from routes import catequizandos
 from tekton import router
-from tekton.gae.middleware.redirect import RedirectResponse
+from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
+from routes.catequizandos import upload
 
 
 @no_csrf
@@ -21,17 +20,12 @@ def index(id=0):
     if key_id:
         context["catechized"] = Catequizando.get_by_id(key_id)
 
+    #gera url para salvar a imagem
+    success_url = router.to_path(upload)
+    bucket = get_default_gcs_bucket_name()
+    logging.info(bucket)
+    url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
+
     context["nav_active"] = 'catequizandos'
-    context["save_path"] = router.to_path(save)
+    context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
-
-
-def save(**catequizando_properties):
-    cmd = catequizando_facade.save_catequizando_cmd(**catequizando_properties)
-    try:
-        cmd()
-    except CommandExecutionException:
-        context = {'errors': cmd.errors,
-                   'catechized': catequizando_properties}
-        return TemplateResponse(context, '/catequizandos/catequizando.html')
-    return RedirectResponse(router.to_path(catequizandos))
