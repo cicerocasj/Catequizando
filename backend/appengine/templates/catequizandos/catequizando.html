@@ -43,7 +43,7 @@
                         </div>
                         <div class="box-content">
                             <form method="post" action="{{ upload_url }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
-                            <input type="file" name="files[]"/>
+                            <input type="file" name="files[]" id="input_avatar" style="display: none"/>
                                 {{ csrf_input() }}
                                 <div class="row">
                                     <div class="col-md-9">
@@ -172,9 +172,9 @@
                                         <div class="avatar profile_photo">
                                             <span>
                                                 {% if avatar %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ avatar }}"/>
+                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ avatar }}"/>
                                                 {% else %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
+                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
                                                 {% endif %}
                                             </span>
                                         </div>
