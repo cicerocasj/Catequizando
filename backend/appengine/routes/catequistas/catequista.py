@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from catequista_app import catequista_facade
+from catequista_app.catequista_model import Catequista
+from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
+from routes import catequistas
+from tekton import router
+from tekton.gae.middleware.redirect import RedirectResponse
 
 
 @login_not_required
@@ -14,28 +20,18 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
-        context["id"] = id
-        context["name"] = u'Cícero Alves dos Santos Junior'
-        context["email"] = u'cicerocasj@gmail.com'
-        context["address"] = u'Avenida Juscelino Kubitscheck, 9999, Vila Industrial - São José dos Campos'
-        context["phone"] = u'3333-3333'
-        context["cellphone"] = u'98888-8888'
-        context["avatar"] = u'avatar1.jpg'
-        context["groups"] = [
-            {'type': 'crisma 3', 'day': 'quarta', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 16}
-        ]
-
-        if key_id == 2:
-            context["id"] = id
-            context["name"] = u'Maria Aparecida da Silva'
-            context["email"] = u'maria@outlook.com'
-            context["address"] = u'Rua Ortolandia, 9999, Vista Linda - São José dos Campos'
-            context["phone"] = u'3333-3333'
-            context["cellphone"] = u'98888-8888'
-            context["avatar"] = u'avatar2.jpg'
-            context["groups"] = [
-                {'type': 'crisma 2', 'day': u'terça', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 10},
-                {'type': 'eucaristia 1', 'day': u'sábado', 'hours': '9:00 - 10:30', 'local': u'Capela São Marcos', 'catechized': 22}
-            ]
+        context["catequista"] = Catequista.get_by_id(key_id)
     context["nav_active"] = 'catequistas'
+    context["save_path"] = router.to_path(save)
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
+
+
+def save(**catequista_properties):
+    cmd = catequista_facade.save_catequista_cmd(**catequista_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'catequista': catequista_properties}
+        return TemplateResponse(context, 'noticias/noticia.html')
+    return RedirectResponse(router.to_path(catequistas))

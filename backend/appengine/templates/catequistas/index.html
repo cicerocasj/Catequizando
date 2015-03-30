@@ -32,69 +32,33 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <!-- find me in partials/news_with_icons -->
-
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <img class="menu-avatar" src="/static/images/avatars/avatar1.jpg"/>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>16</span> Catequizandos
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="/catequistas/catequista/1">Cícero Alves dos Santos Junior</a></div>
-                                    <div class="news-text">
-                                        Avenida Juscelino Kubitscheck, 9999, Vila Industrial - São José dos Campos
+                            {% if catequistas %}
+                                {% for catequista in catequistas %}
+                                    <div class="box-section news with-icons">
+                                        <div class="avatar">
+                                            <span>
+                                                {% if catequista.avatar %}
+                                                    <img class="menu-avatar" src="{{ catequista.avatar }}"/>
+                                                {% else %}
+                                                    <img class="menu-avatar" src="/static/images/avatars/none.png"/>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="news-time">
+{#                                            <span>16</span> Catequizandos#}
+                                        </div>
+                                        <div class="news-content">
+                                            <div class="news-title" title="Alterar"><a href="/catequistas/catequista/1">Cícero Alves dos Santos Junior</a></div>
+                                            <div class="news-text">
+                                                {{ catequista.address }}
+                                            </div>
+                                            <div class="news-text">
+                                                {{ catequista.cellphone }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="news-text">
-                                        Celular: 99999-9999
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <img class="menu-avatar" src="/static/images/avatars/avatar2.jpg"/>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>19</span> Catequizandos
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="/catequistas/catequista/2">Maria Aparecida da Silva</a></div>
-                                    <div class="news-text">
-                                        Rua Ortolandia, 9999, Vista Linda - São José dos Campos
-                                    </div>
-                                    <div class="news-text">
-                                        Celular: 99999-9999
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <img class="menu-avatar" src="/static/images/avatars/avatar3.jpg"/>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>08</span> Catequizandos
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title"><a href="#">Denise Soares de Souza</a></div>
-                                    <div class="news-text">
-                                        Rua Barbacena, 9999, Vista Linda - São José dos Campos
-                                    </div>
-                                    <div class="news-text">
-                                        Celular: 99999-9999
-                                    </div>
-                                </div>
-                            </div>
-
-
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
