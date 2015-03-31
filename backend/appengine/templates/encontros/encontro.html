@@ -1,4 +1,9 @@
 {% extends 'base/base.html' %}
+{% if meeting %}
+    {% set title=meeting.title or None %}
+    {% set content=meeting.content or None %}
+    {% set objetive=meeting.objetive or None %}
+{% endif %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -19,6 +24,7 @@
 {% endblock %}
 
 {% block body %}
+    {% set errors=errors or None %}
     <div class="container-fluid padded">
         <div class="row-fluid">
             <div class="col-md-12">
@@ -28,30 +34,27 @@
                             <span class="title"><i class="icon-pencil"></i> Dados informativos</span>
                         </div>
                         <div class="box-content">
-                            <form class="form-horizontal fill-up validatable">
+                            <form action="{{ save_path }}" class="form-horizontal fill-up validatable" method="post">
+                                {{ csrf_input() }}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Titulo</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" value="{{ title }}"/>
+                                                    <input name="title" class="validate[required]" type="text" value="{{ title }}"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Conteúdo</label>
                                                 <div class="col-md-8">
-                                                    <textarea rows="10">
-                                                        {{ content }}
-                                                    </textarea>
+                                                    <textarea name="content" class="validate[required]" rows="10">{{ content }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Objetivo</label>
                                                 <div class="col-md-8">
-                                                    <textarea rows="10">
-                                                        {{ objetive }}
-                                                    </textarea>
+                                                    <textarea name="objetive" rows="10">{{ objetive }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

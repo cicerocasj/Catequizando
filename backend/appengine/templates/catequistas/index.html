@@ -48,7 +48,11 @@
 {#                                            <span>16</span> Catequizandos#}
                                         </div>
                                         <div class="news-content">
-                                            <div class="news-title" title="Alterar"><a href="/catequistas/catequista/1">Cícero Alves dos Santos Junior</a></div>
+                                            <div class="news-title" title="Alterar">
+                                                <a href="/catequistas/catequista/{{ catequista.key.id() }}">
+                                                    {{ catequista.name }}
+                                                </a>
+                                            </div>
                                             <div class="news-text">
                                                 {{ catequista.address }}
                                             </div>

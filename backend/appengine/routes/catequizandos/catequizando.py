@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import logging
+from google.appengine.ext import blobstore
+from catequizando_app.catequizando_model import Catequizando
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
+from tekton import router
+from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
+from routes.catequizandos import upload
 
 
-@login_not_required
 @no_csrf
 def index(id=0):
     context = {}
@@ -14,21 +18,14 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
-        context["id"] = id
-        context["name"] = u'Osvaldo Brandão'
-        context["email"] = u'osvaldinho@gmail.com'
-        context["address"] = u'Avenida Juscelino Kubitscheck, 9999, Vila Industrial - São José dos Campos'
-        context["phone"] = u'3333-3333'
-        context["cellphone"] = u'98888-8888'
-        context["avatar"] = u'avatar3.jpg'
-        context["group"] = {
-            'type': 'crisma 3',
-            'day': 'quarta',
-            'hours': '19:00 - 20:00',
-            'local': u'paróquia',
-            'catechized': 16,
-        }
+        context["catechized"] = Catequizando.get_by_id(key_id)
+
+    #gera url para salvar a imagem
+    success_url = router.to_path(upload)
+    bucket = get_default_gcs_bucket_name()
+    logging.info(bucket)
+    url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
+
     context["nav_active"] = 'catequizandos'
-    context["responsible_1"] = {'name': u'José Carlos', 'phone': '3333-3333'}
-    context["responsible_2"] = {'name': u'Maria das Dores', 'phone': '3333-3333'}
+    context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')

@@ -21,7 +21,6 @@ def index(id=0):
         context["notice"] = Noticia.get_by_id(key_id)
     context["nav_active"] = 'noticias'
     context["save_path"] = router.to_path(save)
-    # context["save_path"] = 'cicero'
     return TemplateResponse(context, template_path='/noticias/noticia.html')
 
 

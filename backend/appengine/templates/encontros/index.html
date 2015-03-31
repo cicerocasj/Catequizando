@@ -32,22 +32,29 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <div class="box-section with-icons">
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="/encontros/encontro/1">Abertura da catequese</a></div>
-                                    <div class="news-text ">
-                                        {{ "Acolher os catequisando e animar para o ano que vai vir..." }}
+                            {% if meetings %}
+                                {% for meeting in meetings %}
+                                    <div class="box-section">
+                                        <div class="news-content">
+                                            <div class="news-title" title="Alterar">
+                                                <a href="/encontros/encontro/{{ meeting.key.id() }}">{{ meeting.title }}
+                                                </a>
+                                            </div>
+                                            <div class="news-text ">
+                                                {{ meeting.content|truncate(20, True) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="box-section">
+                                    <div class="news-content">
+                                        <div class="news-title">
+                                            <p>Nenhum encontro cadastrado</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="box-section with-icons">
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="/encontros/encontro/1">Campanha da fraternidade</a></div>
-                                    <div class="news-text ">
-                                        {{ "Apresentar o tema da campanha da fraternidade, e explicar..." }}
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from encontro_app import encontro_facade
+from encontro_app.encontro_model import Encontro
+from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
+from routes import encontros
+from tekton import router
+from tekton.gae.middleware.redirect import RedirectResponse
 
 
-@login_not_required
 @no_csrf
 def index(id=0):
     context = {}
@@ -14,11 +18,18 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
-        context["id"] = id
-        context["title"] = u'Campanha da fraternidade'
-        context["content"] = '''
-João 1 ,14-23. Nossa vida é feita de tempo, e o tempo é uma dádiva de Deus, então é importante que seja usado em ações boas e frutíferas.” As atividades citadas por Francisco como fúteis são: “bater papo na internet ou com smartphones, assistir novelas na TV e [usar] os produtos do progresso tecnológico, que deveriam simplificar e melhorar a qualidade de vida, mas desviam a atenção do que é realmente importante”. O papa, de 77 anos, tem contas no Twitter em várias línguas '''
-        context["objetive"] = '''
-Apresentar para os catequizandos o tema da campanha da fraternindade. Explicar... '''
+        context["meeting"] = Encontro.get_by_id(key_id)
+    context["save_path"] = router.to_path(save)
     context["nav_active"] = 'encontros'
     return TemplateResponse(context, template_path='/encontros/encontro.html')
+
+
+def save(**encontro_properties):
+    cmd = encontro_facade.save_encontro_cmd(**encontro_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'meeting': encontro_properties}
+        return TemplateResponse(context, '/encontros/encontro.html')
+    return RedirectResponse(router.to_path(encontros))

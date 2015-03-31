@@ -33,46 +33,35 @@
                         </div>
                         <div class="box-content">
                             <!-- find me in partials/news_with_icons -->
-
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <img class="menu-avatar" src="/static/images/avatars/avatar3.jpg"/>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    Crisma <span>2</span>
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="/catequizandos/catequizando/1">Osvaldo Brandão</a></div>
-                                    <div class="news-text">
-                                        <span>Responsável: </span>João das Neves
+                            {% if catechizeds %}
+                                {% for catechized in catechizeds %}
+                                    <div class="box-section news">
+                                        <div class="avatar">
+                                            <span>
+                                            {% if catechized.avatar %}
+                                                <img class="menu-avatar" src="{{ catechized.avatar }}"/>
+                                            {% else %}
+                                                <img class="menu-avatar" src="/static/images/avatars/none.png"/>
+                                            {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="news-time">
+                                            Crisma <span>2</span>
+                                        </div>
+                                        <div class="news-content">
+                                            <div class="news-title" title="Alterar">
+                                                <a href="/catequizandos/catequizando/{{ catechized.key.id() }}">{{ catechized.name }}</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="news-text">
-                                        <span>Catequista: </span>Nei de Souza
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <img class="menu-avatar" src="/static/images/avatars/avatar2.jpg"/>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    Crisma <span>2</span>
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar"><a href="#">Brenda Oliveira</a></div>
-                                    <div class="news-text">
-                                        <span>Responsável: </span>João das Neves
-                                    </div>
-                                    <div class="news-text">
-                                        <span>Catequista: </span>Nei de Souza
+                                {% endfor %}
+                            {% else %}
+                                <div class="box-section">
+                                    <div class="news-content">
+                                        <div class="news-title" title="Alterar">Nenhum catequizando cadastrado</div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
