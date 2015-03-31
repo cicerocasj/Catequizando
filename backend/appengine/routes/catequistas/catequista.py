@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from catequista_app import catequista_facade
+from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
+from google.appengine.ext import blobstore
 from catequista_app.catequista_model import Catequista
-from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
-from routes import catequistas
+from routes.catequistas import upload
 from tekton import router
-from tekton.gae.middleware.redirect import RedirectResponse
 
 
 @login_not_required
@@ -21,17 +20,11 @@ def index(id=0):
         key_id = None
     if key_id:
         context["catequista"] = Catequista.get_by_id(key_id)
+
+    # gera url para save
+    success_url = router.to_path(upload)
+    bucket = get_default_gcs_bucket_name()
+    url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
     context["nav_active"] = 'catequistas'
-    context["save_path"] = router.to_path(save)
+    context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
-
-
-def save(**catequista_properties):
-    cmd = catequista_facade.save_catequista_cmd(**catequista_properties)
-    try:
-        cmd()
-    except CommandExecutionException:
-        context = {'errors': cmd.errors,
-                   'catequista': catequista_properties}
-        return TemplateResponse(context, 'noticias/noticia.html')
-    return RedirectResponse(router.to_path(catequistas))
