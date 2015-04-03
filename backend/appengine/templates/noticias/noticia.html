@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% set noticia=noticia or None %}
+{% set errors=errors or None %}
 {% if notice %}
     {% set title=notice.title or None %}
     {% set content=notice.content or None %}
@@ -34,29 +36,14 @@
                             <span class="title"><i class="icon-pencil"></i> Dados informativos</span>
                         </div>
                         <div class="box-content">
-                            <form method="post" action="{{ save_path }}" class="form-horizontal fill-up validatable">
+                            <form method="post" action="{{ save_path }}" class="form-horizontal fill-up ">
                                 {{ csrf_input() }}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Titulo</label>
-                                                <div class="col-md-8">
-                                                    <input class="validate[required]" type="text" name="title" value="{{ title }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Conteúdo</label>
-                                                <div class="col-md-8">
-                                                    <textarea class="validate[required]" name="content" rows="10">{{ content }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Link(se existir)</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="link" value="{{ link }}"/>
-                                                </div>
-                                            </div>
+                                            {{ form_input('Título','title',noticia.title,errors.title, 'col-md-8') }}
+                                            {{ form_input('Link','link',noticia.link,errors.link, 'col-md-8') }}
+                                            {{ form_text('Conteúdo','content',noticia.content,errors.content, 'col-md-8') }}
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,24 @@
 {% macro csrf_input() %}
     <input type="hidden" value="{{ _csrf_code }}" name="_csrf_code"/>
 {% endmacro %}
+{% macro form_input(label,property,value,error_msg, class) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
+            <input id="{{ property }}Input" class="validate[required]" type="text" name="{{ property }}" value="{{ value }}"/>
+        </div>
+    </div>
+{% endmacro %}
+{% macro form_text(label,property,value,error_msg, class) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
+            <textarea rows="10" id="{{ property }}Input" class="validate[required]" name="{{ property }}">{{ value }}</textarea>
+        </div>
+    </div>
+{% endmacro %}
 <html>
 <head>
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
