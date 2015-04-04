@@ -32,24 +32,33 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                <span>
-                                    <i class="icon-sitemap"></i>
-                                </span>
-                                </div>
-                                <div class="news-time">
-                                    <span>16</span> Catequizandos
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="turmas/turma/1">Crisma 2 - Quarta 19:00</a></p>
+                            {% if turmas %}
+                                {% for turma in turmas %}
+                                    <div class="box-section">
+                                        <div class="news-time">
+                                            <span>Cat.</span>2
+                                        </div>
+                                        <div class="news-content">
+                                            <div class="news-title" title="Visualizar">
+                                                <p><a href="turmas/turma/{{ turma.key.id() }}">{{ turma.type }} - {{ turma.day }} {{ turma.initial_hour }}</a></p>
+                                            </div>
+                                            <div class="news-text">
+{#                                                <a href="{{ turma.link }}">#}
+                                                    <span>Catequista: </span>Cicero Alves dos Santos Junior
+{#                                                </a>#}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="news-text">
-                                        <span>Catequista: </span>Cícero Alves dos Santos Junior
+                                {% endfor %}
+                            {% else %}
+                                <div class="box-section">
+                                    <div class="news-content">
+                                        <div class="news-title">
+                                            <p>Nenhuma turma cadastrada</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

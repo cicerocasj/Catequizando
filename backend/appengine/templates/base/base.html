@@ -7,7 +7,7 @@
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
             {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
-            <input id="{{ property }}Input" class="validate[required]" type="text" name="{{ property }}" value="{{ value }}"/>
+            <input id="{{ property }}Input" class="validate[required]" type="text" name="{{ property }}" value="{{ value or '' }}"/>
         </div>
     </div>
 {% endmacro %}
@@ -16,8 +16,23 @@
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
             {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
-            <textarea rows="10" id="{{ property }}Input" class="validate[required]" name="{{ property }}">{{ value }}</textarea>
+            <textarea rows="10" id="{{ property }}Input" class="validate[required]" name="{{ property }}">{{ value or '' }}</textarea>
         </div>
+    </div>
+{% endmacro %}
+{% macro form_select(label,property,value,error_msg, class, choice) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            <select name="{{ property }}" class="validate[required]" id="{{ property }}Input"
+                    data-prompt-position="topLeft">
+                <option value="0"></option>
+                {% for op in choice %}
+                    <option value="{{ op }}" {% if op == value %}selected="selected" {% endif %}>{{ op }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
 <html>

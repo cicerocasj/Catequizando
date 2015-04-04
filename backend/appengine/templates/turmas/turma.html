@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% set turma=turma or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -6,8 +8,8 @@
                 <div class="pull-left header">
                     <h3 class="title">
                         <i class="icon-sitemap"></i>
-                        {% if type %}
-                            {{ type }}
+                        {% if turma.title %}
+                            {{ turma.title }}
                         {% else %}
                             Nova turma
                         {% endif %}
@@ -28,68 +30,20 @@
                             <span class="title"><i class="icon-pencil"></i> Dados informativos</span>
                         </div>
                         <div class="box-content">
-                            <form class="form-horizontal fill-up validatable">
+                            <form method="post" action="{{ save_path }}" class="form-horizontal fill-up validatable">
+                            {{ csrf_input() }}
+                            {% if turma.key %}
+                                <input type="hidden" name="key_id" value="{{ turma.key.id() }}"/>
+                            {% endif %}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Tipo</label>
-                                                <div class="col-md-3">
-                                                    <select name="type" id="" class="validate[required]"
-                                                            data-prompt-position="topLeft">
-                                                        <option value="0"></option>
-                                                        <option value="1">Pré catequese</option>
-                                                        <option value="2">Eucaristia 1</option>
-                                                        <option value="2">Eucaristia 2</option>
-                                                        <option value="2">Eucaristia 3</option>
-                                                        <option value="2">Crisma 1</option>
-                                                        <option value="2">Crisma 2</option>
-                                                        <option value="2" selected>Crisma 3</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Dia</label>
-                                                <div class="col-md-3">
-                                                    <select name="day" id="" class="validate[required]"
-                                                            data-prompt-position="topLeft">
-                                                        <option value="0"></option>
-                                                        <option value="1" {% if day == 'Segunda-feira' %}selected="selected" {% endif %}>Segunda-feira</option>
-                                                        <option value="2" {% if day == 'Terça-feira' %}selected="selected" {% endif %}>Terça-feira</option>
-                                                        <option value="3" {% if day == 'Quarta-feira' %}selected="selected" {% endif %}>Quarta-feira</option>
-                                                        <option value="4" {% if day == 'Quinta-feira' %}selected="selected" {% endif %}>Quinta-feira</option>
-                                                        <option value="5" {% if day == 'Sexta-feira' %}selected="selected" {% endif %}>Sexta-feira</option>
-                                                        <option value="6" {% if day == 'Sábado-feira' %}selected="selected" {% endif %}>Sábado</option>
-                                                        <option value="7" {% if day == 'Domingo-feira' %}selected="selected" {% endif %}>Domingo</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Hora inicial</label>
-                                                <div class="col-md-3">
-                                                    <input type="time" class="validate[required]" value="{{ initial_hour }}"
-                                                           data-prompt-position="topLeft" placeholder="Hora inicial">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Hora de termino</label>
-                                                <div class="col-md-3">
-                                                    <input type="time" class="validate[required]" value="{{ end_hour }}"
-                                                           data-prompt-position="topLeft" placeholder="Hora de termino">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Local</label>
-                                                <div class="col-md-4">
-                                                    <select name="catechized" id="">
-                                                        <option value="1" {% if day == 'Paróquia São Sebastião' %}selected="selected" {% endif %}>Paróquia São Sebastião</option>
-                                                        <option value="2" {% if day == 'Capela São Marcos' %}selected="selected" {% endif %}>Capela São Marcos</option>
-                                                    </select>
-{#                                                    <input type="text" class="validate[required]" value="{{ local }}"#}
-{#                                                           data-prompt-position="topLeft" placeholder="local dos encontros">#}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
+                                            {{ form_select('Tipo','type',turma.type,errors.type, 'col-md-3', turma.choice_type) }}
+                                            {{ form_select('Dia','day',turma.day,errors.day, 'col-md-3', turma.choice_day) }}
+                                            {{ form_input('Hora de início','initial_hour',turma.initial_hour,errors.initial_hour, 'col-md-3') }}
+                                            {{ form_input('Hora de termino','end_hour',turma.end_hour,errors.end_hour, 'col-md-3') }}
+                                            {{ form_input('Local','local',turma.local,errors.local, 'col-md-8') }}
+                                            {#<div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>
                                                 <div class="col-md-4">
                                                     <select name="catechized" id="" multiple="multiple">
@@ -97,7 +51,7 @@
                                                         <option value="2">Denise Braga</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>
