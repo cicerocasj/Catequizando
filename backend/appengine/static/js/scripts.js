@@ -9,11 +9,9 @@ $(document).ready(function(){
     fake_avatar.click(function(){
         input_avatar.click();
     });
-    input_avatar.change(function(){
-        var img = new FileReader();
-        img.onload(function(e){
-            fake_avatar.attr("src", e.target.result);
-        });
-        img.readAsDataURL(input_avatar.file())
+
+    input_avatar.change( function(event) {
+        var tmppath = URL.createObjectURL(event.target.files[0]) || "/static/images/avatars/none.png";
+        fake_avatar.fadeIn("fast").attr('src',tmppath);
     });
 });

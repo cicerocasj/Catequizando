@@ -1,4 +1,13 @@
 {% extends 'base/base.html' %}
+{% if catequista %}
+    {% set name=catequista.name or None %}
+    {% set email=catequista.email or None %}
+    {% set phone=catequista.phone or None %}
+    {% set cellphone=catequista.cellphone or None %}
+    {% set address=catequista.address or None %}
+    {% set avatar=catequista.avatar or None %}
+{% endif %}
+
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -28,7 +37,9 @@
                             <span class="title"><i class="icon-pencil"></i> Dados pessoais</span>
                         </div>
                         <div class="box-content">
-                            <form class="form-horizontal fill-up validatable">
+                            <form method="post" action="{{ upload_url }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
+                            <input type="file" name="files[]" id="input_avatar" style="display: none"/>
+                                {{ csrf_input() }}
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="padded">
@@ -36,39 +47,39 @@
                                                 <label class="control-label col-md-2">Nome</label>
                                                 <div class="col-md-8">
                                                     <input type="text" class="validate[required]" value="{{ name }}"
-                                                           data-prompt-position="topLeft" placeholder="Nome completo">
+                                                           name="name" data-prompt-position="topLeft" placeholder="Nome completo">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Email</label>
                                                 <div class="col-md-8">
                                                     <input type="text" class="validate[required]" value="{{ email }}"
-                                                           data-prompt-position="topLeft" placeholder="Email">
+                                                           name="email" data-prompt-position="topLeft" placeholder="Email">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Endereço</label>
                                                 <div class="col-md-8">
                                                     <input type="text" class="validate[required]" value="{{ address }}"
-                                                           data-prompt-position="topLeft" placeholder="Endereço completo">
+                                                           name="address" data-prompt-position="topLeft" placeholder="Endereço completo">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Telefone</label>
                                                 <div class="col-md-4">
                                                     <input type="tel" class="validate[required]" value="{{ phone }}"
-                                                           data-prompt-position="topLeft" placeholder="Telefone fixo">
+                                                           name="phone" data-prompt-position="topLeft" placeholder="Telefone fixo">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Celular</label>
                                                 <div class="col-md-4">
                                                     <input type="tel" class="validate[required]" value="{{ cellphone }}"
-                                                           data-prompt-position="topLeft" placeholder="Celular">
+                                                           name="cellphone" data-prompt-position="topLeft" placeholder="Celular">
                                                 </div>
                                             </div>
                                             {#TODO troca este if pelo objeto e nao pelo nome#}
-                                            {% if name %}
+                                            {% if catequista and catequista.turmas %}
                                                 <div class="form-group">
                                                     <label class="control-label col-md-2">Turmas</label>
                                                     <div class="col-md-8">
@@ -121,9 +132,9 @@
                                         <div class="avatar profile_photo">
                                             <span>
                                                 {% if avatar %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/{{ avatar }}"/>
+                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ avatar }}"/>
                                                 {% else %}
-                                                    <img alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
+                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
                                                 {% endif %}
                                             </span>
                                         </div>

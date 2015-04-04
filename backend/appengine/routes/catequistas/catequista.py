@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
+from google.appengine.ext import blobstore
+from catequista_app.catequista_model import Catequista
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
+from routes.catequistas import upload
+from tekton import router
 
 
 @login_not_required
@@ -14,28 +19,12 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
-        context["id"] = id
-        context["name"] = u'Cícero Alves dos Santos Junior'
-        context["email"] = u'cicerocasj@gmail.com'
-        context["address"] = u'Avenida Juscelino Kubitscheck, 9999, Vila Industrial - São José dos Campos'
-        context["phone"] = u'3333-3333'
-        context["cellphone"] = u'98888-8888'
-        context["avatar"] = u'avatar1.jpg'
-        context["groups"] = [
-            {'type': 'crisma 3', 'day': 'quarta', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 16}
-        ]
+        context["catequista"] = Catequista.get_by_id(key_id)
 
-        if key_id == 2:
-            context["id"] = id
-            context["name"] = u'Maria Aparecida da Silva'
-            context["email"] = u'maria@outlook.com'
-            context["address"] = u'Rua Ortolandia, 9999, Vista Linda - São José dos Campos'
-            context["phone"] = u'3333-3333'
-            context["cellphone"] = u'98888-8888'
-            context["avatar"] = u'avatar2.jpg'
-            context["groups"] = [
-                {'type': 'crisma 2', 'day': u'terça', 'hours': '19:00 - 20:00', 'local': u'paróquia', 'catechized': 10},
-                {'type': 'eucaristia 1', 'day': u'sábado', 'hours': '9:00 - 10:30', 'local': u'Capela São Marcos', 'catechized': 22}
-            ]
+    # gera url para save
+    success_url = router.to_path(upload)
+    bucket = get_default_gcs_bucket_name()
+    url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
     context["nav_active"] = 'catequistas'
+    context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
