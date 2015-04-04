@@ -19,13 +19,28 @@ def index(id=0):
         key_id = None
     if key_id:
         context["notice"] = Noticia.get_by_id(key_id)
+        context["save_path"] = router.to_path(edit)
+    else:
+        context["notice"] = Noticia()
+        context["save_path"] = router.to_path(save)
     context["nav_active"] = 'noticias'
-    context["save_path"] = router.to_path(save)
     return TemplateResponse(context, template_path='/noticias/noticia.html')
 
 
 def save(**noticia_properties):
     cmd = noticia_facade.save_noticia_cmd(**noticia_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'noticia': noticia_properties}
+        return TemplateResponse(context, 'noticias/noticia.html')
+    return RedirectResponse(router.to_path(noticias))
+
+
+def edit(**noticia_properties):
+    obj_id = noticia_properties.pop("key_id", None)
+    cmd = noticia_facade.update_noticia_cmd(obj_id, **noticia_properties)
     try:
         cmd()
     except CommandExecutionException:
