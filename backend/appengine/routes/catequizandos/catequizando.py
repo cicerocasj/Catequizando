@@ -19,6 +19,8 @@ def index(id=0):
         key_id = None
     if key_id:
         context["catechized"] = Catequizando.get_by_id(key_id)
+    else:
+        context["catechized"] = Catequizando()
 
     #gera url para salvar a imagem
     success_url = router.to_path(upload)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from catequizando_app.catequizando_model import Catequizando
 from gaebusiness.gaeutil import SaveCommand, ModelSearchCommand
 from gaeforms.ndb.form import ModelForm
 from gaegraph.business_base import UpdateNode, NodeSearch, DeleteNode
@@ -48,3 +49,11 @@ class ListTurmaCommand(ModelSearchCommand):
     def __init__(self):
         super(ListTurmaCommand, self).__init__(Turma.query_by_creation())
 
+
+def choice_catequizandos():
+    query = Catequizando.query()
+    return query.fetch()
+
+
+def catequizandos(turma_key):
+    return Catequizando.query(Catequizando.turma==turma_key).fetch()

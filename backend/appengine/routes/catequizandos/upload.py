@@ -9,6 +9,7 @@ from routes.catequizandos import download
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
+from turma_app.turma_model import Turma
 
 
 def index(_handler, **catequizando_properties):
@@ -19,9 +20,11 @@ def index(_handler, **catequizando_properties):
     avatar = to_path(download, blob_key)
     catequizando_properties["avatar"] = avatar
     catequizando_properties.pop("files", None)
+    # turma = Turma.get_by_id(5207287069147136)
+    # catequizando_properties["turma"] = turma.key
     cmd = catequizando_facade.save_catequizando_cmd(**catequizando_properties)
     try:
-        cmd()
+        a = cmd()
     except CommandExecutionException:
         context = {'errors': cmd.errors,
                    'catechized': catequizando_properties}

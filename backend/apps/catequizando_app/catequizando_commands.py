@@ -23,6 +23,7 @@ class CatequizandoSaveForm(ModelForm):
         Catequizando.responsible_1_phone,
         Catequizando.responsible_2_name,
         Catequizando.responsible_2_phone,
+        Catequizando.turma,
     ]
 
 

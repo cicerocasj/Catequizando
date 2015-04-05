@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
 from gaegraph.model import Node
+from turma_app.turma_model import Turma
 
 
 class Catequizando(Node):
@@ -16,6 +17,7 @@ class Catequizando(Node):
     responsible_1_phone = ndb.StringProperty(required=False)
     responsible_2_name = ndb.StringProperty(required=False)
     responsible_2_phone = ndb.StringProperty(required=False)
+    turma = ndb.KeyProperty(Turma, required=False)
 
 
 # name

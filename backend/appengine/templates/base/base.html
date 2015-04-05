@@ -35,6 +35,20 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
+{% macro form_select_multi(label,property,value,error_msg, class, choice) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            <select multiple name="{{ property }}" class="validate[required]" id="{{ property }}Input"
+                    data-prompt-position="topLeft">
+                {% for op in choice %}
+                    <option value="{{ op.key.id() }}" {% if op in value %}selected="selected" {% endif %}>{{ op.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
+    </div>
+{% endmacro %}
 <html>
 <head>
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
