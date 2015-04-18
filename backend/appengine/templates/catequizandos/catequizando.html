@@ -1,18 +1,6 @@
 {% extends 'base/base.html' %}
-{% if catechized %}
-    {% set title=catechized.title or None %}
-    {% set name=catechized.name or None %}
-    {% set email=catechized.email or None %}
-    {% set address=catechized.address or None %}
-    {% set phone=catechized.phone or None %}
-    {% set cellphone=catechized.cellphone or None %}
-    {% set avatar=catechized.avatar or None %}
-    {% set group=catechized.group or None %}
-    {% set responsible_1_name=catechized.responsible_1_name or None %}
-    {% set responsible_1_phone=catechized.responsible_1_phone or None %}
-    {% set responsible_2_name=catechized.responsible_2_name or None %}
-    {% set responsible_2_phone=catechized.responsible_2_phone or None %}
-{% endif %}
+{% set catechized=catechized or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -48,80 +36,19 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="padded">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Nome</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="validate[required]" value="{{ name }}"
-                                                    name="name"
-                                                           data-prompt-position="topLeft" placeholder="Nome completo">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Email</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="validate[required]" value="{{ email }}"
-                                                    name="email"
-                                                           data-prompt-position="topLeft" placeholder="Email">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Endereço</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="validate[required]" value="{{ address }}"
-                                                    name="address"
-                                                           data-prompt-position="topLeft" placeholder="Endereço completo">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Telefone</label>
-                                                <div class="col-md-4">
-                                                    <input type="tel" class="validate[required]" value="{{ phone }}"
-                                                    name="phone"
-                                                           data-prompt-position="topLeft" placeholder="Telefone fixo">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Celular</label>
-                                                <div class="col-md-4">
-                                                    <input type="tel" class="validate[required]" value="{{ cellphone }}"
-                                                    name="cellphone"
-                                                           data-prompt-position="topLeft" placeholder="Celular">
-                                                </div>
-                                            </div>
+                                            {{ form_input('Nome','name',catechized.name,errors.name, 'col-md-8', True) }}
+
+                                            {{ form_input('Email','email',catechized.email,errors.email, 'col-md-8') }}
+                                            {{ form_input('Endereço','address',catechized.address,errors.email, 'col-md-8') }}
+
+                                            {{ form_input('Telefone','phone',catechized.phone,errors.phone, 'col-md-4') }}
+                                            {{ form_input('Celular','cellphone',catechized.cellphone,errors.cellphone, 'col-md-4') }}
                                             <h4 class="text-center">Responsável 1</h4>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Nome</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="validate[required]" value="{{ responsible_1_name }}"
-                                                    name="responsible_1_name"
-                                                           data-prompt-position="topLeft" placeholder="Nome completo do responsável">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Telefone</label>
-                                                <div class="col-md-4">
-                                                    <input type="tel" class="validate[required]" value="{{ responsible_1_phone }}"
-                                                           name="responsible_1_phone"
-                                                           data-prompt-position="topLeft" placeholder="Telefone ou celular do responsável">
-                                                </div>
-                                            </div>
+                                            {{ form_input('Nome','responsible_1_name',catechized.responsible_1_name,errors.responsible_1_name, 'col-md-8') }}
+                                            {{ form_input('Telefone','responsible_1_phone',catechized.responsible_1_phone,errors.responsible_1_phone, 'col-md-4') }}
                                             <h4 class="text-center">Responsável 2</h4>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Nome</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="validate[required]" value="{{ responsible_2_name }}"
-                                                           name="responsible_2_name"
-                                                           data-prompt-position="topLeft" placeholder="Nome completo do responsável">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Telefone</label>
-                                                <div class="col-md-4">
-                                                    <input type="tel" class="validate[required]" value="{{ responsible_2_phone }}"
-                                                           name="responsible_2_phone"
-                                                           data-prompt-position="topLeft" placeholder="Telefone ou celular do responsável">
-                                                </div>
-                                            </div>
+                                            {{ form_input('Nome','responsible_2_name',catechized.responsible_2_name,errors.responsible_2_name, 'col-md-8') }}
+                                            {{ form_input('Telefone','responsible_2_phone',catechized.responsible_2_phone,errors.responsible_2_phone, 'col-md-4') }}
                                             {#TODO troca este if pelo objeto e nao pelo nome#}
                                             {% if group %}
                                                 <div class="form-group">

@@ -13,15 +13,14 @@ from turma_app.turma_model import Turma
 
 
 def index(_handler, **catequizando_properties):
-    logging.info(catequizando_properties)
-    blob_infos = _handler.get_uploads("files[]")
-    logging.info(blob_infos)
-    blob_key = blob_infos[0].key()
-    avatar = to_path(download, blob_key)
-    catequizando_properties["avatar"] = avatar
+    if catequizando_properties.get("files[]"):
+        blob_infos = _handler.get_uploads("files[]")
+        blob_key = blob_infos[0].key()
+        avatar = to_path(download, blob_key)
+        catequizando_properties["avatar"] = avatar
+        # turma = Turma.get_by_id(5207287069147136)
+        # catequizando_properties["turma"] = turma.key
     catequizando_properties.pop("files", None)
-    # turma = Turma.get_by_id(5207287069147136)
-    # catequizando_properties["turma"] = turma.key
     cmd = catequizando_facade.save_catequizando_cmd(**catequizando_properties)
     try:
         a = cmd()

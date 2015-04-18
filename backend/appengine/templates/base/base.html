@@ -2,29 +2,29 @@
 {% macro csrf_input() %}
     <input type="hidden" value="{{ _csrf_code }}" name="_csrf_code"/>
 {% endmacro %}
-{% macro form_input(label,property,value,error_msg, class) %}
+{% macro form_input(label,property,value,error_msg, class, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <input id="{{ property }}Input" class="validate[required]" type="text" name="{{ property }}" value="{{ value or '' }}"/>
+            <input id="{{ property }}Input" {% if required %} class="validate[required]" {% endif %} type="text" name="{{ property }}" value="{{ value or '' }}"/>
         </div>
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
-{% macro form_text(label,property,value,error_msg, class) %}
+{% macro form_text(label,property,value,error_msg, class, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <textarea rows="10" id="{{ property }}Input" class="validate[required]" name="{{ property }}">{{ value or '' }}</textarea>
+            <textarea rows="10" id="{{ property }}Input" {% if required %} class="validate[required]" {% endif %} name="{{ property }}">{{ value or '' }}</textarea>
         </div>
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
-{% macro form_select(label,property,value,error_msg, class, choice) %}
+{% macro form_select(label,property,value,error_msg, class, choice, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <select name="{{ property }}" class="validate[required]" id="{{ property }}Input"
+            <select name="{{ property }}" {% if required %} class="validate[required]" {% endif %} id="{{ property }}Input"
                     data-prompt-position="topLeft">
                 <option value="0"></option>
                 {% for op in choice %}
@@ -35,11 +35,11 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
-{% macro form_select_multi(label,property,value,error_msg, class, choice) %}
+{% macro form_select_multi(label,property,value,error_msg, class, choice, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <select multiple name="{{ property }}" class="validate[required]" id="{{ property }}Input"
+            <select multiple name="{{ property }}" {% if required %} class="validate[required]" {% endif %} id="{{ property }}Input"
                     data-prompt-position="topLeft">
                 {% for op in choice %}
                     <option value="{{ op.key.id() }}" {% if op in value %}selected="selected" {% endif %}>{{ op.name }}</option>

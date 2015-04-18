@@ -31,3 +31,4 @@ def index(id=0):
     context["nav_active"] = 'catequizandos'
     context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
+

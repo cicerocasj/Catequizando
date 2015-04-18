@@ -47,7 +47,6 @@ def save(**turmas_properties):
         return TemplateResponse(context, 'turmas/turma.html')
 
     if lista_catequizandos:
-
         for key in lista_catequizandos:
             catequizando = Catequizando.get_by_id(int(key))
             catequizando.turma = turma.key
@@ -58,12 +57,25 @@ def save(**turmas_properties):
 
 
 def edit(**turmas_properties):
+    lista_catequizandos = turmas_properties.pop("catequizandos", None)
     obj_id = turmas_properties.pop("key_id", None)
     cmd = turma_facade.update_turma_cmd(obj_id, **turmas_properties)
     try:
-        cmd()
+        turma = cmd()
     except CommandExecutionException:
         context = {'errors': cmd.errors,
                    'turma': turmas_properties}
         return TemplateResponse(context, 'turmas/turma.html')
+
+    if lista_catequizandos:
+        query = Catequizando.query(Catequizando.turma==turma.key).fetch()
+        for cat in query:
+            cat.turma = None
+            cat.put()
+            pass
+        for key in lista_catequizandos:
+            catequizando = Catequizando.get_by_id(int(key))
+            catequizando.turma = turma.key
+            catequizando.put()
+
     return RedirectResponse(router.to_path(turmas))
