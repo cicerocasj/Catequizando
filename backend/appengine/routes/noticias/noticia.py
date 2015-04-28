@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from time import sleep
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
 from gaepermission.decorator import login_not_required
@@ -22,6 +23,7 @@ def index(id=0):
     if key_id:
         context["notice"] = Noticia.get_by_id(key_id)
         context["save_path"] = router.to_path(edit)
+        context["delete_path"] = router.to_path(delete)
     else:
         context["notice"] = Noticia()
         context["save_path"] = router.to_path(save)
@@ -52,4 +54,16 @@ def edit(**noticia_properties):
         context = {'errors': cmd.errors,
                    'noticia': noticia_properties}
         return TemplateResponse(context, 'noticias/noticia.html')
+    return RedirectResponse(router.to_path(noticias))
+
+
+@login_not_required
+@no_csrf
+def delete(obj_id=0):
+    cmd = noticia_facade.delete_noticia_cmd(obj_id)
+    try:
+        cmd()
+    except CommandExecutionException:
+        return TemplateResponse({}, 'noticias/noticia.html')
+    sleep(0.5)
     return RedirectResponse(router.to_path(noticias))

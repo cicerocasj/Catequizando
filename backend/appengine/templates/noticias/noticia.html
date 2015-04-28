@@ -47,6 +47,9 @@
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/noticias">Cancelar</a>
+                                    {% if notice.key %}
+                                        <a class="btn btn-danger pull-right" href="/noticias/noticia/delete/{{ notice.key.id() }}">Deletar</a>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>
