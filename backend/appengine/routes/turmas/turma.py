@@ -37,7 +37,8 @@ def index(id=0):
     context["nav_active"] = 'turmas'
     return TemplateResponse(context, template_path='/turmas/turma.html')
 
-
+@login_not_required
+@no_csrf
 def save(**turmas_properties):
     lista_catequizandos = turmas_properties.pop("catequizandos", None)
     cmd = turma_facade.save_turma_cmd(**turmas_properties)
@@ -58,6 +59,8 @@ def save(**turmas_properties):
     return RedirectResponse(router.to_path(turmas))
 
 
+@login_not_required
+@no_csrf
 def edit(**turmas_properties):
     lista_catequizandos = turmas_properties.pop("catequizandos", None)
     obj_id = turmas_properties.pop("key_id", None)
