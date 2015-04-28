@@ -39,7 +39,7 @@
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <select multiple name="{{ property }}" {% if required %} class="validate[required]" {% endif %} id="{{ property }}Input"
+            <select multiple name="{{ property }}" class="chosen-select {% if required %} validate[required] {% endif %}" id="{{ property }}Input"
                     data-prompt-position="topLeft">
                 {% for op in choice %}
                     <option value="{{ op.key.id() }}" {% if op in value %}selected="selected" {% endif %}>{{ op.name }}</option>

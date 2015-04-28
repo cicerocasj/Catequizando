@@ -14,4 +14,7 @@ $(document).ready(function(){
         var tmppath = URL.createObjectURL(event.target.files[0]) || "/static/images/avatars/none.png";
         fake_avatar.fadeIn("fast").attr('src',tmppath);
     });
+
+    //multiple select
+    $('.chosen-select').chosen('.chosen-select');
 });
