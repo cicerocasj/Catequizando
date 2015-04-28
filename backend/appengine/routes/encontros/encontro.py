@@ -5,11 +5,13 @@ from encontro_app.encontro_model import Encontro
 from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
 from config.template_middleware import TemplateResponse
+from gaepermission.decorator import login_not_required
 from routes import encontros
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
+@login_not_required
 @no_csrf
 def index(id=0):
     context = {}

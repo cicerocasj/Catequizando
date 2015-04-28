@@ -4,6 +4,8 @@ import logging
 from catequizando_app import catequizando_facade
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
+from gaecookie.decorator import no_csrf
+from gaepermission.decorator import login_not_required
 from routes import catequizandos
 from routes.catequizandos import download
 from tekton import router
@@ -11,7 +13,8 @@ from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
 from turma_app.turma_model import Turma
 
-
+@login_not_required
+@no_csrf
 def index(_handler, **catequizando_properties):
     if catequizando_properties.get("files[]"):
         blob_infos = _handler.get_uploads("files[]")

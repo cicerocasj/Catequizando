@@ -5,11 +5,12 @@ from google.appengine.ext import blobstore
 from catequizando_app.catequizando_model import Catequizando
 from gaecookie.decorator import no_csrf
 from config.template_middleware import TemplateResponse
+from gaepermission.decorator import login_not_required
 from tekton import router
 from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
 from routes.catequizandos import upload
 
-
+@login_not_required
 @no_csrf
 def index(id=0):
     context = {}

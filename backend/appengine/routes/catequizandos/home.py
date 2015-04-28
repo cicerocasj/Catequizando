@@ -6,6 +6,7 @@ from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
 
 
+@login_not_required
 @no_csrf
 def index():
     context = {}

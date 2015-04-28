@@ -78,3 +78,19 @@ a.btn.btn-social.btn-google-plus{
     width: 100px;
     height: 100px;
 }
+
+.nav a, .navbar a{
+    color: #fff !important;
+}
+
+.nav a:hover, .navbar a:hover{
+    color: rgba(90, 164, 187, 0.99) !important;
+}
+
+.user-avatar .dropdown-menu a{
+    color: #9EA1AA !important;
+}
+
+.user-avatar .dropdown-menu a:hover{
+    color: #7a7c85 !important;
+}

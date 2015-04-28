@@ -4,6 +4,7 @@ from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
+from gaepermission.decorator import login_not_required
 from turma_app.turma_commands import choice_catequizandos, catequizandos
 from turma_app.turma_model import Turma
 from tekton import router
@@ -14,6 +15,7 @@ from tekton.gae.middleware.redirect import RedirectResponse
 from gaegraph.model import ndb
 
 
+@login_not_required
 @no_csrf
 def index(id=0):
     context = {}

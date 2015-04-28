@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
+from gaepermission.decorator import login_not_required
 from noticia_app.noticia_model import Noticia
 from tekton import router
 from gaecookie.decorator import no_csrf
@@ -10,6 +11,7 @@ from routes import noticias
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
+@login_not_required
 @no_csrf
 def index(id=0):
     context = {}
@@ -26,7 +28,8 @@ def index(id=0):
     context["nav_active"] = 'noticias'
     return TemplateResponse(context, template_path='/noticias/noticia.html')
 
-
+@login_not_required
+@no_csrf
 def save(**noticia_properties):
     cmd = noticia_facade.save_noticia_cmd(**noticia_properties)
     try:
@@ -38,6 +41,8 @@ def save(**noticia_properties):
     return RedirectResponse(router.to_path(noticias))
 
 
+@login_not_required
+@no_csrf
 def edit(**noticia_properties):
     obj_id = noticia_properties.pop("key_id", None)
     cmd = noticia_facade.update_noticia_cmd(obj_id, **noticia_properties)
