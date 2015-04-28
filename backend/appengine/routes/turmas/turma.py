@@ -30,10 +30,10 @@ def index(id=0):
         context["save_path"] = router.to_path(save)
         context["turma"] = Turma()
     context["choice_catequizandos"] = choice_catequizandos()
-    try:
+    if context["turma"].key:
         context["catequizandos"] = catequizandos(context["turma"].key)
-    except Exception as e:
-        print e
+    else:
+        context["catequizandos"] = []
     context["nav_active"] = 'turmas'
     return TemplateResponse(context, template_path='/turmas/turma.html')
 
