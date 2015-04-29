@@ -10,6 +10,7 @@ from tekton import router
 from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
 from routes.catequizandos import upload
 
+
 @login_not_required
 @no_csrf
 def index(id=0):
@@ -26,9 +27,7 @@ def index(id=0):
     #gera url para salvar a imagem
     success_url = router.to_path(upload)
     bucket = get_default_gcs_bucket_name()
-    logging.info(bucket)
     url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
-
     context["nav_active"] = 'catequizandos'
     context["upload_url"] = url
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
