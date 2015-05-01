@@ -7,6 +7,7 @@ from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
 from routes.catequistas import upload
+from routes.catequistas.upload import edit, delete
 from tekton import router
 
 
@@ -20,11 +21,12 @@ def index(id=0):
         key_id = None
     if key_id:
         context["catequista"] = Catequista.get_by_id(key_id)
+        success_url = router.to_path(edit)
+        context["delete_path"] = router.to_path(delete)
     else:
         context["catequista"] = Catequista()
-
-    # gera url para save
-    success_url = router.to_path(upload)
+        # gera url para save
+        success_url = router.to_path(upload)
     bucket = get_default_gcs_bucket_name()
     url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
     context["nav_active"] = 'catequistas'

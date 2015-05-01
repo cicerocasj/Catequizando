@@ -27,9 +27,41 @@ def index(_handler, **catequistas_properties):
         cmd()
     except CommandExecutionException:
         context = {
-            'errors': cmd.erros,
-            'catequista': catequistas_properties
+            'errors': cmd.erros
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(catequistas))
+
+
+@login_not_required
+@no_csrf
+def edit(_handler, **catequistas_properties):
+    if catequistas_properties.get('files'):
+        blob_infos = _handler.get_uploads("files[]")
+        blob_key = blob_infos[0].key()
+        avatar = to_path(download, blob_key)
+        catequistas_properties['avatar'] = avatar
+        catequistas_properties.pop("files", None)
+    obj_id = catequistas_properties.pop("key_id", None)
+    cmd = catequista_facade.update_catequista_cmd(obj_id, **catequistas_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'catequista': catequistas_properties}
+        return TemplateResponse(context, template_path='/catequistas/catequista.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(catequistas))
+
+
+@login_not_required
+@no_csrf
+def delete(obj_id=0):
+    cmd = catequista_facade.delete_catequista_cmd(obj_id)
+    try:
+        cmd()
+    except CommandExecutionException:
+        return TemplateResponse({}, template_path='/catequistas/catequista.html')
     sleep(0.5)
     return RedirectResponse(router.to_path(catequistas))
