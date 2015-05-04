@@ -33,3 +33,36 @@ def index(_handler, **catequizando_properties):
         return TemplateResponse(context, '/catequizandos/catequizando.html')
     sleep(0.5)
     return RedirectResponse(router.to_path(catequizandos))
+
+
+@login_not_required
+@no_csrf
+def edit(_handler, **catequizandos_properties):
+    if catequizandos_properties.get('files'):
+        blob_infos = _handler.get_uploads("files[]")
+        blob_key = blob_infos[0].key()
+        avatar = to_path(download, blob_key)
+        catequizandos_properties['avatar'] = avatar
+        catequizandos_properties.pop("files", None)
+    obj_id = catequizandos_properties.pop("key_id", None)
+    cmd = catequizando_facade.update_catequizando_cmd(obj_id, **catequizandos_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'catequista': catequizandos_properties}
+        return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(catequizandos))
+
+
+@login_not_required
+@no_csrf
+def delete(obj_id=0):
+    cmd = catequizando_facade.delete_catequizando_cmd(obj_id)
+    try:
+        cmd()
+    except CommandExecutionException:
+        return TemplateResponse({}, template_path='/catequizandos/catequizando.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(catequizandos))

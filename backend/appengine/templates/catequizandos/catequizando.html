@@ -33,6 +33,9 @@
                             <form method="post" action="{{ upload_url }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
                             <input type="file" name="files[]" id="input_avatar" style="display: none"/>
                                 {{ csrf_input() }}
+                                {% if catechized.key %}
+                                    <input type="hidden" name="key_id" value="{{ catechized.key.id() }}"/>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="padded">
@@ -98,8 +101,8 @@
                                     <div class="col-md-3">
                                         <div class="avatar profile_photo">
                                             <span>
-                                                {% if avatar %}
-                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ avatar }}"/>
+                                                {% if catechized.avatar %}
+                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ catechized.avatar }}"/>
                                                 {% else %}
                                                     <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
                                                 {% endif %}
@@ -110,6 +113,9 @@
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/catequizandos">Cancelar</a>
+                                    {% if catechized.key %}
+                                        <a class="btn btn-danger pull-right" href="/catequizandos/catequizando/delete/{{ catechized.key.id() }}">Deletar</a>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>
