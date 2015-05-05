@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from time import sleep
 from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
@@ -54,8 +55,7 @@ def save(**turmas_properties):
             catequizando = Catequizando.get_by_id(int(key))
             catequizando.turma = turma.key
             catequizando.put()
-
-
+    sleep(0.5)
     return RedirectResponse(router.to_path(turmas))
 
 
@@ -82,5 +82,17 @@ def edit(**turmas_properties):
             catequizando = Catequizando.get_by_id(int(key))
             catequizando.turma = turma.key
             catequizando.put()
+    sleep(0.5)
+    return RedirectResponse(router.to_path(turmas))
 
+
+@login_not_required
+@no_csrf
+def delete(obj_id=0):
+    cmd = turma_facade.delete_turma_cmd(obj_id)
+    try:
+        cmd()
+    except CommandExecutionException:
+        return TemplateResponse({}, 'turmas/turma.html')
+    sleep(0.5)
     return RedirectResponse(router.to_path(turmas))

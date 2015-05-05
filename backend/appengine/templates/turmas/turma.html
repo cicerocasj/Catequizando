@@ -60,6 +60,9 @@
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/turmas">Cancelar</a>
+                                    {% if turma.key %}
+                                        <a class="btn btn-danger pull-right" href="/turmas/turma/delete/{{ turma.key.id() }}">Deletar</a>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>
