@@ -94,3 +94,7 @@ def clean_turma(turma):
     for cat in query:
         cat.turma = None
         cat.put()
+
+
+def count_catequizandos(turma_key):
+    return len(catequizandos(turma_key))

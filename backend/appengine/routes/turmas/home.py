@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from config.template_middleware import TemplateResponse
 from gaepermission.decorator import login_not_required
+from turma_app.turma_commands import count_catequizandos
 from turma_app.turma_model import Turma
 from gaecookie.decorator import no_csrf
 
@@ -13,5 +14,6 @@ def index():
     query = Turma.query_by_creation_desc()
     turmas = query.fetch()
     context['turmas'] = turmas
+    context['count_catequizandos'] = count_catequizandos
     context["nav_active"] = 'turmas'
     return TemplateResponse(context, template_path='/turmas/index.html')

@@ -36,7 +36,7 @@
                                 {% for turma in turmas %}
                                     <div class="box-section">
                                         <div class="news-time">
-                                            <span>Cat.</span>2
+                                            <span>Cat.</span>{{ count_catequizandos(turma.key) }}
                                         </div>
                                         <div class="news-content">
                                             <div class="news-title" title="Visualizar">
