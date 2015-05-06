@@ -35,7 +35,7 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
-{% macro form_select_multi(label,property,value,error_msg, class, choice, required) %}
+{% macro form_select_multi(label, property, value, error_msg, class, choice, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">

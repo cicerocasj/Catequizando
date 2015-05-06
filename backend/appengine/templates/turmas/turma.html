@@ -1,6 +1,11 @@
 {% extends 'base/base.html' %}
 {% set turma=turma or None %}
 {% set errors=errors or None %}
+
+{% if turma.key %}
+    {% set obj_id=turma.key.id() %}
+{% endif %}
+
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -32,8 +37,8 @@
                         <div class="box-content">
                             <form method="post" action="{{ save_path }}" class="form-horizontal fill-up validatable">
                             {{ csrf_input() }}
-                            {% if turma.key %}
-                                <input type="hidden" name="key_id" value="{{ turma.key.id() }}"/>
+                            {% if obj_id %}
+                                <input type="hidden" name="key_id" value="{{ obj_id }}"/>
                             {% endif %}
                                 <div class="row">
                                     <div class="col-md-12">
@@ -43,7 +48,7 @@
                                             {{ form_input('Hora de início','initial_hour',turma.initial_hour,errors.initial_hour, 'col-md-3', True) }}
                                             {{ form_input('Hora de termino','end_hour',turma.end_hour,errors.end_hour, 'col-md-3', True) }}
                                             {{ form_input('Local','local',turma.local,errors.local, 'col-md-8', True) }}
-                                            {{ form_select_multi('Catequizandos','catequizandos',catequizandos,errors.catequizandos, 'col-md-3', choice_catequizandos) }}
+                                            {{ form_select_multi('Catequizandos', 'catequizandos', catequizandos, errors.catequizandos, 'col-md-3', choice_catequizandos, False) }}
 
                                             {#<div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>

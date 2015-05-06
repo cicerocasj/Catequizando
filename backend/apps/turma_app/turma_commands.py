@@ -19,7 +19,28 @@ class TurmaSaveForm(ModelForm):
         Turma.end_hour,
         Turma.local,
         Turma.day,
+        Turma.key,
     ]
+
+    choice_day = (
+        'Segunda-feira',
+        'Terça-feira',
+        'Quarta-feira',
+        'Quinta-feira',
+        'Sexta-feira',
+        'Sábado',
+        'Domingo'
+    )
+
+    choice_type = (
+        "Pré catequese",
+        "Eucaristia 1",
+        "Eucaristia 2",
+        "Eucaristia 3",
+        "Crisma 1",
+        "Crisma 2",
+        "Crisma 3"
+    )
 
 
 class TurmaForm(ModelForm):
@@ -57,3 +78,19 @@ def choice_catequizandos():
 
 def catequizandos(turma_key):
     return Catequizando.query(Catequizando.turma==turma_key).fetch()
+
+
+def selected_catequizandos(list_id):
+    lista_catequizandos = []
+    for obj_id in list_id:
+        cat = Catequizando.get_by_id(int(obj_id))
+        if cat:
+            lista_catequizandos.append(cat)
+    return lista_catequizandos
+
+
+def clean_turma(turma):
+    query = Catequizando.query(Catequizando.turma == turma.key).fetch()
+    for cat in query:
+        cat.turma = None
+        cat.put()

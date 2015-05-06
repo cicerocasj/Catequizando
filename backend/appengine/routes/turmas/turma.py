@@ -6,7 +6,7 @@ from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
 from gaepermission.decorator import login_not_required
-from turma_app.turma_commands import choice_catequizandos, catequizandos
+from turma_app.turma_commands import choice_catequizandos, catequizandos, selected_catequizandos, clean_turma
 from turma_app.turma_model import Turma
 from tekton import router
 from gaecookie.decorator import no_csrf
@@ -41,14 +41,19 @@ def index(id=0):
 @login_not_required
 @no_csrf
 def save(**turmas_properties):
-    lista_catequizandos = turmas_properties.pop("catequizandos", None)
+    data = turmas_properties.pop("catequizandos", [])
+    lista_catequizandos = data if isinstance(data, list) else [data]
     cmd = turma_facade.save_turma_cmd(**turmas_properties)
     try:
         turma = cmd()
     except CommandExecutionException:
-        context = {'errors': cmd.errors,
-                   'turma': turmas_properties}
-        return TemplateResponse(context, 'turmas/turma.html')
+        context = {
+            'errors': cmd.errors,
+            'turma': cmd.form,
+            "choice_catequizandos": choice_catequizandos(),
+            "catequizandos": selected_catequizandos(lista_catequizandos)
+        }
+        return TemplateResponse(context, template_path='turmas/turma.html')
 
     if lista_catequizandos:
         for key in lista_catequizandos:
@@ -62,22 +67,27 @@ def save(**turmas_properties):
 @login_not_required
 @no_csrf
 def edit(**turmas_properties):
-    lista_catequizandos = turmas_properties.pop("catequizandos", None)
+    data = turmas_properties.pop("catequizandos", None)
+    if data:
+        lista_catequizandos = data if isinstance(data, list) else [data]
+    else:
+        lista_catequizandos = None
     obj_id = turmas_properties.pop("key_id", None)
     cmd = turma_facade.update_turma_cmd(obj_id, **turmas_properties)
     try:
         turma = cmd()
     except CommandExecutionException:
-        context = {'errors': cmd.errors,
-                   'turma': turmas_properties}
-        return TemplateResponse(context, 'turmas/turma.html')
+        context = {
+            'errors': cmd.errors,
+            'turma': cmd.form,
+            "choice_catequizandos": choice_catequizandos(),
+            "catequizandos": selected_catequizandos(lista_catequizandos),
+            'obj_id': obj_id
+        }
+        return TemplateResponse(context, template_path='turmas/turma.html')
 
+    clean_turma(turma)
     if lista_catequizandos:
-        query = Catequizando.query(Catequizando.turma==turma.key).fetch()
-        for cat in query:
-            cat.turma = None
-            cat.put()
-            pass
         for key in lista_catequizandos:
             catequizando = Catequizando.get_by_id(int(key))
             catequizando.turma = turma.key
