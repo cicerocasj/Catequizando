@@ -31,7 +31,3 @@ class Turma(Node):
     end_hour = ndb.StringProperty(required=True)
     local = ndb.StringProperty(required=True)
     day = ndb.StringProperty(required=True, choices=choice_day)
-
-# class TurmaCatequista(Arc):
-#     origin = ndb.KeyProperty(Turma)
-#     destination = ndb.KeyProperty(Catequista)

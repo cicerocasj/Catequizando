@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from time import sleep
+from catequista_app.catequista_model import Catequista, TurmaCatequista
 from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
 from gaepermission.decorator import login_not_required
-from turma_app.turma_commands import choice_catequizandos, catequizandos, selected_catequizandos, clean_turma
+from turma_app.turma_commands import choice_catequizandos, catequizandos, selected_catequizandos, clean_turma, \
+    choice_catequistas
 from turma_app.turma_model import Turma
 from tekton import router
 from gaecookie.decorator import no_csrf
@@ -31,18 +33,26 @@ def index(id=0):
         context["save_path"] = router.to_path(save)
         context["turma"] = Turma()
     context["choice_catequizandos"] = choice_catequizandos()
+    context["choice_catequistas"] = choice_catequistas()
     if context["turma"].key:
         context["catequizandos"] = catequizandos(context["turma"].key)
+        query = TurmaCatequista.find_origins(key_id)
+        catequistas = query.fetch()
+        context["catequistas"] = [catequista for catequista in catequistas]
     else:
         context["catequizandos"] = []
+        context["catequistas"] = []
     context["nav_active"] = 'turmas'
     return TemplateResponse(context, template_path='/turmas/turma.html')
+
 
 @login_not_required
 @no_csrf
 def save(**turmas_properties):
-    data = turmas_properties.pop("catequizandos", [])
-    lista_catequizandos = data if isinstance(data, list) else [data]
+    input_catequizandos = turmas_properties.pop("catequizandos", [])
+    lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
+    input_catequistas = turmas_properties.pop("catequistas", [])
+    lista_catequistas = input_catequistas if isinstance(input_catequistas, list) else [input_catequistas]
     cmd = turma_facade.save_turma_cmd(**turmas_properties)
     try:
         turma = cmd()
@@ -60,6 +70,13 @@ def save(**turmas_properties):
             catequizando = Catequizando.get_by_id(int(key))
             catequizando.turma = turma.key
             catequizando.put()
+    if lista_catequistas:
+        for key in lista_catequistas:
+            catequista = Catequista.get_by_id(int(key))
+            turma_catequista = TurmaCatequista()
+            turma_catequista.origin = turma.key
+            turma_catequista.destination = catequista.key
+            turma_catequista.put()
     sleep(0.5)
     return RedirectResponse(router.to_path(turmas))
 

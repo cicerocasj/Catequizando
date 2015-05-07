@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
 from gaegraph.model import Node
-from gaeforms.ndb import property
+from gaegraph.model import Arc
 
 
 class Catequista(Node):
@@ -12,3 +12,8 @@ class Catequista(Node):
     cellphone = ndb.StringProperty(required=False)
     address = ndb.StringProperty(required=False)
     avatar = ndb.StringProperty(required=False)
+
+
+class TurmaCatequista(Arc):
+    origin = ndb.KeyProperty()
+    destination = ndb.KeyProperty()
