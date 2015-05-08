@@ -16,5 +16,6 @@ $(document).ready(function(){
     });
 
     //multiple select
-    $('.chosen-select').chosen('.chosen-select');
+    multiple_selects = $('.chosen-select');
+    multiple_selects.chosen('.chosen-select');
 });

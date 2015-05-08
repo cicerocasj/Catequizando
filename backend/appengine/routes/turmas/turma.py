@@ -36,9 +36,9 @@ def index(id=0):
     context["choice_catequistas"] = choice_catequistas()
     if context["turma"].key:
         context["catequizandos"] = catequizandos(context["turma"].key)
-        query = TurmaCatequista.find_origins(key_id)
+        query = TurmaCatequista.query(TurmaCatequista.origin==context["turma"].key)
         catequistas = query.fetch()
-        context["catequistas"] = [catequista for catequista in catequistas]
+        context["catequistas"] = [catequista.destination.get() for catequista in catequistas]
     else:
         context["catequizandos"] = []
         context["catequistas"] = []

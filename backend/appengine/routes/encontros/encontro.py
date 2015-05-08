@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from time import sleep
 from encontro_app import encontro_facade
 from encontro_app.encontro_model import Encontro
 from gaebusiness.business import CommandExecutionException
@@ -26,6 +27,8 @@ def index(id=0):
     return TemplateResponse(context, template_path='/encontros/encontro.html')
 
 
+@login_not_required
+@no_csrf
 def save(**encontro_properties):
     cmd = encontro_facade.save_encontro_cmd(**encontro_properties)
     try:
@@ -34,4 +37,5 @@ def save(**encontro_properties):
         context = {'errors': cmd.errors,
                    'meeting': encontro_properties}
         return TemplateResponse(context, '/encontros/encontro.html')
+    sleep(0.5)
     return RedirectResponse(router.to_path(encontros))
