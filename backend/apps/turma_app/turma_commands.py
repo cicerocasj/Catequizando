@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from catequista_app.catequista_model import Catequista
+from catequista_app.catequista_model import Catequista, DeletarTurmaCatequista
 from catequizando_app.catequizando_model import Catequizando
 from gaebusiness.gaeutil import SaveCommand, ModelSearchCommand
 from gaeforms.ndb.form import ModelForm
@@ -92,9 +92,11 @@ def selected_catequizandos(list_id):
 
 def clean_turma(turma):
     query = Catequizando.query(Catequizando.turma == turma.key).fetch()
-    for cat in query:
-        cat.turma = None
-        cat.put()
+    for caz in query:
+        caz.turma = None
+        caz.put()
+    deletar = DeletarTurmaCatequista(turma)
+    deletar.execute()
 
 
 def count_catequizandos(turma_key):

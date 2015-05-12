@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from time import sleep
-from catequista_app.catequista_model import Catequista, TurmaCatequista
+from catequista_app.catequista_model import Catequista, TurmaCatequista, DeletarTurmaForever
 from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
@@ -64,31 +64,43 @@ def save(**turmas_properties):
             "catequizandos": selected_catequizandos(lista_catequizandos)
         }
         return TemplateResponse(context, template_path='turmas/turma.html')
-
-    if lista_catequizandos:
-        for key in lista_catequizandos:
-            catequizando = Catequizando.get_by_id(int(key))
-            catequizando.turma = turma.key
-            catequizando.put()
-    if lista_catequistas:
-        for key in lista_catequistas:
-            catequista = Catequista.get_by_id(int(key))
-            turma_catequista = TurmaCatequista()
-            turma_catequista.origin = turma.key
-            turma_catequista.destination = catequista.key
-            turma_catequista.put()
+    set_turma_catequizandos(turma, lista_catequizandos)
+    set_turma_catequistas(turma, lista_catequistas)
     sleep(0.5)
     return RedirectResponse(router.to_path(turmas))
+
+
+def set_turma_catequizandos(turma, lista_catequizandos):
+    for key in lista_catequizandos:
+        catequizando = Catequizando.get_by_id(int(key))
+        catequizando.turma = turma.key
+        catequizando.put()
+
+
+def set_turma_catequistas(turma, lista_catequistas):
+    for key in lista_catequistas:
+        catequista = Catequista.get_by_id(int(key))
+        turma_catequista = TurmaCatequista()
+        turma_catequista.origin = turma.key
+        turma_catequista.destination = catequista.key
+        turma_catequista.put()
 
 
 @login_not_required
 @no_csrf
 def edit(**turmas_properties):
-    data = turmas_properties.pop("catequizandos", None)
-    if data:
-        lista_catequizandos = data if isinstance(data, list) else [data]
+    input_catequizandos = turmas_properties.pop("catequizandos", [])
+    lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
+    input_catequistas = turmas_properties.pop("catequistas", [])
+    lista_catequistas = input_catequistas if isinstance(input_catequistas, list) else [input_catequistas]
+    if input_catequizandos:
+        lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
     else:
-        lista_catequizandos = None
+        lista_catequizandos = []
+    if input_catequistas:
+        lista_catequistas = input_catequistas if isinstance(input_catequistas, list) else [input_catequistas]
+    else:
+        lista_catequistas = []
     obj_id = turmas_properties.pop("key_id", None)
     cmd = turma_facade.update_turma_cmd(obj_id, **turmas_properties)
     try:
@@ -104,11 +116,8 @@ def edit(**turmas_properties):
         return TemplateResponse(context, template_path='turmas/turma.html')
 
     clean_turma(turma)
-    if lista_catequizandos:
-        for key in lista_catequizandos:
-            catequizando = Catequizando.get_by_id(int(key))
-            catequizando.turma = turma.key
-            catequizando.put()
+    set_turma_catequizandos(turma, lista_catequizandos)
+    set_turma_catequistas(turma, lista_catequistas)
     sleep(0.5)
     return RedirectResponse(router.to_path(turmas))
 
@@ -116,10 +125,13 @@ def edit(**turmas_properties):
 @login_not_required
 @no_csrf
 def delete(obj_id=0):
+    deletar_forever = DeletarTurmaForever(Turma.get_by_id(int(obj_id)))
+    deletar_forever.execute()
     cmd = turma_facade.delete_turma_cmd(obj_id)
     try:
         cmd()
     except CommandExecutionException:
         return TemplateResponse({}, 'turmas/turma.html')
+
     sleep(0.5)
     return RedirectResponse(router.to_path(turmas))

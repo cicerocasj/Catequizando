@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from gaebusiness.business import CommandExecutionException
+from gaecookie.decorator import no_csrf
+from gaepermission.decorator import login_not_required
 from tekton.gae.middleware.json_middleware import JsonResponse
 from noticia_app import noticia_facade
 
-
+@login_not_required
+@no_csrf
 def index():
     cmd = noticia_facade.list_noticias_cmd()
     noticia_list = cmd()
     noticia_form = noticia_facade.noticia_form()
     noticia_dcts = [noticia_form.fill_with_model(m) for m in noticia_list]
-    return JsonResponse(noticia_dcts)
+    return JsonResponse(noticia_dcts, secure_prefix='')
 
 
 def new(_resp, **noticia_properties):
