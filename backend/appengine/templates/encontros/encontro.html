@@ -1,9 +1,6 @@
 {% extends 'base/base.html' %}
-{% if meeting %}
-    {% set title=meeting.title or None %}
-    {% set content=meeting.content or None %}
-    {% set objetive=meeting.objetive or None %}
-{% endif %}
+{% set meeting=meeting or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -11,8 +8,8 @@
                 <div class="pull-left header">
                     <h3 class="title">
                         <i class="icon-comments"></i>
-                        {% if title %}
-                            {{ title }}
+                        {% if meeting.title %}
+                            {{ meeting.title }}
                         {% else %}
                             Novo encontro
                         {% endif %}
@@ -24,7 +21,6 @@
 {% endblock %}
 
 {% block body %}
-    {% set errors=errors or None %}
     <div class="container-fluid padded">
         <div class="row-fluid">
             <div class="col-md-12">
@@ -39,30 +35,18 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Titulo</label>
-                                                <div class="col-md-8">
-                                                    <input name="title" class="validate[required]" type="text" value="{{ title }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Conteúdo</label>
-                                                <div class="col-md-8">
-                                                    <textarea name="content" class="validate[required]" rows="10">{{ content }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Objetivo</label>
-                                                <div class="col-md-8">
-                                                    <textarea name="objetive" rows="10">{{ objetive }}</textarea>
-                                                </div>
-                                            </div>
+                                            {{ form_input('Titulo','title',meeting.title,errors.title, 'col-md-8', True) }}
+                                            {{ form_text('Conteúdo','content',meeting.content,errors.content, 'col-md-8') }}
+                                            {{ form_text('Objetivo','objetive',meeting.objetive,errors.objetive, 'col-md-8') }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/encontros">Cancelar</a>
+                                    {% if meeting.key %}
+                                        <a class="btn btn-danger pull-right" href="/encontros/encontro/delete/{{ meeting.key.id() }}">Deletar</a>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>
