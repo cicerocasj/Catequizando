@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% set eventos=eventos or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -32,36 +34,33 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <i class="icon-sitemap"></i>
-                                    </span>
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="eventos/evento/1">Formação de catequista</a></p>
+                            {% if eventos %}
+                                {% for evento in eventos %}
+                                    <div class="box-section news with-icons">
+                                        <div class="avatar">
+                                            <span>
+                                                <i class="icon-sitemap"></i>
+                                            </span>
+                                        </div>
+                                        <div class="news-content">
+                                            <div class="news-title" title="Alterar">
+                                                <p><a href="eventos/evento/{{ evento.key.id() }}">{{ evento.title }}</a></p>
+                                            </div>
+                                            <div class="news-text">
+                                                {{ evento.start }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="news-text">
-                                        21/03/2015 19:00
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <i class="icon-sitemap"></i>
-                                    </span>
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="eventos/evento/1">Reunião com os pais</a></p>
-                                    </div>
-                                    <div class="news-text">
-                                        28/07/2015 15:00
+                                {% endfor %}
+                            {% else %}
+                                <div class="box-section">
+                                    <div class="news-content">
+                                        <div class="news-title">
+                                            <p>Nenhum evento cadastrado</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

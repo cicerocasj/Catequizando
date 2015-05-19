@@ -1,0 +1,26 @@
+{% extends 'eventos/evento_base.html' %}
+{% block body %}
+    {% set evento=evento or None %}
+    {% set errors=errors or None %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <br/>
+
+                <div class="well">
+                    <h1 class="text-center">{% trans %}Evento Form{% endtrans %}</h1>
+
+                    <form action="{{ save_path }}" method="post" role="form">
+                        {{ csrf_input() }}
+                        {{ form_input(_('Start'),'start',evento.start,errors.start) }}
+                        {{ form_input(_('End'),'end',evento.end,errors.end) }}
+                        {{ form_input(_('Description'),'description',evento.description,errors.description) }}
+                        {{ form_input(_('Title'),'title',evento.title,errors.title) }}
+                        <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
