@@ -32,6 +32,9 @@
                         <div class="box-content">
                             <form action="{{ save_path }}" class="form-horizontal fill-up validatable" method="post">
                                 {{ csrf_input() }}
+                                {% if meeting.key %}
+                                    <input type="hidden" name="key_id" value="{{ meeting.key.id() }}"/>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">

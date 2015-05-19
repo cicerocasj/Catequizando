@@ -22,7 +22,11 @@ def index(id=0):
         key_id = None
     if key_id:
         context["meeting"] = Encontro.get_by_id(key_id)
-    context["save_path"] = router.to_path(save)
+        context["save_path"] = router.to_path(edit)
+        context["delete_path"] = router.to_path(delete)
+    else:
+        context["meeting"] = Encontro()
+        context["save_path"] = router.to_path(save)
     context["nav_active"] = 'encontros'
     return TemplateResponse(context, template_path='/encontros/encontro.html')
 
@@ -37,5 +41,32 @@ def save(**encontro_properties):
         context = {'errors': cmd.errors,
                    'meeting': encontro_properties}
         return TemplateResponse(context, '/encontros/encontro.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(encontros))
+
+
+@login_not_required
+@no_csrf
+def edit(**encontro_properties):
+    obj_id = encontro_properties.pop("key_id", None)
+    cmd = encontro_facade.update_encontro_cmd(obj_id, **encontro_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'meeting': encontro_properties}
+        return TemplateResponse(context, '/encontros/encontro.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(encontros))
+
+
+@login_not_required
+@no_csrf
+def delete(obj_id=0):
+    cmd = encontro_facade.delete_encontro_cmd(obj_id)
+    try:
+        cmd()
+    except CommandExecutionException:
+        return TemplateResponse({}, '/encontros/encontro.html')
     sleep(0.5)
     return RedirectResponse(router.to_path(encontros))
