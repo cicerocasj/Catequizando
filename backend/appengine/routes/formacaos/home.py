@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from json import dumps
 from config.template_middleware import TemplateResponse
 from tekton import router
 from gaecookie.decorator import no_csrf
@@ -23,7 +24,7 @@ def index():
         return formacao_dct
 
     localized_formacaos = [localize_formacao(formacao) for formacao in formacaos]
-    context = {'formacaos': localized_formacaos,
+    context = {'formacaos': dumps(localized_formacaos),
                'new_path': router.to_path(new)}
     return TemplateResponse(context, 'formacaos/formacao_home.html')
 

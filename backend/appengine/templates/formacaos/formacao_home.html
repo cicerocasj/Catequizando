@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% set formacao=formacao or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -14,11 +16,49 @@
     </div>
 {% endblock %}
 
+{% block js_head %}
+    <script src="/static/angular/js/angular.min.js" type="text/javascript"></script>
+    <script>
+    var formacao_app = angular.module("formacao_app", []);
+    formacao_app.config(function($interpolateProvider){
+        $interpolateProvider.startSymbol('{[').endSymbol(']}');
+    });
+
+    formacao_app.controller('CtrlFormacao', function ($scope, $http){
+        var formacoes = $scope.formacoes = {{ formacaos|safe or [] }};
+        var a = 1;
+    });
+
+    formacao_app.directive('itemFormacao', function(){
+        return {
+            restrict: 'A',
+            templateUrl: '/static/angular/directives/item_formacao.html'
+        };
+    });
+    </script>
+{% endblock %}
+
 {% block body %}
-    <div class="container-fluid padded">
+    <div class="container-fluid padded" ng-app="formacao_app" ng-controller="CtrlFormacao">
         <div class="row-fluid">
             <div class="col-md-12">
                 <div class="span12">
+                    <div class="box">
+                        <div class="box-header">
+                            <span class="title">Formulário</span>
+                        </div>
+                        <div class="box-content">
+                            <div class="well">
+                                <form action="{{ save_path }}" method="post" role="form">
+                                    {{ csrf_input() }}
+                                    {{ form_input(_('Titulo'),'titulo',formacao.titulo,errors.titulo) }}
+                                    {{ form_input(_('Data'),'data',formacao.data,errors.data) }}
+                                    {{ form_input(_('Conteudo'),'conteudo',formacao.conteudo,errors.conteudo) }}
+                                    <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <div class="box">
                         <div class="box-header">
                             <span class="title">{% trans %}Security Table{% endtrans %}</span>
@@ -35,23 +75,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for formacao in formacaos %}
-                                    <tr>
-                                        <td><a href="{{ formacao.edit_path }}" class="btn btn-success btn-sm"><i
-                                                class="icon-pencil"></i></a></td>
-                                        <td>{{ formacao.creation }}</td>
-                                        <td>{{ formacao.titulo }}</td>
-                                        <td>{{ formacao.data }}</td>
-                                        <td>{{ formacao.conteudo }}</td>
-                                        <td>
-                                            <form action="{{ formacao.delete_path }}" method="post" onsubmit="return confirm('{{_('Are you sure to delete? Press cancel to avoid deletion.')}}');">
-                                                {{ csrf_input() }}
-                                                <button class="btn btn-danger btn-sm"><i
-                                                        class="icon-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                                <tr item-formacao ng-repeat="formacao in formacoes"></tr>
                                 </tbody>
                             </table>
                         </div>
