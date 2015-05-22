@@ -27,20 +27,28 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>{% trans %}Path{% endtrans %}</th>
-                                    <th>{% trans %}Allowed Groups{% endtrans %}</th>
-                                    <th>{% trans %}<a href="http://pt.wikipedia.org/wiki/Cross-site_request_forgery">CSRF</a> Security{% endtrans %}</th>
+                                    <th/>
+                                    <th>{% trans %}Creation{% endtrans %}</th>
+                                    <th>{% trans %}Titulo{% endtrans %}</th>
+                                    <th>{% trans %}Data{% endtrans %}</th>
+                                    <th>{% trans %}Conteudo{% endtrans %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for info in path_infos %}
+                                {% for formacao in formacaos %}
                                     <tr>
-                                        <td><a href="{{ info.path }}">{{ info.path }}</a></td>
-                                        <td>{{ info.groups }}</td>
+                                        <td><a href="{{ formacao.edit_path }}" class="btn btn-success btn-sm"><i
+                                                class="icon-pencil"></i></a></td>
+                                        <td>{{ formacao.creation }}</td>
+                                        <td>{{ formacao.titulo }}</td>
+                                        <td>{{ formacao.data }}</td>
+                                        <td>{{ formacao.conteudo }}</td>
                                         <td>
-                                                <span class="label {{ 'label-success' if info.csrf else 'label-danger' }}">
-                                                    {{ _('Secure') if info.csrf else _('Unsecure') }}
-                                                </span>
+                                            <form action="{{ formacao.delete_path }}" method="post" onsubmit="return confirm('{{_('Are you sure to delete? Press cancel to avoid deletion.')}}');">
+                                                {{ csrf_input() }}
+                                                <button class="btn btn-danger btn-sm"><i
+                                                        class="icon-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 {% endfor %}
