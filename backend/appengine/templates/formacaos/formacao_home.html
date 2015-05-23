@@ -26,7 +26,26 @@
 
     formacao_app.controller('CtrlFormacao', function ($scope, $http){
         var formacoes = $scope.formacoes = {{ formacaos|safe or [] }};
-        var a = 1;
+        var fm = $scope.fm = {
+            id: null,
+            titulo: null,
+            data: null,
+            conteudo: null
+        };
+        $scope.error = {
+            titulo: null,
+            data: null,
+            conteudo: null
+        };
+        $scope.salvar = function(){
+            $http.post('/formacaos/rest/new', fm).success(function(data){
+                formacoes.push(data);
+                $scope.error = {};
+                $scope.fm = {};
+            }).error(function(data){
+                $scope.error = data;
+            });
+        };
     });
 
     formacao_app.directive('itemFormacao', function(){
@@ -48,20 +67,46 @@
                             <span class="title">Formulário</span>
                         </div>
                         <div class="box-content">
-                            <div class="well">
-                                <form action="{{ save_path }}" method="post" role="form">
-                                    {{ csrf_input() }}
-                                    {{ form_input(_('Titulo'),'titulo',formacao.titulo,errors.titulo) }}
-                                    {{ form_input(_('Data'),'data',formacao.data,errors.data) }}
-                                    {{ form_input(_('Conteudo'),'conteudo',formacao.conteudo,errors.conteudo) }}
-                                    <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
-                                </form>
-                            </div>
+                            <form method="post" role="form" class="form-horizontal fill-up validatable">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="padded">
+                                            <input type="hidden" value="{{ _csrf_code }}" ng-model="fm.csrf" name="_csrf_code"/>
+                                            <input type="hidden" name="key_id" ng-model="fm.key_id"/>
+                                            <div class="form-group" ng-class="{'has-error': error.titulo}">
+                                                <label for="titleInput" class="control-label col-md-2">Titulo</label>
+                                                <div class="col-md-8">
+                                                    <input ng-model="fm.titulo" id="titleInput" class="validate[required]" type="text" name="titulo">
+                                                </div>
+                                                <span ng-show="error.titulo" class="help-block">{[ error.titulo ]}</span>
+                                            </div>
+                                            <div class="form-group " ng-class="{'has-error': error.data}">
+                                                <label for="dataInput" class="control-label col-md-2">Data</label>
+                                                <div class="col-md-4">
+                                                    <input ng-model="fm.data" id="dataInput" class="validate[required]" type="text" name="data">
+                                                </div>
+                                                <span ng-show="error.data" class="help-block">{[ error.data ]}</span>
+                                            </div>
+
+                                            <div class="form-group " ng-class="{'has-error': error.conteudo}">
+                                                <label for="conteudoInput" class="control-label col-md-2">Conteúdo</label>
+                                                <div class="col-md-8">
+                                                    <textarea rows="10" id="conteudoInput" name="conteudo" ng-model="fm.conteudo"></textarea>
+                                                </div>
+                                                <span ng-show="error.conteudo" class="help-block">{[ error.conteudo ]}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button ng-click="salvar()" type="button" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="box">
                         <div class="box-header">
-                            <span class="title">{% trans %}Security Table{% endtrans %}</span>
+                            <span class="title">Listagem de Formações</span>
                         </div>
                         <div class="box-content">
                             <table class="table table-striped table-hover">
