@@ -2,13 +2,14 @@
 from __future__ import absolute_import, unicode_literals
 from json import dumps
 from config.template_middleware import TemplateResponse
+from gaepermission.decorator import login_not_required
 from tekton import router
 from gaecookie.decorator import no_csrf
 from formacao_app import formacao_facade
 from routes.formacaos import new, edit
 from tekton.gae.middleware.redirect import RedirectResponse
 
-
+@login_not_required
 @no_csrf
 def index():
     cmd = formacao_facade.list_formacaos_cmd()

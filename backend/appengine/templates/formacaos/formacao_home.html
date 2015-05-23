@@ -25,8 +25,9 @@
     });
 
     formacao_app.controller('CtrlFormacao', function ($scope, $http){
-        var formacoes = $scope.formacoes = {{ formacaos|safe or [] }};
-        var fm = $scope.fm = {
+        $scope.formacoes = {{ formacaos|safe or [] }};
+        $scope.index_current = null;
+        $scope.fm = {
             id: null,
             titulo: null,
             data: null,
@@ -37,14 +38,37 @@
             data: null,
             conteudo: null
         };
-        $scope.salvar = function(){
-            $http.post('/formacaos/rest/new', fm).success(function(data){
-                formacoes.push(data);
-                $scope.error = {};
-                $scope.fm = {};
+        $scope.edit = function(index){
+            $scope.index_current = index;
+            $scope.fm = $scope.formacoes[index];
+        };
+        $scope.delete = function(index){
+            var _fm = $scope.formacoes[index];
+            $http.post('/formacaos/rest/delete', {id: _fm.id}).success(function(data){
+                $scope.formacoes.splice(index, 1);
             }).error(function(data){
                 $scope.error = data;
             });
+        };
+        $scope.salvar = function(){
+            if($scope.fm.id ==null){
+                $http.post('/formacaos/rest/new', $scope.fm).success(function(data){
+                    $scope.formacoes.push(data);
+                    $scope.error = {};
+                    $scope.fm = {};
+                }).error(function(data){
+                    $scope.error = data;
+                });
+            } else {
+                $http.post('/formacaos/rest/edit', $scope.fm).success(function(data){
+                    $scope.formacoes[$scope.index_current] = data;
+                    $scope.error = {};
+                    $scope.fm = {};
+                    $scope.index_current = null;
+                }).error(function(data){
+                    $scope.error = data;
+                });
+            }
         };
     });
 

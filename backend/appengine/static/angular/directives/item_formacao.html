@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <button ng-click="edit(formacao.id)" class="btn btn-primary btn-sm">
+        <button ng-click="edit($index)" class="btn btn-primary btn-sm">
             <i class="icon-pencil"></i>
         </button>
     </td>
@@ -9,7 +9,7 @@
     <td>{[ formacao.data ]}</td>
     <td>{[ formacao.conteudo ]}</td>
     <td>
-        <button ng-click="delete(formacao.id)" class="btn btn-danger btn-sm">
+        <button ng-click="delete($index)" class="btn btn-danger btn-sm">
             <i class="icon-trash"></i>
         </button>
     </td>
