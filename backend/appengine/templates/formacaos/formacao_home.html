@@ -44,7 +44,7 @@
         };
         $scope.delete = function(index){
             var _fm = $scope.formacoes[index];
-            $http.post('/formacaos/rest/delete', {id: _fm.id}).success(function(data){
+            $http.post('/formacoes/rest/delete', {id: _fm.id}).success(function(data){
                 $scope.formacoes.splice(index, 1);
             }).error(function(data){
                 $scope.error = data;
@@ -52,7 +52,7 @@
         };
         $scope.salvar = function(){
             if($scope.fm.id ==null){
-                $http.post('/formacaos/rest/new', $scope.fm).success(function(data){
+                $http.post('/formacoes/rest/new', $scope.fm).success(function(data){
                     $scope.formacoes.push(data);
                     $scope.error = {};
                     $scope.fm = {};
@@ -60,7 +60,7 @@
                     $scope.error = data;
                 });
             } else {
-                $http.post('/formacaos/rest/edit', $scope.fm).success(function(data){
+                $http.post('/formacoes/rest/edit', $scope.fm).success(function(data){
                     $scope.formacoes[$scope.index_current] = data;
                     $scope.error = {};
                     $scope.fm = {};

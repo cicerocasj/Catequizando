@@ -5,7 +5,7 @@ from gaebusiness.business import CommandExecutionException
 from tekton import router
 from gaecookie.decorator import no_csrf
 from formacao_app import formacao_facade
-from routes import formacaos
+from routes import formacoes
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
