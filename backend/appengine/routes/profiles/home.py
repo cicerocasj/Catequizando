@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from config.template_middleware import TemplateResponse
+from gaepermission.decorator import login_required
 from tekton import router
 from gaecookie.decorator import no_csrf
 from profile_app import profile_facade
@@ -8,6 +9,7 @@ from routes.profiles import new, edit
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
+@login_required
 @no_csrf
 def index():
     cmd = profile_facade.list_profiles_cmd()

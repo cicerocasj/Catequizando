@@ -12,8 +12,19 @@
 
                     <form action="{{ save_path }}" method="post" role="form">
                         {{ csrf_input() }}
-                        {{ form_input(_('User'),'user',profile.user,errors.user) }}
-                        {{ form_input(_('Tipo'),'tipo',profile.tipo,errors.tipo) }}
+                        {{ form_input(_('Name'),'name',profile.name,errors.name) }}
+                        {{ form_input(_('Email'),'email',profile.email,errors.email) }}
+                        <div class="form-group">
+                            <label for="Input" class="control-label col-md-2">{{ label }}</label>
+                            <div class="">
+                                <select name="groups" id="Input" data-prompt-position="topLeft" multiple>
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="CATEQUISTA">CATEQUISTA</option>
+                                    <option value="MESTRE">MESTRE</option>
+                                </select>
+                            </div>
+                        </div>
+                        {{ form_input(_('Senha'),'password',profile.password,errors.password) }}
                         <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
                     </form>
                 </div>

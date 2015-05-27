@@ -17,12 +17,14 @@
                         <span class="title">Login</span>
                     </div>
                     <div class="box-content padded">
-                        <form class="separate-sections" action="{{ login_passwordless_path }}" method="post">
+                        <form class="separate-sections" action="{{ custom_login }}" method="post">
                             <div class="input-group addon-left">
                                 <span class="input-group-addon">
                                   <i class="icon-user"></i>
                                 </span>
-                                <input type="email" name="email"  placeholder="usuário">
+                                <input type="email" name="email" placeholder="usuário">
+                                <input type="password" name="password" placeholder="senha">
+                                <button type="submit">DO LOGIN</button>
                             </div>
                             {#<div class="input-group addon-left">
                                 <span class="input-group-addon">

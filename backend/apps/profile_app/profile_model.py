@@ -7,7 +7,8 @@ from gaeforms.ndb import property
 from gaepermission.model import MainUser
 
 
-class Profile(Node):
-    user = ndb.KeyProperty(MainUser)
+class Profile(MainUser):
+    password = ndb.StringProperty(required=True)
     tipo = ndb.KeyProperty(Catequista)
+    user = ndb.StringProperty(required=False)
 

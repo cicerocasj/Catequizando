@@ -12,8 +12,12 @@ class ProfileSaveForm(ModelForm):
     Form used to save and update Profile
     """
     _model_class = Profile
-    _include = [Profile.user, 
-                Profile.tipo]
+    _include = [
+        Profile.name,
+        Profile.email,
+        Profile.groups,
+        Profile.password,
+    ]
 
 
 class ProfileForm(ModelForm):
