@@ -2,13 +2,11 @@
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
 from gaegraph.business_base import DeleteArcs
-from gaegraph.model import Node
 from gaegraph.model import Arc
+from user_app.user_model import User
 
 
-class Catequista(Node):
-    name = ndb.StringProperty(required=True)
-    email = ndb.StringProperty(required=False)
+class Catequista(User):
     phone = ndb.StringProperty(required=False)
     cellphone = ndb.StringProperty(required=False)
     address = ndb.StringProperty(required=False)

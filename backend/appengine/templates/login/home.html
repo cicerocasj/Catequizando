@@ -1,11 +1,10 @@
 {% extends 'base/base.html' %}
 
+{% set error=error %}
+{% set username=username %}
+
 {% block css %}
     <link href="/static/css/bootstrap-social.css" media="screen" rel="stylesheet" type="text/css"/>
-{% endblock %}
-
-{% block js %}
-    <script src="/static/js/login.js"></script>
 {% endblock %}
 
 {% block login %}
@@ -17,52 +16,29 @@
                         <span class="title">Login</span>
                     </div>
                     <div class="box-content padded">
-                        <form class="separate-sections" action="{{ custom_login }}" method="post">
+                        <form class="separate-sections" action="{{ user_auth }}" method="post">
                             <div class="input-group addon-left">
                                 <span class="input-group-addon">
                                   <i class="icon-user"></i>
                                 </span>
-                                <input type="email" name="email" placeholder="usuário">
-                                <input type="password" name="password" placeholder="senha">
-                                <button type="submit">DO LOGIN</button>
+                                <input type="text" name="username" placeholder="usuário" value="{{ username }}">
                             </div>
-                            {#<div class="input-group addon-left">
+                            <div class="input-group addon-left">
                                 <span class="input-group-addon">
                                   <i class="icon-key"></i>
                                 </span>
-                                <input type="password" placeholder="senha">
-                            </div>#}
+                                <input type="password" name="password" placeholder="senha">
+                            </div>
                             <div>
                                 <button class="btn btn-blue btn-block" type="submit">
                                     Login <i class="icon-signin"></i>
                                 </button>
                             </div>
+                            <div class="has-error center">
+                                <span class="help-block">{{ error }}</span>
+                            </div>
                             {{ csrf_input() }}
                         </form>
-                        <div class="text-center block">
-                            <a href="sign_up.html">
-                                Não tem uma conta? <strong>cadastre-se</strong>
-                            </a>
-                        </div>
-                        <div class="social-auth-links text-center">
-                            <p>OU</p>
-                            <div class="form-row social-margin">
-                                <a href="{{ login_google_path }}" class="btn btn-block btn-social btn-google-plus btn-flat">
-                                    <i class="icon-google-plus"></i>
-                                    Google
-                                </a>
-                            </div>
-                            <div class="form-row social-margin" style="margin-top: 5px;">
-                                <button class="btn btn-block btn-social btn-facebook btn-flat" onclick="fb_login();">
-                                    <i class="icon-facebook"></i>
-                                    Facebook
-                                </button>
-                                <form id="fbform" action="{{ login_facebook_path }}" method="post">
-                                    {{ csrf_input() }}
-                                    <input id="tokeninput" type="hidden" name="token">
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

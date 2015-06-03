@@ -94,3 +94,7 @@ a.btn.btn-social.btn-google-plus{
 .user-avatar .dropdown-menu a:hover{
     color: #7a7c85 !important;
 }
+
+.center{
+    text-align: center;
+}

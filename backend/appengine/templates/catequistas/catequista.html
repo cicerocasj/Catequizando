@@ -46,6 +46,9 @@
                                             {{ form_input('Endereço','address',catequista.address,errors.address, 'col-md-8', False) }}
                                             {{ form_input('Telefone','phone',catequista.phone,errors.phone, 'col-md-8', False) }}
                                             {{ form_input('Celular','cellphone',catequista.cellphone,errors.cellphone, 'col-md-8', False) }}
+                                            {{ form_input('Usuário','username',catequista.username,errors.username, 'col-md-4', True) }}
+                                            {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
+                                            {{ form_select_multi_sample('Permissão', 'groups', groups, errors.groups, 'col-md-3', choice_groups, False) }}
                                             {% if catequista.turmas %}
                                                 <div class="form-group">
                                                     <label class="control-label col-md-2">Turmas</label>
@@ -121,4 +124,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/chosen.jquery.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="/static/css/chosen.css">
 {% endblock %}

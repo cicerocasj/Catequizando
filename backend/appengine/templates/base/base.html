@@ -11,6 +11,15 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
+{% macro input_pass(label,property,value,error_msg, class, required) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            <input id="{{ property }}Input" {% if required %} class="validate[required]" {% endif %} type="password" name="{{ property }}" value="{{ value or '' }}"/>
+        </div>
+        {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
+    </div>
+{% endmacro %}
 {% macro form_text(label,property,value,error_msg, class, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
@@ -35,14 +44,14 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
-{% macro form_select_multi(label, property, value, error_msg, class, choice, required) %}
+{% macro form_select_multi_sample(label, property, value, error_msg, class, choice, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
         <div class="{{ class }}">
-            <select multiple name="{{ property }}" class="chosen-select {% if required %} validate[required] {% endif %}" id="{{ property }}Input"
+            <select multiple="multiple" name="{{ property }}" class="chosen-select {% if required %} validate[required] {% endif %}" id="{{ property }}Input"
                     data-prompt-position="topLeft">
                 {% for op in choice %}
-                    <option value="{{ op.key.id() }}" {% if op in value %}selected="selected" {% endif %}>{{ op.name }}</option>
+                    <option value="{{ op }}" {% if op in value %}selected="selected" {% endif %}>{{ op }}</option>
                 {% endfor %}
             </select>
         </div>

@@ -27,7 +27,7 @@ def index(_handler, **catequistas_properties):
         cmd()
     except CommandExecutionException:
         context = {
-            'errors': cmd.erros
+            'errors': cmd.errors
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)

@@ -18,7 +18,10 @@ class CatequistaSaveForm(ModelForm):
         Catequista.phone,
         Catequista.cellphone,
         Catequista.address,
-        Catequista.avatar
+        Catequista.avatar,
+        Catequista.username,
+        Catequista.password,
+        Catequista.groups
     ]
 
 

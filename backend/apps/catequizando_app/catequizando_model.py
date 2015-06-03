@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from google.appengine.ext import ndb
-from gaegraph.model import Node
 from turma_app.turma_model import Turma
+from user_app.user_model import User
 
 
-class Catequizando(Node):
-    name = ndb.StringProperty(required=True)
-    email = ndb.StringProperty(required=False)
+class Catequizando(User):
     address = ndb.StringProperty(required=False)
     phone = ndb.StringProperty(required=False)
     cellphone = ndb.StringProperty(required=False)

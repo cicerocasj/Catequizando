@@ -24,6 +24,8 @@ class CatequizandoSaveForm(ModelForm):
         Catequizando.responsible_2_name,
         Catequizando.responsible_2_phone,
         Catequizando.turma,
+        Catequizando.username,
+        Catequizando.password
     ]
 
 
