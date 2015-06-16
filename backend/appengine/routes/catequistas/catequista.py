@@ -33,6 +33,6 @@ def index(id=0):
     context["choice_groups"] = ALL_PERMISSIONS_LIST
     bucket = get_default_gcs_bucket_name()
     url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
-    context["nav_active"] = 'catequistas'
     context["upload_url"] = url
+    context["nav_active"] = 'catequistas'
     return TemplateResponse(context, template_path='/catequistas/catequista.html')

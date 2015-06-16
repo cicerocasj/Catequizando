@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from time import sleep
 from catequista_app import catequista_facade
+from catequista_app.catequista_model import Catequista
 from gaebusiness.business import CommandExecutionException
 from config.template_middleware import TemplateResponse
 from gaecookie.decorator import no_csrf
@@ -11,6 +12,8 @@ from routes.catequistas import download
 from tekton import router
 from tekton.router import to_path
 from tekton.gae.middleware.redirect import RedirectResponse
+from google.appengine.ext import blobstore
+from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
 
 
 @login_not_required
@@ -22,12 +25,15 @@ def index(_handler, **catequistas_properties):
         avatar = to_path(download, blob_key)
         catequistas_properties['avatar'] = avatar
         catequistas_properties.pop("files", None)
-    cmd = catequista_facade.save_catequista_cmd(**catequistas_properties)
+    if not isinstance(catequistas_properties.get('groups'), list):
+        catequistas_properties['groups'] = [catequistas_properties.get('groups')]
+    # cmd = catequista_facade.save_catequista_cmd(**catequistas_properties)
     try:
-        cmd()
+        cmd = Catequista(**catequistas_properties)
+        cmd.put()
     except CommandExecutionException:
         context = {
-            'errors': cmd.errors
+            'errors': {}
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)
@@ -44,11 +50,18 @@ def edit(_handler, **catequistas_properties):
         catequistas_properties['avatar'] = avatar
         catequistas_properties.pop("files", None)
     obj_id = catequistas_properties.pop("key_id", None)
-    cmd = catequista_facade.update_catequista_cmd(obj_id, **catequistas_properties)
+    if not isinstance(catequistas_properties.get('groups'), list):
+        catequistas_properties['groups'] = [catequistas_properties.get('groups')]
+    # cmd = catequista_facade.update_catequista_cmd(obj_id, **catequistas_properties)
     try:
-        cmd()
+        cmd = Catequista(**catequistas_properties)
+        cmd.put()
     except CommandExecutionException:
-        context = {'errors': cmd.errors,
+        success_url = router.to_path(edit)
+        bucket = get_default_gcs_bucket_name()
+        url = blobstore.create_upload_url(success_url, gs_bucket_name=bucket)
+        context = {'errors': {},
+                   'upload_url': url,
                    'catequista': catequistas_properties}
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)

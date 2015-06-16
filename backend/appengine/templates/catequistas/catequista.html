@@ -48,7 +48,7 @@
                                             {{ form_input('Celular','cellphone',catequista.cellphone,errors.cellphone, 'col-md-8', False) }}
                                             {{ form_input('Usuário','username',catequista.username,errors.username, 'col-md-4', True) }}
                                             {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
-                                            {{ form_select_multi_sample('Permissão', 'groups', groups, errors.groups, 'col-md-3', choice_groups, False) }}
+                                            {{ form_select_multi_sample('Permissão', 'groups', groups, errors.groups, 'col-md-5', choice_groups, False) }}
                                             {% if catequista.turmas %}
                                                 <div class="form-group">
                                                     <label class="control-label col-md-2">Turmas</label>
