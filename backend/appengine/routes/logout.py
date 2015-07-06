@@ -11,7 +11,7 @@ from tekton.gae.middleware.redirect import RedirectResponse
 @no_csrf
 def index(_resp):
     facade.logout(_resp).execute()
-    redirect_url = '/'
+    redirect_url = '/login'
     google_user = get_current_user()
     if google_user:
         redirect_url = create_logout_url(redirect_url)

@@ -7,6 +7,10 @@
     <link href="/static/css/bootstrap-social.css" media="screen" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
+{% block js %}
+    <script src="/static/js/login.js"></script>
+{% endblock %}
+
 {% block login %}
     <div class="container login">
         <div class="col-md-4 col-md-offset-4">
@@ -39,6 +43,12 @@
                             </div>
                             {{ csrf_input() }}
                         </form>
+                        {#<div class="form-row social-margin">
+                            <a href="{{ login_google_path }}" class="btn btn-block btn-social btn-google-plus btn-flat">
+                                <i class="icon-google-plus"></i>
+                                Google
+                            </a>
+                        </div>#}
                     </div>
                 </div>
             </div>

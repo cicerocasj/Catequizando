@@ -1,3 +1,4 @@
+{% set _logged_user=_logged_user or None %}
 <div class="navbar navbar-top navbar-inverse">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -11,31 +12,35 @@
                     <button type="button" class="btn btn-navbar"><i class="icon-align-justify"></i></button>
                 </li>
             </ul>
+            {% if _logged_user %}
+
+
             <div class="nav-collapse nav-collapse-top collapse" style="height: 0px;">
                 <ul class="nav full pull-right">
                     <li class="dropdown user-avatar">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span>
-                    <img class="menu-avatar" src="/static/images/avatars/avatar1.jpg"> <span>Cícero Alves<i
-                          class="icon-caret-down"></i></span>
-{#                    <span class="badge badge-dark-red">5</span>#}
+                        <span>
+                            {{ _logged_user.name }}
+                            <i class="icon-caret-down"></i>
+                        </span>
                   </span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="with-image">
                                 <div class="avatar">
-                                    <img src="/static/images/avatars/avatar1.jpg">
+{#                                    <img src="/static/images/avatars/avatar1.jpg">#}
                                 </div>
-                                <span>Cícero Alves</span>
+                                <span>{{ _logged_user.name }}</span>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="/catequistas/catequista/1"><i class="icon-user"></i>
-                                <span>Meu perfil</span></a></li>
+                            {#<li><a href="/catequistas/catequista/1"><i class="icon-user"></i>
+                                <span>Meu perfil</span></a></li>#}
                             <li><a href="/logout"><i class="icon-off"></i> <span>Sair</span></a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
