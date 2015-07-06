@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from time import sleep
 from catequista_app import catequista_facade
+from catequista_app.catequista_commands import CatequistaSaveForm
 from catequista_app.catequista_model import Catequista
 from gaebusiness.business import CommandExecutionException
 from config.template_middleware import TemplateResponse
@@ -14,6 +15,7 @@ from tekton.router import to_path
 from tekton.gae.middleware.redirect import RedirectResponse
 from google.appengine.ext import blobstore
 from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
+from user_app.user_model import User
 
 
 @login_not_required
@@ -28,12 +30,23 @@ def index(_handler, **catequistas_properties):
     if not isinstance(catequistas_properties.get('groups'), list):
         catequistas_properties['groups'] = [catequistas_properties.get('groups')]
     # cmd = catequista_facade.save_catequista_cmd(**catequistas_properties)
+    user_not_unique = False
     try:
-        cmd = Catequista(**catequistas_properties)
-        cmd.put()
+        if catequistas_properties.get('username') and User.is_unique(catequistas_properties.get('username')):
+            cmd = Catequista(**catequistas_properties)
+            cmd.put()
+        else:
+            cmd = catequista_facade.save_catequista_cmd(**catequistas_properties)
+            user_not_unique = True
     except CommandExecutionException:
         context = {
             'errors': {}
+        }
+        return TemplateResponse(context, template_path='/catequistas/catequista.html')
+    if user_not_unique:
+        cmd.errors['username'] = unicode(u'Usuário já existe.')
+        context = {
+            'errors': cmd.errors
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)

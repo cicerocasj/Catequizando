@@ -13,6 +13,7 @@ from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
 from tekton.router import to_path
 from turma_app.turma_model import Turma
+from user_app.user_model import User
 
 
 @login_not_required
@@ -25,9 +26,18 @@ def index(_handler, **catequizando_properties):
         catequizando_properties["avatar"] = avatar
         catequizando_properties.pop("files", None)
     cmd = catequizando_facade.save_catequizando_cmd(**catequizando_properties)
+    user_not_unique = False
     try:
-        cmd()
+        if catequizando_properties.get('username') and User.is_unique(catequizando_properties.get('username')):
+            cmd()
+        else:
+            user_not_unique = True
     except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'catechized': catequizando_properties}
+        return TemplateResponse(context, '/catequizandos/catequizando.html')
+    if user_not_unique:
+        cmd.errors['username'] = unicode(u'Usuário já existe.')
         context = {'errors': cmd.errors,
                    'catechized': catequizando_properties}
         return TemplateResponse(context, '/catequizandos/catequizando.html')

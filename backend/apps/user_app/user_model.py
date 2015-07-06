@@ -9,3 +9,8 @@ from gaepermission.model import MainUser
 class User(MainUser):
     username = ndb.StringProperty(required=True)
     password = ndb.StringProperty(required=True)
+
+    @staticmethod
+    def is_unique(username):
+        users = User.query(User.username==username).fetch()
+        return False if users else True

@@ -41,11 +41,11 @@
                                         <div class="padded">
                                             {{ form_input('Nome','name',catechized.name,errors.name, 'col-md-8', True) }}
 
-                                            {{ form_input('Email','email',catechized.email,errors.email, 'col-md-8') }}
-                                            {{ form_input('Endereço','address',catechized.address,errors.email, 'col-md-8') }}
+                                            {{ form_input('Email','email',catechized.email,errors.email, 'col-md-8', False) }}
+                                            {{ form_input('Endereço','address',catechized.address,errors.address, 'col-md-8', False) }}
 
                                             {{ form_input('Telefone','phone',catechized.phone,errors.phone, 'col-md-4') }}
-                                            {{ form_input('Celular','cellphone',catechized.cellphone,errors.cellphone, 'col-md-4') }}
+                                            {{ form_input('Celular','cellphone',catechized.cellphone,errors.cellphone, 'col-md-4', False) }}
                                             <h4 class="text-center">Responsável 1</h4>
                                             {{ form_input('Nome','responsible_1_name',catechized.responsible_1_name,errors.responsible_1_name, 'col-md-8') }}
                                             {{ form_input('Telefone','responsible_1_phone',catechized.responsible_1_phone,errors.responsible_1_phone, 'col-md-4') }}
@@ -53,7 +53,7 @@
                                             {{ form_input('Nome','responsible_2_name',catechized.responsible_2_name,errors.responsible_2_name, 'col-md-8') }}
                                             {{ form_input('Telefone','responsible_2_phone',catechized.responsible_2_phone,errors.responsible_2_phone, 'col-md-4') }}
                                             {{ form_input('Usuário','username',catechized.username,errors.username, 'col-md-4', True) }}
-                                            {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
+                                            {{ input_pass('Senha','password',catechized.password,errors.password, 'col-md-4', True) }}
                                             {#TODO troca este if pelo objeto e nao pelo nome#}
                                             {% if group %}
                                                 <div class="form-group">
