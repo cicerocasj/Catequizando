@@ -12,5 +12,7 @@ class User(MainUser):
 
     @staticmethod
     def is_unique(username):
-        users = User.query(User.username==username).fetch()
-        return False if users else True
+        if username:
+            users = User.query(User.username==username).fetch()
+            return False if users else True
+        return False

@@ -8,6 +8,7 @@ from user_app.user_model import User
 
 class Catequista(User):
     phone = ndb.StringProperty(required=False)
+    email = ndb.StringProperty(required=False)
     cellphone = ndb.StringProperty(required=False)
     address = ndb.StringProperty(required=False)
     avatar = ndb.StringProperty(required=False)

@@ -32,8 +32,8 @@
                         </div>
                         <div class="box-content">
 
-                            <form method="post" action="{{ upload_url }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
-                                <input type="file" name="files[]" id="input_avatar" style="display: none"/>
+                            <form method="post" action="{{ url_form }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
+{#                                <input type="file" name="files[]" id="input_avatar" style="display: none"/>#}
                                     {{ csrf_input() }}
                                 {% if catequista.key %}
                                     <input type="hidden" name="key_id" value="{{ catequista.key.id() }}"/>
@@ -98,17 +98,17 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="avatar profile_photo">
-                                            <span>
-                                                {% if catequista.avatar %}
-                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ catequista.avatar }}"/>
-                                                {% else %}
-                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
-                                                {% endif %}
-                                            </span>
-                                        </div>
-                                    </div>
+{#                                    <div class="col-md-3">#}
+{#                                        <div class="avatar profile_photo">#}
+{#                                            <span>#}
+{#                                                {% if catequista.avatar %}#}
+{#                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ catequista.avatar }}"/>#}
+{#                                                {% else %}#}
+{#                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>#}
+{#                                                {% endif %}#}
+{#                                            </span>#}
+{#                                        </div>#}
+{#                                    </div>#}
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
