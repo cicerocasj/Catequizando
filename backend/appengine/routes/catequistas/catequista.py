@@ -65,7 +65,8 @@ def save(**catequistas_properties):
         cmd.errors['username'] = unicode(u'Usuário já existe.')
         context = {
             'errors': cmd.errors,
-            'catequista': catequistas_properties
+            'catequista': catequistas_properties,
+            "groups": catequistas_properties.get('groups')
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)
