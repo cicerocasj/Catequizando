@@ -3,17 +3,18 @@ from __future__ import absolute_import, unicode_literals
 import logging
 from google.appengine.ext import blobstore
 from catequizando_app.catequizando_model import Catequizando
-from gaecookie.decorator import no_csrf
 from config.template_middleware import TemplateResponse
-from gaepermission.decorator import login_not_required
 from routes.catequizandos.upload import edit, delete
 from tekton import router
 from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
 from routes.catequizandos import upload
+from gaecookie.decorator import no_csrf
+from gaepermission.decorator import permissions
+from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
 
 
-@login_not_required
 @no_csrf
+@permissions(ADMIN, COORDENADOR)
 def index(id=0):
     context = {}
     try:

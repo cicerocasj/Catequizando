@@ -6,10 +6,10 @@ from tekton import router
 from routes.login import passwordless, facebook
 from routes.permission import home as permission_home, admin
 from gaepermission.decorator import permissions
-from permission_app.model import CATEQUISTA
+from permission_app.model import CATEQUISTA, COORDENADOR
 
 
-@permissions(CATEQUISTA)
+@permissions(COORDENADOR)
 @no_csrf
 def index():
     return TemplateResponse({'security_table_path': router.to_path(permission_home.index),

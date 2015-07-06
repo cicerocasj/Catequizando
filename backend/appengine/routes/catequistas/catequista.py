@@ -7,20 +7,18 @@ from catequista_app import catequista_facade
 from catequista_app.catequista_model import Catequista
 from gaebusiness.business import CommandExecutionException
 from config.template_middleware import TemplateResponse
-from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required
 from routes import catequistas
-from routes.catequistas import download
 from tekton import router
-from tekton.router import to_path
 from tekton.gae.middleware.redirect import RedirectResponse
-from google.appengine.ext import blobstore
-from google.appengine.api.app_identity.app_identity import get_default_gcs_bucket_name
 from user_app.user_model import User
+from gaecookie.decorator import no_csrf
+from gaepermission.decorator import permissions
+from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
 
 
-@login_not_required
 @no_csrf
+@permissions(ADMIN, COORDENADOR)
 def index(id=0):
     context = {}
     try:
@@ -43,7 +41,7 @@ def index(id=0):
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR)
 @no_csrf
 def save(**catequistas_properties):
     if not isinstance(catequistas_properties.get('groups'), list):
@@ -73,7 +71,7 @@ def save(**catequistas_properties):
     return RedirectResponse(router.to_path(catequistas))
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR, CATEQUISTA)
 @no_csrf
 def edit(**catequistas_properties):
     obj_id = catequistas_properties.pop("key_id", None)
@@ -90,7 +88,7 @@ def edit(**catequistas_properties):
     return RedirectResponse(router.to_path(catequistas))
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR)
 @no_csrf
 def delete(obj_id=0):
     cmd = catequista_facade.delete_catequista_cmd(obj_id)

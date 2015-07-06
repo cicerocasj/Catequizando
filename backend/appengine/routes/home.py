@@ -7,7 +7,7 @@ from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
 
 
 @no_csrf
-@permissions(CATEQUISTA)
+@permissions(CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO)
 def index():
     context = {}
     messages = [{

@@ -4,15 +4,16 @@ from time import sleep
 from encontro_app import encontro_facade
 from encontro_app.encontro_model import Encontro
 from gaebusiness.business import CommandExecutionException
-from gaecookie.decorator import no_csrf
 from config.template_middleware import TemplateResponse
-from gaepermission.decorator import login_not_required
 from routes import encontros
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
+from gaecookie.decorator import no_csrf
+from gaepermission.decorator import permissions
+from permission_app.model import COORDENADOR, ADMIN, CATEQUISTA
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR)
 @no_csrf
 def index(id=0):
     context = {}
@@ -31,7 +32,7 @@ def index(id=0):
     return TemplateResponse(context, template_path='/encontros/encontro.html')
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR)
 @no_csrf
 def save(**encontro_properties):
     cmd = encontro_facade.save_encontro_cmd(**encontro_properties)
@@ -45,7 +46,7 @@ def save(**encontro_properties):
     return RedirectResponse(router.to_path(encontros))
 
 
-@login_not_required
+@permissions(ADMIN, CATEQUISTA)
 @no_csrf
 def edit(**encontro_properties):
     obj_id = encontro_properties.pop("key_id", None)
@@ -60,7 +61,7 @@ def edit(**encontro_properties):
     return RedirectResponse(router.to_path(encontros))
 
 
-@login_not_required
+@permissions(ADMIN, COORDENADOR)
 @no_csrf
 def delete(obj_id=0):
     cmd = encontro_facade.delete_encontro_cmd(obj_id)
