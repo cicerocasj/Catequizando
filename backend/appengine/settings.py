@@ -19,6 +19,7 @@ DEFAULT_TIMEZONE = 'US/Eastern'
 LOCALES = ['en_US', 'pt_BR']
 TEMPLATE_404_ERROR = 'base/404.html'
 TEMPLATE_400_ERROR = 'base/400.html'
+TEMPLATE_403_ERROR = 'base/403.html'
 
 
 MIDDLEWARE_LIST = [MultitenacyMiddleware,

@@ -2,11 +2,12 @@
 from __future__ import absolute_import, unicode_literals
 from config.template_middleware import TemplateResponse
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import permissions
+from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
 
 
-@login_not_required
 @no_csrf
+@permissions(CATEQUISTA)
 def index():
     context = {}
     messages = [{
