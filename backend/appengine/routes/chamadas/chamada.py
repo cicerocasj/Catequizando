@@ -14,6 +14,27 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
+        context["turma"] = Turma.get_by_id(key_id)
+        context["save_path"] = router.to_path(edit)
+    else:
+        context["save_path"] = router.to_path(save)
+        context["turma"] = Turma()
+    context["choice_catequizandos"] = choice_catequizandos()
+    context["choice_catequistas"] = choice_catequistas()
+    if context["turma"].key:
+        context["catequizandos"] = catequizandos(context["turma"].key)
+        query = TurmaCatequista.query(TurmaCatequista.origin==context["turma"].key)
+        catequistas = query.fetch()
+        context["catequistas"] = [catequista.destination.get() for catequista in catequistas]
+    else:
+        context["catequizandos"] = []
+        context["catequistas"] = []
+    context["nav_active"] = 'chamadas'
+
+
+
+
+    if key_id:
         context["id"] = id
         context["groups"] = u'Cícero Alves dos Santos Junior'
         context["date"] = u'1111-11-13'
@@ -24,5 +45,4 @@ def index(id=0):
         u'Tatiana Almeida', u'Celso Alves'
     ]
 
-    context["nav_active"] = 'chamadas'
     return TemplateResponse(context, template_path='/chamadas/chamada.html')

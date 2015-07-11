@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% set catequizando=catequizando or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -69,12 +70,12 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for cat in catechized %}
+                                                            {% for cat in catequizando %}
                                                                 <tr>
-                                                                    <td>{{ cat }}</td>
+                                                                    <td>{{ cat.name }}</td>
                                                                     <td>
                                                                         <div class="icheckbox_flat-aero check-fake">
-                                                                            <input type="checkbox" class="icheck">
+                                                                            <input name="catequizando[]" value="{{ cat.key.id() }}" type="checkbox" class="icheck">
                                                                         </div>
                                                                     </td>
                                                                 </tr>
