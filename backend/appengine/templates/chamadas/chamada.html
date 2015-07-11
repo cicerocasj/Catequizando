@@ -38,26 +38,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Encontro</label>
-                                                <div class="col-md-3">
-                                                    <select name="type" id="" class="validate[required]"
-                                                            data-prompt-position="topLeft">
-                                                        <option value="0"></option>
-                                                        <option value="1" selected>Encontro 1 - Acolhida</option>
-                                                        <option value="2">Encontro 2 - Campanha da fratenidade</option>
-                                                        <option value="2">Encontro 3 - Campanha da fratenidade</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Data</label>
-                                                <div class="col-md-3">
-                                                    <input class="validate[required]" type="date" name="date"
-                                                           value="{{ date }}" data-prompt-position="topLeft"
-                                                           placeholder="Nome completo"/>
-                                                </div>
-                                            </div>
+                                            {{ form_select('Turma','turma',chamada.turma,errors.turma, 'col-md-3', chamada.choice_turma, True) }}
+                                            {{ form_select('Encontro','encontro',chamada.encontro,errors.encontro, 'col-md-3', chamada.choice_encontro, True) }}
+                                            {{ form_input('Data','data',chamada.data,errors.data, 'col-md-3', True) }}
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>
                                                 <div class="col-md-8">
@@ -75,7 +58,7 @@
                                                                     <td>{{ cat.name }}</td>
                                                                     <td>
                                                                         <div class="icheckbox_flat-aero check-fake">
-                                                                            <input name="catequizando[]" value="{{ cat.key.id() }}" type="checkbox" class="icheck">
+{#                                                                            <input name="catequizando[]" value="{{ cat.key.id() }}" type="checkbox" class="icheck">#}
                                                                         </div>
                                                                     </td>
                                                                 </tr>

@@ -45,3 +45,6 @@ class ListChamadaCommand(ModelSearchCommand):
     def __init__(self):
         super(ListChamadaCommand, self).__init__(Chamada.query_by_creation())
 
+def choice_catequizandos():
+    query = Catequizando.query()
+    return query.fetch()
