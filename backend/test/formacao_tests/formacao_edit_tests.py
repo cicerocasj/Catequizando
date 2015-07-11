@@ -4,7 +4,7 @@ from base import GAETestCase
 from datetime import datetime, date
 from decimal import Decimal
 from formacao_app.formacao_model import Formacao
-from routes.formacaos.edit import index, save
+from routes.formacoes.edit import index, save
 from mommygae import mommy
 from tekton.gae.middleware.redirect import RedirectResponse
 

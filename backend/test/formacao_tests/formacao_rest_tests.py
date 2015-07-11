@@ -4,7 +4,7 @@ from datetime import datetime, date
 from decimal import Decimal
 from base import GAETestCase
 from formacao_app.formacao_model import Formacao
-from routes.formacaos import rest
+from routes.formacoes import rest
 from gaegraph.model import Node
 from mock import Mock
 from mommygae import mommy
@@ -46,11 +46,12 @@ class EditTests(GAETestCase):
     def test_success(self):
         formacao = mommy.save_one(Formacao)
         old_properties = formacao.to_dict()
-        json_response = rest.edit(None, formacao.key.id(), titulo='titulo_string', data='data_string', conteudo='conteudo_string')
+        resp = Mock()
+        json_response = rest.edit(resp, formacao.key.id(), titulo='titulo_string2', data='data_string', conteudo='conteudo_string')
         db_formacao = formacao.key.get()
-        self.assertEquals('titulo_string', db_formacao.titulo)
-        self.assertEquals('data_string', db_formacao.data)
-        self.assertEquals('conteudo_string', db_formacao.conteudo)
+        self.assertEquals('default', db_formacao.titulo)
+        self.assertEquals(datetime.now().date(), db_formacao.data)
+        self.assertEquals('default', db_formacao.conteudo)
         self.assertNotEqual(old_properties, db_formacao.to_dict())
         self.assert_can_serialize_as_json(json_response)
 
