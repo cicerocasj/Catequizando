@@ -11,7 +11,7 @@ from permission_app.model import ADMIN, COORDENADOR
 @permissions(ADMIN, COORDENADOR)
 def index():
     context = {}
-    query = Catequista.query().order(Catequista.key)
+    query = Catequista.query().order(Catequista.name)
     catequistas = query.fetch()
     context['catequistas'] = catequistas
     context["nav_active"] = 'catequistas'

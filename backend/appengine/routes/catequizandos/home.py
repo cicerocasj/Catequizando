@@ -10,7 +10,7 @@ from config.template_middleware import TemplateResponse
 @no_csrf
 def index():
     context = {}
-    query = Catequizando.query_by_creation_desc()
+    query = Catequizando.query().order(Catequizando.name)
     catechizeds = query.fetch()
     context["catechizeds"] = catechizeds
     context["nav_active"] = 'catequizandos'
