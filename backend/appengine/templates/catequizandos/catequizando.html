@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-{% set catechized=catechized or None %}
+{% set catequizando=catequizando or None %}
 {% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
@@ -8,8 +8,8 @@
                 <div class="pull-left header">
                     <h3 class="title">
                         <i class="icon-star-empty"></i>
-                        {% if catechized.name %}
-                            {{ catechized.name }}
+                        {% if catequizando.name %}
+                            {{ catequizando.name }}
                         {% else %}
                             Novo catequizando
                         {% endif %}
@@ -30,30 +30,30 @@
                             <span class="title"><i class="icon-pencil"></i> Dados pessoais</span>
                         </div>
                         <div class="box-content">
-                            <form method="post" action="{{ upload_url }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
-                            <input type="file" name="files[]" id="input_avatar" style="display: none"/>
+                            <form method="post" action="{{ url_form }}" class="form-horizontal fill-up validatable" enctype="multipart/form-data">
+{#                            <input type="file" name="files[]" id="input_avatar" style="display: none"/>#}
                                 {{ csrf_input() }}
-                                {% if catechized.key %}
-                                    <input type="hidden" name="key_id" value="{{ catechized.key.id() }}"/>
+                                {% if catequizando.key %}
+                                    <input type="hidden" name="key_id" value="{{ catequizando.key.id() }}"/>
                                 {% endif %}
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="padded">
-                                            {{ form_input('Nome','name',catechized.name,errors.name, 'col-md-8', True) }}
+                                            {{ form_input('Nome','name',catequizando.name,errors.name, 'col-md-8', True) }}
 
-                                            {{ form_input('Email','email',catechized.email,errors.email, 'col-md-8', False) }}
-                                            {{ form_input('Endereço','address',catechized.address,errors.address, 'col-md-8', False) }}
+                                            {{ form_input('Email','email',catequizando.email,errors.email, 'col-md-8', False) }}
+                                            {{ form_input('Endereço','address',catequizando.address,errors.address, 'col-md-8', False) }}
 
-                                            {{ form_input('Telefone','phone',catechized.phone,errors.phone, 'col-md-4') }}
-                                            {{ form_input('Celular','cellphone',catechized.cellphone,errors.cellphone, 'col-md-4', False) }}
+                                            {{ form_input('Telefone','phone',catequizando.phone,errors.phone, 'col-md-4') }}
+                                            {{ form_input('Celular','cellphone',catequizando.cellphone,errors.cellphone, 'col-md-4', False) }}
                                             <h4 class="text-center">Responsável 1</h4>
-                                            {{ form_input('Nome','responsible_1_name',catechized.responsible_1_name,errors.responsible_1_name, 'col-md-8') }}
-                                            {{ form_input('Telefone','responsible_1_phone',catechized.responsible_1_phone,errors.responsible_1_phone, 'col-md-4') }}
+                                            {{ form_input('Nome','responsible_1_name',catequizando.responsible_1_name,errors.responsible_1_name, 'col-md-8') }}
+                                            {{ form_input('Telefone','responsible_1_phone',catequizando.responsible_1_phone,errors.responsible_1_phone, 'col-md-4') }}
                                             <h4 class="text-center">Responsável 2</h4>
-                                            {{ form_input('Nome','responsible_2_name',catechized.responsible_2_name,errors.responsible_2_name, 'col-md-8') }}
-                                            {{ form_input('Telefone','responsible_2_phone',catechized.responsible_2_phone,errors.responsible_2_phone, 'col-md-4') }}
-                                            {{ form_input('Usuário','username',catechized.username,errors.username, 'col-md-4', False) }}
-                                            {{ input_pass('Senha','password',catechized.password,errors.password, 'col-md-4', False) }}
+                                            {{ form_input('Nome','responsible_2_name',catequizando.responsible_2_name,errors.responsible_2_name, 'col-md-8') }}
+                                            {{ form_input('Telefone','responsible_2_phone',catequizando.responsible_2_phone,errors.responsible_2_phone, 'col-md-4') }}
+                                            {{ form_input('Usuário','username',catequizando.username,errors.username, 'col-md-4', False) }}
+                                            {{ input_pass('Senha','password',catequizando.password,errors.password, 'col-md-4', False) }}
                                             {#TODO troca este if pelo objeto e nao pelo nome#}
                                             {% if group %}
                                                 <div class="form-group">
@@ -78,7 +78,7 @@
                                                                             <td>{{ group.day }}</td>
                                                                             <td>{{ group.hours }}</td>
                                                                             <td>{{ group.local }}</td>
-                                                                            <td>{{ group.catechized }}</td>
+                                                                            <td>{{ group.catequizando }}</td>
                                                                             <td>
                                                                                 <div class="btn-group">
                                                                                     <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
@@ -100,23 +100,23 @@
                                             {% endif %}
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="avatar profile_photo">
-                                            <span>
-                                                {% if catechized.avatar %}
-                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ catechized.avatar }}"/>
-                                                {% else %}
-                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>
-                                                {% endif %}
-                                            </span>
-                                        </div>
-                                    </div>
+{#                                    <div class="col-md-3">#}
+{#                                        <div class="avatar profile_photo">#}
+{#                                            <span>#}
+{#                                                {% if catequizando.avatar %}#}
+{#                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="{{ catequizando.avatar }}"/>#}
+{#                                                {% else %}#}
+{#                                                    <img id="fake_avatar" alt="foto de perfil" title="clique para editar" class="menu-avatar" src="/static/images/avatars/none.png"/>#}
+{#                                                {% endif %}#}
+{#                                            </span>#}
+{#                                        </div>#}
+{#                                    </div>#}
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/catequizandos">Cancelar</a>
-                                    {% if catechized.key %}
-                                        <a class="btn btn-danger pull-right" href="/catequizandos/catequizando/delete/{{ catechized.key.id() }}">Deletar</a>
+                                    {% if catequizando.key %}
+                                        <a class="btn btn-danger pull-right" href="/catequizandos/catequizando/delete/{{ catequizando.key.id() }}">Deletar</a>
                                     {% endif %}
                                 </div>
                             </form>
