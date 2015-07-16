@@ -18,7 +18,8 @@ from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
 
 
 @no_csrf
-@permissions(ADMIN, COORDENADOR)
+#@permissions(ADMIN, COORDENADOR)
+@login_not_required
 def index(id=0):
     context = {}
     try:
@@ -41,7 +42,8 @@ def index(id=0):
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
 
 
-@permissions(ADMIN, COORDENADOR)
+# @permissions(ADMIN, COORDENADOR)
+@login_not_required
 @no_csrf
 def save(**catequistas_properties):
     if not isinstance(catequistas_properties.get('groups'), list):

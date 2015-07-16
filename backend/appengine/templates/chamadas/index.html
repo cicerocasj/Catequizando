@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% set turmas=turmas or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -24,55 +25,31 @@
                             <span class="title">Lista de chamadas</span>
                         </div>
                         <div class="box-content">
-                            <div class="box-section news with-icons">
-                                <div class="avatar">
-                                    <span>
-                                        <i class="icon-sitemap"></i>
-                                    </span>
-                                </div>
-                                <div class="news-time">
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown">
-                                            <i class="icon-cog"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/chamadas/chamada/">Realizar chamada</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="/chamadas/chamada/1">Editar chamada</a></li>
-                                        </ul>
+                            {% for turma in turmas %}
+                                <div class="box-section news with-icons">
+                                    <div class="avatar"><span><i class="icon-sitemap"></i></span></div>
+                                    <div class="news-time">
+                                        <div class="btn-group pull-right">
+                                            <button class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-cog"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="/chamadas/chamada/{{ turma.id }}">Realizar chamada</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="/chamadas/editar/{{ turma.id }}">Editar chamada</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="news-content">
+                                        <div class="news-title" title="Alterar">
+                                            <p><a href="/chamadas/visualizar/{{ turma.id }}">{{ turma.name }}</a></p>
+                                        </div>
+                                        <div class="news-text">
+                                            <span>Catequista: </span>{{ turma.catequista }}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="/chamadas/visualizar/1">Crisma 2 - Quarta 19:00</a></p>
-                                    </div>
-                                    <div class="news-text">
-                                        <span>Catequista: </span>Cícero Alves dos Santos Junior
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-section news with-icons">
-                                <div class="avatar"></div>
-                                <div class="news-time">
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/turmas/turma/1">Editar chamada</a></li>
-                                            <li><a href="/turmas/">Ver esta lista de chamada</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Remover esta turma</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="news-content">
-                                    <div class="news-title" title="Alterar">
-                                        <p><a href="/chamadas/chamada/1">Eucaristia 2 - Quinta 19:00</a></p>
-                                    </div>
-                                    <div class="news-text">
-                                        <span>Catequista: </span>Cícero Alves dos Santos Junior
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

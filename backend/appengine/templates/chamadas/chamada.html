@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
-{% set catequizando=catequizando or None %}
+{% set chamada=chamada or None %}
+{% set catequizandos=catequizandos or None %}
+{% set errors=errors or None %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -38,9 +40,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
-                                            {{ form_select('Turma','turma',chamada.turma,errors.turma, 'col-md-3', chamada.choice_turma, True) }}
-                                            {{ form_select('Encontro','encontro',chamada.encontro,errors.encontro, 'col-md-3', chamada.choice_encontro, True) }}
-                                            {{ form_input('Data','data',chamada.data,errors.data, 'col-md-3', True) }}
+                                            {{ form_select_chamada_turma('Encontro','encontro',chamada.encontro,errors.encontro, 'col-md-3', encontros, True) }}
+                                            {{ form_input('Data','data',date,errors.data, 'col-md-3', True) }}
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Catequizandos</label>
                                                 <div class="col-md-8">
@@ -53,7 +54,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for cat in catequizando %}
+                                                            {% for cat in catequizandos %}
                                                                 <tr>
                                                                     <td>{{ cat.name }}</td>
                                                                     <td>
