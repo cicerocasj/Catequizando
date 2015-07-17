@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from datetime import datetime
-from catequista_app.catequista_model import TurmaCatequista
+from time import sleep
+from tekton import router
 from catequizando_app.catequizando_model import Catequizando
-from chamada_app.chamada_commands import choice_turmas
+from chamada_app import chamada_facade
+from tekton.gae.middleware.redirect import RedirectResponse
 from encontro_app.encontro_model import Encontro
+from gaebusiness.business import CommandExecutionException
+from routes import chamadas
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
@@ -39,6 +43,31 @@ def index(id=0):
         'turma': turma,
         'catequizandos': catequizandos,
         'nav_active': 'chamadas',
-        'date': datetime.now().date().strftime('%d/%m/%Y')
+        'date': datetime.now().date().strftime('%d/%m/%Y'),
+        'save': router.to_path(save),
+        'turma_id': key_id
     }
     return TemplateResponse(context, template_path='/chamadas/chamada.html')
+
+
+@permissions(ADMIN, COORDENADOR, CATEQUISTA)
+@no_csrf
+def save(**chamada_properties):
+    if chamada_properties.get('encontro'):
+        encontro = Encontro.get_by_id(int(chamada_properties.get('encontro')))
+        chamada_properties['encontro'] = encontro
+    if chamada_properties.get('turma'):
+        turma = Turma.get_by_id(int(chamada_properties.get('turma')))
+        chamada_properties['turma'] = turma
+    if chamada_properties.get('catequizandos'):
+        catequizandos = unicode(chamada_properties.get('catequizandos'))
+        chamada_properties['catequizandos'] = catequizandos
+    cmd = chamada_facade.save_chamada_cmd(**chamada_properties)
+    try:
+        cmd()
+    except CommandExecutionException:
+        context = {'errors': cmd.errors,
+                   'meeting': chamada_properties}
+        return TemplateResponse(context, '/chamadas/chamada.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(chamadas))

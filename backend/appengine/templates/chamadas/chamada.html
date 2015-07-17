@@ -36,7 +36,8 @@
                             </ul>
                         </div>
                         <div class="box-content">
-                            <form class="form-horizontal fill-up validatable">
+                            <form class="form-horizontal fill-up validatable" action="{{ save }}">
+                                <input type="hidden" name="turma" value="{{ turma_id }}"/>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="padded">
@@ -59,7 +60,7 @@
                                                                     <td>{{ cat.name }}</td>
                                                                     <td>
                                                                         <div class="icheckbox_flat-aero check-fake">
-{#                                                                            <input name="catequizando[]" value="{{ cat.key.id() }}" type="checkbox" class="icheck">#}
+                                                                            <input name="catequizandos[]" value="{{ cat.id }}" type="checkbox" class="icheck">
                                                                         </div>
                                                                     </td>
                                                                 </tr>
