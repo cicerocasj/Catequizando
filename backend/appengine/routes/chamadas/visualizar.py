@@ -31,7 +31,7 @@ def index(id=0):
             for chamada in chamadas:
                 list_foi.append(unicode(obj_cat.key.id()) in chamada.catequizandos)
                 if first_loop:
-                    list_encontros.append(chamada.data)
+                    list_encontros.append(chamada.data.strftime('%d/%m'))
             first_loop = False
             list_chamadas.append({
                 'name': obj_cat.name,

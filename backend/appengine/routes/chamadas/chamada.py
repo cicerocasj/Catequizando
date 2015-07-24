@@ -62,6 +62,8 @@ def save(**chamada_properties):
     if chamada_properties.get('catequizandos'):
         catequizandos = unicode(chamada_properties.get('catequizandos'))
         chamada_properties['catequizandos'] = catequizandos
+    else:
+        chamada_properties['catequizandos'] = unicode([])
     cmd = chamada_facade.save_chamada_cmd(**chamada_properties)
     try:
         cmd()

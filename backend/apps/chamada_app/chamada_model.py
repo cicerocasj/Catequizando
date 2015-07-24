@@ -7,7 +7,7 @@ from gaeforms.ndb import property
 
 class Chamada(Node):
     encontro = ndb.KeyProperty(required=True)
-    data = ndb.StringProperty(required=True)
+    data = ndb.DateProperty(required=True)
     turma = ndb.KeyProperty(required=True)
     catequizandos = ndb.StringProperty(required=True)
 
