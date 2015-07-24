@@ -42,3 +42,9 @@ indexes:
   properties:
   - name: class
   - name: name
+
+- kind: Node
+  properties:
+  - name: class
+  - name: turma
+  - name: data

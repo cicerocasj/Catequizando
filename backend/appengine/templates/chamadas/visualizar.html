@@ -38,26 +38,26 @@
                                     <div class="col-md-12">
                                         <div class="padded">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Catequizandos</label>
+                                                <div class="col-md-12">
+                                                    <label class="control-label col-md-2">Catequizandos</label>
+                                                </div>
                                                 <div class="col-md-8">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-hover table-striped calls-view">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Nome</th>
-                                                                    <th>11/03</th>
-                                                                    <th>18/03</th>
-                                                                    <th>25/03</th>
-                                                                    <th>1/04</th>
-                                                                    <th>8/04</th>
+                                                                    {% for dia in encontros %}
+                                                                        <th>{{ dia }}</th>
+                                                                    {% endfor %}
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for cat in catechized %}
+                                                            {% for cha in chamadas %}
                                                                 <tr>
-                                                                    <td>{{ cat.name }}</td>
-                                                                    {% for present in cat.presents %}
-                                                                        {% if present %}
+                                                                    <td>{{ cha.name }}</td>
+                                                                    {% for foi in cha.foi %}
+                                                                        {% if foi %}
                                                                             <td><i class="icon-check"></i></td>
                                                                         {% else %}
                                                                             <td><i class="icon-check-empty"></i></td>
@@ -74,8 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <a class="btn btn-success" href="/chamadas/chamada/1">Editar esta chamada</a>
-                                    <a class="btn btn-default" href="/chamadas">Cancelar</a>
+                                    <a class="btn btn-default" href="/chamadas">Voltar</a>
                                 </div>
                             </form>
                         </div>

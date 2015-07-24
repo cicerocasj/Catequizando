@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from catequizando_app.catequizando_model import Catequizando
+from chamada_app.chamada_model import Chamada
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
+from turma_app.turma_model import Turma
 
 
 @login_not_required
@@ -14,27 +17,29 @@ def index(id=0):
     except Exception as e:
         key_id = None
     if key_id:
+        turma = Turma.get_by_id(key_id)
+        chamadas = Chamada.query(Chamada.turma==turma.key).order(Chamada.data).fetch()
+        catequizandos = Catequizando.query(Catequizando.turma==turma.key).fetch()
         context["id"] = id
         context["groups"] = u'Cícero Alves dos Santos Junior'
-        context["catechized"] = [
-            {'name': u"Ailton Gamarra", 'presents': [False, True, True, False, True]},
-            {'name': u"Debora de Souza", 'presents': [False, True, True, True, True]},
-            {'name': u"Maicon Dias", 'presents': [False, False, True, False, True]},
-            {'name': u"Edson Silva", 'presents': [False, True, True, True, True]},
-            {'name': u"Michel Bastos", 'presents': [False, False, False, False, True]},
-            {'name': u"Luiz Fabiano", 'presents': [False, True, True, True, True]},
-            {'name': u"Reinaldo Velazques", 'presents': [False, True, True, False, True]},
-            {'name': u"Bruno Dias", 'presents': [False, True, True, False, True]},
-            {'name': u"Margarida Mota", 'presents': [False, True, False, False, True]},
-            {'name': u"Francisco Paiva", 'presents': [True, True, True, False, True]},
-            {'name': u"Tatiana Almeida", 'presents': [False, True, True, False, True]},
-            {'name': u"Celso Alves", 'presents': [False, True, True, False, True]}
-        ]
-        # context["catechized"] = [
-        #     u"Ailton Gamarra", u'Debora de Souza', u'Maicon Dias', u'Edson Silva', u'Michel Bastos',
-        #     u'Luiz Fabiano', u'Reinaldo Velazques', u'Bruno Dias', u'Margarida Mota', u'Francisco Paiva',
-        #     u'Tatiana Almeida', u'Celso Alves'
-        # ]
+        list_chamadas = []
+        list_encontros = []
+        first_loop = True
 
+        for obj_cat in catequizandos:
+            list_foi = []
+            for chamada in chamadas:
+                list_foi.append(unicode(obj_cat.key.id()) in chamada.catequizandos)
+                if first_loop:
+                    list_encontros.append(chamada.data)
+            first_loop = False
+            list_chamadas.append({
+                'name': obj_cat.name,
+                'foi': list_foi,
+            })
+        context["chamadas"] = list_chamadas
+        context["encontros"] = list_encontros
+    print list_chamadas
+    print list_encontros
     context["nav_active"] = 'chamadas'
     return TemplateResponse(context, template_path='/chamadas/visualizar.html')
