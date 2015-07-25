@@ -10,7 +10,7 @@ from turma_app.turma_model import Turma
 
 @login_not_required
 @no_csrf
-def index(id=0):
+def index(_logged_user, id=0):
     context = {}
     try:
         key_id = int(id)
@@ -21,6 +21,8 @@ def index(id=0):
         chamadas = Chamada.query(Chamada.turma==turma.key).order(Chamada.data).fetch()
         catequizandos = Catequizando.query(Catequizando.turma==turma.key).fetch()
         context["id"] = id
+        context["turma"] = turma
+        context["_logged_user"] = _logged_user
         context["groups"] = u'Cícero Alves dos Santos Junior'
         list_chamadas = []
         list_encontros = []
@@ -39,7 +41,5 @@ def index(id=0):
             })
         context["chamadas"] = list_chamadas
         context["encontros"] = list_encontros
-    print list_chamadas
-    print list_encontros
-    context["nav_active"] = 'chamadas'
+    context["nav_active"] = 'turmas'
     return TemplateResponse(context, template_path='/chamadas/visualizar.html')

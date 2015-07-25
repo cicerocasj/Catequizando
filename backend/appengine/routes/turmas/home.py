@@ -11,7 +11,7 @@ from gaecookie.decorator import no_csrf
 @no_csrf
 def index():
     context = {}
-    query = Turma.query_by_creation_desc()
+    query = Turma.query().order(Turma.type)
     turmas = query.fetch()
     context['turmas'] = turmas
     context['count_catequizandos'] = count_catequizandos

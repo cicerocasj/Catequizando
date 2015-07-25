@@ -48,3 +48,8 @@ indexes:
   - name: class
   - name: turma
   - name: data
+
+- kind: Node
+  properties:
+  - name: class
+  - name: type

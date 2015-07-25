@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% set _logged_user=_logged_user or '' %}
+{% set turma=turma or '' %}
 {% block header_title %}
     <div class="container-fluid">
         <div class="row-fluid">
@@ -9,7 +11,7 @@
                         {% if type %}
                             {{ type }}
                         {% else %}
-                            Crisma 2 - Cícero Alves
+                            {{ turma.type }} - {{ _logged_user.name }}
                         {% endif %}
                     </h3>
                 </div>
@@ -74,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <a class="btn btn-default" href="/chamadas">Voltar</a>
+                                    <a class="btn btn-default" href="/turmas">Voltar</a>
                                 </div>
                             </form>
                         </div>

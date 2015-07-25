@@ -8,7 +8,7 @@ from chamada_app import chamada_facade
 from tekton.gae.middleware.redirect import RedirectResponse
 from encontro_app.encontro_model import Encontro
 from gaebusiness.business import CommandExecutionException
-from routes import chamadas
+from routes import chamadas, turmas
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
@@ -42,7 +42,7 @@ def index(id=0):
         'encontros': encontros,
         'turma': turma,
         'catequizandos': catequizandos,
-        'nav_active': 'chamadas',
+        'nav_active': 'turmas',
         'date': datetime.now().date().strftime('%d/%m/%Y'),
         'save': router.to_path(save),
         'turma_id': key_id
@@ -72,4 +72,4 @@ def save(**chamada_properties):
                    'meeting': chamada_properties}
         return TemplateResponse(context, '/chamadas/chamada.html')
     sleep(0.5)
-    return RedirectResponse(router.to_path(chamadas))
+    return RedirectResponse(router.to_path(turmas))

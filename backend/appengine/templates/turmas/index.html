@@ -36,7 +36,18 @@
                                 {% for turma in turmas %}
                                     <div class="box-section">
                                         <div class="news-time">
-                                            <span>Cat.</span>{{ count_catequizandos(turma.key) }}
+                                            <div class="news-time">
+                                                <div class="btn-group pull-right">
+                                                    <button class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="icon-cog"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="/chamadas/chamada/{{ turma.key.id() }}">Realizar chamada</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="/chamadas/visualizar/{{ turma.key.id() }}">Visualizar chamada</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="news-content">
                                             <div class="news-title" title="Visualizar">
@@ -59,17 +70,6 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
-                <!-- /.panel -->
-                <div class="text-center">
-                    <ul class="pagination">
-                        <li><a href="#">Prev</a></li>
-                        <li><a href="#">1</a></li>
-                        <li class="active"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">Next</a></li>
-                    </ul>
                 </div>
             </div>
             <!-- /.col-lg-4 -->
