@@ -6,7 +6,8 @@ from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_not_required, login_required
+from permission_app.model import validate_permission, CATEQUISTA, COORDENADOR
 from turma_app.turma_commands import choice_catequizandos, catequizandos, selected_catequizandos, clean_turma, \
     choice_catequistas
 from turma_app.turma_model import Turma
@@ -18,9 +19,12 @@ from tekton.gae.middleware.redirect import RedirectResponse
 from gaegraph.model import ndb
 
 
-@login_not_required
+@login_required
 @no_csrf
-def index(id=0):
+def index(_logged_user, id=0):
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
     context = {}
     try:
         key_id = int(id)
@@ -46,9 +50,12 @@ def index(id=0):
     return TemplateResponse(context, template_path='/turmas/turma.html')
 
 
-@login_not_required
+@login_required
 @no_csrf
-def save(**turmas_properties):
+def save(_logged_user, **turmas_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     input_catequizandos = turmas_properties.pop("catequizandos", [])
     lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
     input_catequistas = turmas_properties.pop("catequistas", [])
@@ -86,13 +93,14 @@ def set_turma_catequistas(turma, lista_catequistas):
         turma_catequista.put()
 
 
-@login_not_required
+@login_required
 @no_csrf
-def edit(**turmas_properties):
+def edit(_logged_user, **turmas_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     input_catequizandos = turmas_properties.pop("catequizandos", [])
-    lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
     input_catequistas = turmas_properties.pop("catequistas", [])
-    lista_catequistas = input_catequistas if isinstance(input_catequistas, list) else [input_catequistas]
     if input_catequizandos:
         lista_catequizandos = input_catequizandos if isinstance(input_catequizandos, list) else [input_catequizandos]
     else:
@@ -122,9 +130,12 @@ def edit(**turmas_properties):
     return RedirectResponse(router.to_path(turmas))
 
 
-@login_not_required
+@login_required
 @no_csrf
-def delete(obj_id=0):
+def delete(_logged_user, obj_id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     deletar_forever = DeletarTurmaForever(Turma.get_by_id(int(obj_id)))
     deletar_forever.execute()
     cmd = turma_facade.delete_turma_cmd(obj_id)

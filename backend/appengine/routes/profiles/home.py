@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from config.template_middleware import TemplateResponse
 from gaepermission.decorator import login_required
+from permission_app.model import validate_permission, COORDENADOR
 from tekton import router
 from gaecookie.decorator import no_csrf
 from profile_app import profile_facade
@@ -11,7 +12,10 @@ from tekton.gae.middleware.redirect import RedirectResponse
 
 @login_required
 @no_csrf
-def index():
+def index(_logged_user):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = profile_facade.list_profiles_cmd()
     profiles = cmd()
     edit_path = router.to_path(edit)
@@ -30,7 +34,10 @@ def index():
     return TemplateResponse(context, 'profiles/profile_home.html')
 
 
-def delete(profile_id):
+def delete(_logged_user, profile_id):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     profile_facade.delete_profile_cmd(profile_id)()
     return RedirectResponse(router.to_path(index))
 

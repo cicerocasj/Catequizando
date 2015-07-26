@@ -6,7 +6,8 @@ from catequizando_app import catequizando_facade
 from config.template_middleware import TemplateResponse
 from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_not_required, login_required
+from permission_app.model import validate_permission, COORDENADOR
 from routes import catequizandos
 from routes.catequizandos import download
 from tekton import router
@@ -16,9 +17,12 @@ from turma_app.turma_model import Turma
 from user_app.user_model import User
 
 
-@login_not_required
+@login_required
 @no_csrf
-def index(_handler, **catequizando_properties):
+def index(_logged_user, _handler, **catequizando_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     if catequizando_properties.get("files"):
         blob_infos = _handler.get_uploads("files[]")
         blob_key = blob_infos[0].key()
@@ -45,9 +49,12 @@ def index(_handler, **catequizando_properties):
     return RedirectResponse(router.to_path(catequizandos))
 
 
-@login_not_required
+@login_required
 @no_csrf
-def edit(_handler, **catequizandos_properties):
+def edit(_logged_user, _handler, **catequizandos_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     if catequizandos_properties.get('files'):
         blob_infos = _handler.get_uploads("files[]")
         blob_key = blob_infos[0].key()
@@ -66,9 +73,12 @@ def edit(_handler, **catequizandos_properties):
     return RedirectResponse(router.to_path(catequizandos))
 
 
-@login_not_required
+@login_required
 @no_csrf
-def delete(obj_id=0):
+def delete(_logged_user, obj_id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = catequizando_facade.delete_catequizando_cmd(obj_id)
     try:
         cmd()

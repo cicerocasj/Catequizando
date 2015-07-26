@@ -19,9 +19,9 @@ from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR
 @no_csrf
 @login_required
 def index(_logged_user, id=0):
-    access_invalid = validate_permission(ADMIN, _logged_user)
-    if access_invalid:
-        return access_invalid
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
     context = {}
     try:
         key_id = int(id)
@@ -43,9 +43,12 @@ def index(_logged_user, id=0):
     return TemplateResponse(context, template_path='/catequistas/catequista.html')
 
 
-@permissions(ADMIN, COORDENADOR)
+@login_required
 @no_csrf
-def save(**catequistas_properties):
+def save(_logged_user, **catequistas_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     if not isinstance(catequistas_properties.get('groups'), list):
         catequistas_properties['groups'] = [catequistas_properties.get('groups')]
     user_not_unique = False
@@ -73,9 +76,12 @@ def save(**catequistas_properties):
     return RedirectResponse(router.to_path(catequistas))
 
 
-@permissions(ADMIN, COORDENADOR, CATEQUISTA)
+@login_required
 @no_csrf
-def edit(**catequistas_properties):
+def edit(_logged_user, **catequistas_properties):
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
     obj_id = catequistas_properties.pop("key_id", None)
     if not isinstance(catequistas_properties.get('groups'), list):
         catequistas_properties['groups'] = [catequistas_properties.get('groups')]
@@ -87,12 +93,15 @@ def edit(**catequistas_properties):
                    'catequista': catequistas_properties}
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)
-    return RedirectResponse(router.to_path(catequistas))
+    return RedirectResponse('/sucesso')
 
 
-@permissions(ADMIN, COORDENADOR)
+@login_required
 @no_csrf
-def delete(obj_id=0):
+def delete(_logged_user, obj_id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = catequista_facade.delete_catequista_cmd(obj_id)
     try:
         cmd()

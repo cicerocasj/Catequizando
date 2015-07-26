@@ -6,15 +6,19 @@ from evento_app.evento_model import Evento
 from gaebusiness.business import CommandExecutionException
 from gaecookie.decorator import no_csrf
 from config.template_middleware import TemplateResponse
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_not_required, login_required
+from permission_app.model import validate_permission, CATEQUISTA, COORDENADOR, CATEQUIZANDO
 from routes import eventos
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
 
 
-@login_not_required
+@login_required
 @no_csrf
-def index(id=0):
+def index(_logged_user, id=0):
+    access_denid = validate_permission(CATEQUIZANDO, _logged_user)
+    if access_denid:
+        return access_denid
     context = {}
     try:
         key_id = int(id)
@@ -31,9 +35,12 @@ def index(id=0):
     return TemplateResponse(context, template_path='/eventos/evento.html')
 
 
-@login_not_required
+@login_required
 @no_csrf
-def save(**evento_properties):
+def save(_logged_user, **evento_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = evento_facade.save_evento_cmd(**evento_properties)
     try:
         cmd()
@@ -45,9 +52,12 @@ def save(**evento_properties):
     return RedirectResponse(router.to_path(eventos))
 
 
-@login_not_required
+@login_required
 @no_csrf
-def edit(**evento_properties):
+def edit(_logged_user, **evento_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     obj_id = evento_properties.pop("key_id", None)
     cmd = evento_facade.update_evento_cmd(obj_id, **evento_properties)
     try:
@@ -60,9 +70,12 @@ def edit(**evento_properties):
     return RedirectResponse(router.to_path(eventos))
 
 
-@login_not_required
+@login_required
 @no_csrf
-def delete(obj_id=0):
+def delete(_logged_user, obj_id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = evento_facade.delete_evento_cmd(obj_id)
     try:
         cmd()

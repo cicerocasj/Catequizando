@@ -33,8 +33,14 @@
                                 <span>{{ _logged_user.name }}</span>
                             </li>
                             <li class="divider"></li>
-                            {#<li><a href="/catequistas/catequista/1"><i class="icon-user"></i>
-                                <span>Meu perfil</span></a></li>#}
+                            {% if _logged_user %}
+                                <li>
+                                    <a href="/catequistas/catequista/{{ _logged_user.key.id() }}">
+                                        <i class="icon-user"></i>
+                                        <span>Meu perfil</span>
+                                    </a>
+                                </li>
+                            {% endif %}
                             <li><a href="/logout"><i class="icon-off"></i> <span>Sair</span></a></li>
                         </ul>
                     </li>

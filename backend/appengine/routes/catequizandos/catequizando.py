@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from permission_app.model import ALL_PERMISSIONS_LIST
+from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission
 from routes.catequizandos import upload
 from time import sleep
 from catequizando_app import catequizando_facade
 from catequizando_app.catequizando_model import Catequizando
 from gaebusiness.business import CommandExecutionException
 from config.template_middleware import TemplateResponse
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_not_required, login_required
 from routes import catequizandos
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
@@ -18,8 +18,11 @@ from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO, C
 
 
 @no_csrf
-@permissions(ADMIN, COORDENADOR)
-def index(id=0):
+@login_required
+def index(_logged_user, id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     context = {}
     try:
         key_id = int(id)
@@ -41,9 +44,12 @@ def index(id=0):
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
 
 
-@permissions(ADMIN, COORDENADOR)
+@login_required
 @no_csrf
-def save(**catequizandos_properties):
+def save(_logged_user, **catequizandos_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     catequizandos_properties['groups'] = [CATEQUIZANDO, COMUM]
     user_not_unique = False
     cmd = catequizando_facade.save_catequizando_cmd(**catequizandos_properties)
@@ -73,9 +79,12 @@ def save(**catequizandos_properties):
     return RedirectResponse(router.to_path(catequizandos))
 
 
-@permissions(ADMIN, COORDENADOR, CATEQUISTA)
+@login_required
 @no_csrf
-def edit(**catequizandos_properties):
+def edit(_logged_user, **catequizandos_properties):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     obj_id = catequizandos_properties.pop("key_id", None)
     catequizandos_properties['groups'] = [CATEQUIZANDO, COMUM]
     cmd = catequizando_facade.update_catequizando_cmd(obj_id, **catequizandos_properties)
@@ -89,9 +98,12 @@ def edit(**catequizandos_properties):
     return RedirectResponse(router.to_path(catequizandos))
 
 
-@permissions(ADMIN, COORDENADOR)
+@login_required
 @no_csrf
-def delete(obj_id=0):
+def delete(_logged_user, obj_id=0):
+    access_denid = validate_permission(COORDENADOR, _logged_user)
+    if access_denid:
+        return access_denid
     cmd = catequizando_facade.delete_catequizando_cmd(obj_id)
     try:
         cmd()

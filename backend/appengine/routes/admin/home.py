@@ -12,9 +12,9 @@ from permission_app.model import ADMIN, validate_permission
 @login_required
 @no_csrf
 def index(_logged_user):
-    access_invalid = validate_permission(ADMIN, _logged_user)
-    if access_invalid:
-        return access_invalid
+    access_denid = validate_permission(ADMIN, _logged_user)
+    if access_denid:
+        return access_denid
     return TemplateResponse({'security_table_path': router.to_path(permission_home.index),
                              'permission_admin_path': router.to_path(admin),
                              'passwordless_admin_path': router.to_path(passwordless.form),
