@@ -16,27 +16,23 @@
 
 {% block body %}
     <div class="container-fluid padded">
-        <div class="box">
-            <div class="box-header">
-                <span class="title">Últimos acontecimentos</span>
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <div class="span12">
+                    <div class="box">
+                        <div class="box-header">
+                            <span class="title">ADMINISTRAÇÃO DO SISTEMA</span>
+                        </div>
+                        <div class="box-content">
+                            <ul>
+                                <li>
+                                    <a href="{{ security_table_path }}">{% trans %}Security Paths Table{% endtrans %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="box-content">
-                <div class="box-section news with-icons"></div>
-            </div>
-        </div>
-        <div class="row">
-            <h1>{% trans %}Administration Panel{% endtrans %}</h1>
-            <ul>
-                <li>
-                    <a href="{{ security_table_path }}">{% trans %}Security Paths Table{% endtrans %}</a>
-                </li>
-            </ul>
-            <h2>{% trans %} Configurations{% endtrans %}</h2>
-            <ul>
-                <li><a href="{{ permission_admin_path }}">{% trans %} User Permissions{% endtrans %}</a></li>
-                <li><a href="{{ facebook_admin_path }}">{% trans %}Facebook App Data{% endtrans %}</a></li>
-                <li><a href="{{ passwordless_admin_path }}">{% trans %}Passwordless App Data{% endtrans %}</a></li>
-            </ul>
         </div>
     </div>
 {% endblock %}

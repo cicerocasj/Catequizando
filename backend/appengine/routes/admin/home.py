@@ -5,13 +5,16 @@ from config.template_middleware import TemplateResponse
 from tekton import router
 from routes.login import passwordless, facebook
 from routes.permission import home as permission_home, admin
-from gaepermission.decorator import permissions
-from permission_app.model import CATEQUISTA, COORDENADOR
+from gaepermission.decorator import login_required
+from permission_app.model import ADMIN, validate_permission
 
 
-@permissions(COORDENADOR)
+@login_required
 @no_csrf
-def index():
+def index(_logged_user):
+    access_invalid = validate_permission(ADMIN, _logged_user)
+    if access_invalid:
+        return access_invalid
     return TemplateResponse({'security_table_path': router.to_path(permission_home.index),
                              'permission_admin_path': router.to_path(admin),
                              'passwordless_admin_path': router.to_path(passwordless.form),

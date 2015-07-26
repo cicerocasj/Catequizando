@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from permission_app.model import ALL_PERMISSIONS_LIST
-from routes.catequistas import upload
+from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission
 from time import sleep
 from catequista_app import catequista_facade
 from catequista_app.catequista_model import Catequista
 from gaebusiness.business import CommandExecutionException
 from config.template_middleware import TemplateResponse
-from gaepermission.decorator import login_not_required
+from gaepermission.decorator import login_required
 from routes import catequistas
 from tekton import router
 from tekton.gae.middleware.redirect import RedirectResponse
 from user_app.user_model import User
 from gaecookie.decorator import no_csrf
 from gaepermission.decorator import permissions
-from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO
+from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR
 
 
 @no_csrf
-@permissions(ADMIN, COORDENADOR)
-def index(id=0):
+@login_required
+def index(_logged_user, id=0):
+    access_invalid = validate_permission(ADMIN, _logged_user)
+    if access_invalid:
+        return access_invalid
     context = {}
     try:
         key_id = int(id)
