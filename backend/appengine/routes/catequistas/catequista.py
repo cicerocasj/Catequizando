@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission
+from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission, set_permission
 from time import sleep
 from catequista_app import catequista_facade
 from catequista_app.catequista_model import Catequista
@@ -31,12 +31,12 @@ def index(_logged_user, id=0):
         context["catequista"] = Catequista.get_by_id(key_id)
         url_form = router.to_path(edit)
         context["delete_path"] = router.to_path(delete)
-        context["groups"] = context["catequista"].groups
+        context["groups"] = context["catequista"].groups[0] if context["catequista"].groups else []
     else:
         context["catequista"] = Catequista()
         url_form = router.to_path(save)
         context["groups"] = []
-    list_permission = ALL_PERMISSIONS_LIST[:-1]
+    list_permission = ALL_PERMISSIONS_LIST[2:-1]
     context["choice_groups"] = list_permission
     context["url_form"] = url_form
     context["nav_active"] = 'catequistas'
@@ -44,25 +44,62 @@ def index(_logged_user, id=0):
 
 
 @login_required
-@no_csrf
 def save(_logged_user, **catequistas_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
         return access_denid
-    if not isinstance(catequistas_properties.get('groups'), list):
-        catequistas_properties['groups'] = [catequistas_properties.get('groups')]
-    user_not_unique = False
+    catequistas_properties['groups'] = set_permission(catequistas_properties.get('groups'))
+    erros = {}
     cmd = catequista_facade.save_catequista_cmd(**catequistas_properties)
     try:
-        if catequistas_properties.get('username') and User.is_unique(catequistas_properties.get('username')):
+        username_is_unique = catequistas_properties.get('username') and User.is_unique(catequistas_properties.get('username'))
+        email_is_unique = catequistas_properties.get('email') and User.is_unique_email(catequistas_properties.get('email'))
+        if not username_is_unique:
+            erros['username'] = unicode(u'Usuário já existe.')
+        if not email_is_unique:
+            erros['email'] = unicode(u'Email já utilizado.')
+        if username_is_unique and email_is_unique:
             cmd()
-        else:
-            user_not_unique = True
     except CommandExecutionException:
         context = {
             'errors': cmd.errors,
             'catequista': catequistas_properties
         }
+        return TemplateResponse(context, template_path='/catequistas/catequista.html')
+    if erros:
+        context = {
+            'errors': erros,
+            'catequista': catequistas_properties,
+            "groups": catequistas_properties.get('groups')
+        }
+        return TemplateResponse(context, template_path='/catequistas/catequista.html')
+    sleep(0.5)
+    return RedirectResponse(router.to_path(catequistas))
+
+
+@login_required
+def edit(_logged_user, **catequistas_properties):
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
+    obj_id = catequistas_properties.pop("key_id", None)
+    catequistas_properties['groups'] = set_permission(catequistas_properties.get('groups'))
+    user_not_unique = False
+    cmd = catequista_facade.update_catequista_cmd(obj_id, **catequistas_properties)
+    try:
+        username_is_unique = catequistas_properties.get('username') and User.is_unique(catequistas_properties.get('username'))
+        email_is_unique = catequistas_properties.get('email') and User.is_unique_email(catequistas_properties.get('email'))
+        if username_is_unique:
+            cmd()
+        else:
+            user_not_unique = True
+        if email_is_unique:
+            cmd()
+        else:
+            email_not_unique = True
+    except CommandExecutionException:
+        context = {'errors': {},
+                   'catequista': catequistas_properties}
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     if user_not_unique:
         cmd.errors['username'] = unicode(u'Usuário já existe.')
@@ -73,31 +110,10 @@ def save(_logged_user, **catequistas_properties):
         }
         return TemplateResponse(context, template_path='/catequistas/catequista.html')
     sleep(0.5)
-    return RedirectResponse(router.to_path(catequistas))
-
-
-@login_required
-@no_csrf
-def edit(_logged_user, **catequistas_properties):
-    access_denid = validate_permission(CATEQUISTA, _logged_user)
-    if access_denid:
-        return access_denid
-    obj_id = catequistas_properties.pop("key_id", None)
-    if not isinstance(catequistas_properties.get('groups'), list):
-        catequistas_properties['groups'] = [catequistas_properties.get('groups')]
-    cmd = catequista_facade.update_catequista_cmd(obj_id, **catequistas_properties)
-    try:
-        cmd()
-    except CommandExecutionException:
-        context = {'errors': {},
-                   'catequista': catequistas_properties}
-        return TemplateResponse(context, template_path='/catequistas/catequista.html')
-    sleep(0.5)
     return RedirectResponse('/sucesso')
 
 
 @login_required
-@no_csrf
 def delete(_logged_user, obj_id=0):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:

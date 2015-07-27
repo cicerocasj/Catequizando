@@ -35,7 +35,6 @@ def index(_logged_user, id=0):
     return TemplateResponse(context, template_path='/noticias/noticia.html')
 
 @login_required
-@no_csrf
 def save(_logged_user, **noticia_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -51,7 +50,6 @@ def save(_logged_user, **noticia_properties):
 
 
 @login_required
-@no_csrf
 def edit(_logged_user, **noticia_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -68,7 +66,6 @@ def edit(_logged_user, **noticia_properties):
 
 
 @login_required
-@no_csrf
 def delete(_logged_user, obj_id=0):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:

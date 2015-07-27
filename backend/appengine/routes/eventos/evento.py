@@ -36,7 +36,6 @@ def index(_logged_user, id=0):
 
 
 @login_required
-@no_csrf
 def save(_logged_user, **evento_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -53,7 +52,6 @@ def save(_logged_user, **evento_properties):
 
 
 @login_required
-@no_csrf
 def edit(_logged_user, **evento_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -71,7 +69,6 @@ def edit(_logged_user, **evento_properties):
 
 
 @login_required
-@no_csrf
 def delete(_logged_user, obj_id=0):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:

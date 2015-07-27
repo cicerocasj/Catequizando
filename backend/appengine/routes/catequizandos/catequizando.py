@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission
+from permission_app.model import ALL_PERMISSIONS_LIST, validate_permission, set_permission
 from routes.catequizandos import upload
 from time import sleep
 from catequizando_app import catequizando_facade
@@ -45,21 +45,21 @@ def index(_logged_user, id=0):
 
 
 @login_required
-@no_csrf
 def save(_logged_user, **catequizandos_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
         return access_denid
     catequizandos_properties['groups'] = [CATEQUIZANDO, COMUM]
-    user_not_unique = False
+    erros = {}
     cmd = catequizando_facade.save_catequizando_cmd(**catequizandos_properties)
     try:
-        if catequizandos_properties.get('username'):
-            if User.is_unique(catequizandos_properties.get('username')):
-                cmd()
-            else:
-                user_not_unique = True
-        else:
+        username_is_unique = catequizandos_properties.get('username') and User.is_unique(catequizandos_properties.get('username'))
+        email_is_unique = catequizandos_properties.get('email') and User.is_unique_email(catequizandos_properties.get('email'))
+        if not username_is_unique:
+            erros['username'] = unicode(u'Usuário já existe.')
+        if not email_is_unique:
+            erros['email'] = unicode(u'Email já utilizado.')
+        if username_is_unique and email_is_unique:
             cmd()
     except CommandExecutionException:
         context = {
@@ -67,10 +67,9 @@ def save(_logged_user, **catequizandos_properties):
             'catequizando': catequizandos_properties
         }
         return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
-    if user_not_unique:
-        cmd.errors['username'] = unicode(u'Usuário já existe.')
+    if erros:
         context = {
-            'errors': cmd.errors,
+            'errors': erros,
             'catequizando': catequizandos_properties,
             "groups": catequizandos_properties.get('groups')
         }
@@ -80,7 +79,6 @@ def save(_logged_user, **catequizandos_properties):
 
 
 @login_required
-@no_csrf
 def edit(_logged_user, **catequizandos_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -99,7 +97,6 @@ def edit(_logged_user, **catequizandos_properties):
 
 
 @login_required
-@no_csrf
 def delete(_logged_user, obj_id=0):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:

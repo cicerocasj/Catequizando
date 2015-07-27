@@ -116,10 +116,15 @@
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/catequizandos">Cancelar</a>
                                     {% if catequizando.key %}
-                                        <a class="btn btn-danger pull-right" href="/catequizandos/catequizando/delete/{{ catequizando.key.id() }}">Deletar</a>
+                                        <button type="button" onclick="delete_form()" class="btn btn-danger pull-right">Deletar</button>
                                     {% endif %}
                                 </div>
                             </form>
+                            {% if catequizando.key %}
+                                <form method="post" id="delete_form" style="display: none;" action="/catequizandos/catequizando/delete/{{ catequizando.key.id() }}">
+                                    {{ csrf_input() }}
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -19,3 +19,7 @@ $(document).ready(function(){
     multiple_selects = $('.chosen-select');
     multiple_selects.chosen('.chosen-select');
 });
+
+function delete_form(){
+    $('#delete_form').submit()
+}

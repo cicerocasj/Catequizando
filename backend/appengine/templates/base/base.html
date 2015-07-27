@@ -44,6 +44,20 @@
         {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
     </div>
 {% endmacro %}
+{% macro form_select_permission(label,property,value,error_msg, class, choice, required) %}
+    <div class="form-group {{ ' has-error' if error_msg }}">
+        <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>
+        <div class="{{ class }}">
+            <select name="{{ property }}" {% if required %} class="validate[required]" {% endif %} id="{{ property }}Input"
+                    data-prompt-position="topLeft">
+                {% for op in choice %}
+                    <option value="{{ op }}" {% if op == value %}selected="selected" {% endif %}>{{ op }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if error_msg %}<span class="help-block">{{ error_msg }}</span>{% endif %}
+    </div>
+{% endmacro %}
 {% macro form_select_chamada_turma(label,property,value,error_msg, class, choice, required) %}
     <div class="form-group {{ ' has-error' if error_msg }}">
         <label for="{{ property }}Input" class="control-label col-md-2">{{ label }}</label>

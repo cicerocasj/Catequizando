@@ -4,13 +4,17 @@ from gaecookie.decorator import no_csrf
 from evento_app.evento_model import Evento
 from config.template_middleware import TemplateResponse
 from gaepermission.decorator import login_not_required
+from permission_app.model import validate_permission, CATEQUIZANDO
 
 
 @login_not_required
 @no_csrf
-def index():
+def index(_logged_user):
+    access_denid = validate_permission(CATEQUIZANDO, _logged_user)
+    if access_denid:
+        return access_denid
     context = {}
-    query = Evento.query_by_creation_desc()
+    query = Evento.query().order(Evento.title)
     eventos = query.fetch()
     context['eventos'] = eventos
     context["nav_active"] = 'eventos'

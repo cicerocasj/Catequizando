@@ -9,18 +9,19 @@ from tekton.gae.middleware.redirect import RedirectResponse
 from encontro_app.encontro_model import Encontro
 from gaebusiness.business import CommandExecutionException
 from routes import chamadas, turmas
-from gaecookie.decorator import no_csrf
-from gaepermission.decorator import login_not_required, permissions
 from config.template_middleware import TemplateResponse
 from turma_app.turma_model import Turma
 from gaecookie.decorator import no_csrf
-from gaepermission.decorator import permissions
-from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO, COMUM
+from gaepermission.decorator import permissions, login_required
+from permission_app.model import CATEQUISTA, ADMIN, COORDENADOR, CATEQUIZANDO, COMUM, validate_permission
 
 
 @no_csrf
-@permissions(ADMIN, COORDENADOR, CATEQUISTA)
-def index(id=0):
+@login_required
+def index(_logged_user, id=0):
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
     catequizandos = []
     try:
         key_id = int(id)
@@ -30,8 +31,7 @@ def index(id=0):
         list_catequizandos = Catequizando.query(Catequizando.turma==Turma.get_by_id(key_id).key).fetch()
         for catequizando in list_catequizandos:
             catequizandos.append({'id': catequizando.key.id(), 'name': catequizando.name})
-    else:
-        list_catequizandos = []
+
     list_encontros = Encontro.query().fetch()
     encontros = []
     for encontro in list_encontros:
@@ -50,9 +50,12 @@ def index(id=0):
     return TemplateResponse(context, template_path='/chamadas/chamada.html')
 
 
-@permissions(ADMIN, COORDENADOR, CATEQUISTA)
+@login_required
 @no_csrf
-def save(**chamada_properties):
+def save(_logged_user, **chamada_properties):
+    access_denid = validate_permission(CATEQUISTA, _logged_user)
+    if access_denid:
+        return access_denid
     if chamada_properties.get('encontro'):
         encontro = Encontro.get_by_id(int(chamada_properties.get('encontro')))
         chamada_properties['encontro'] = encontro

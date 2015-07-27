@@ -51,7 +51,6 @@ def index(_logged_user, id=0):
 
 
 @login_required
-@no_csrf
 def save(_logged_user, **turmas_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -94,7 +93,6 @@ def set_turma_catequistas(turma, lista_catequistas):
 
 
 @login_required
-@no_csrf
 def edit(_logged_user, **turmas_properties):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:
@@ -131,7 +129,6 @@ def edit(_logged_user, **turmas_properties):
 
 
 @login_required
-@no_csrf
 def delete(_logged_user, obj_id=0):
     access_denid = validate_permission(COORDENADOR, _logged_user)
     if access_denid:

@@ -48,7 +48,9 @@
                                             {{ form_input('Celular','cellphone',catequista.cellphone,errors.cellphone, 'col-md-8', False) }}
                                             {{ form_input('Usuário','username',catequista.username,errors.username, 'col-md-4', True) }}
                                             {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
-                                            {{ form_select_multi_sample('Permissão', 'groups', groups, errors.groups, 'col-md-5', choice_groups, False) }}
+                                            {% if _logged_user and _logged_user.groups and "COORDENADOR" in _logged_user.groups%}
+                                                {{ form_select_permission('Permissão','groups',groups,errors.groups, 'col-md-4', choice_groups, False) }}
+                                            {% endif %}
                                             {% if catequista.turmas %}
                                                 <div class="form-group">
                                                     <label class="control-label col-md-2">Turmas</label>
@@ -101,10 +103,15 @@
                                     <button type="submit" class="btn btn-blue">Salvar Alterações</button>
                                     <a class="btn btn-default" href="/catequistas">Cancelar</a>
                                     {% if catequista.key %}
-                                        <a class="btn btn-danger pull-right" href="/catequistas/catequista/delete/{{ catequista.key.id() }}">Deletar</a>
+                                        <button type="button" onclick="delete_form()" class="btn btn-danger pull-right">Deletar</button>
                                     {% endif %}
                                 </div>
                             </form>
+                            {% if catequista.key %}
+                                <form method="post" id="delete_form" style="display: none;" action="/catequistas/catequista/delete/{{ catequista.key.id() }}">
+                                    {{ csrf_input() }}
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

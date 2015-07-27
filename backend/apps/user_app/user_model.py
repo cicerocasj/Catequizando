@@ -16,3 +16,24 @@ class User(MainUser):
             users = User.query(User.username==username).fetch()
             return False if users else True
         return False
+
+    @staticmethod
+    def alter_user(username):
+        if username:
+            users = User.query(User.username==username).fetch()
+            return False if len(users) > 1 else True
+        return False
+
+    @staticmethod
+    def is_unique_email(email):
+        if email:
+            users = User.query(User.email==email).fetch()
+            return False if users else True
+        return False
+
+    @staticmethod
+    def alter_user_email(email):
+        if email:
+            users = User.query(User.email==email).fetch()
+            return False if len(users) > 1 else True
+        return False

@@ -46,6 +46,11 @@ indexes:
 - kind: Node
   properties:
   - name: class
+  - name: title
+
+- kind: Node
+  properties:
+  - name: class
   - name: turma
   - name: data
 
