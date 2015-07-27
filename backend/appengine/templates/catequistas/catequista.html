@@ -46,8 +46,13 @@
                                             {{ form_input('Endereço','address',catequista.address,errors.address, 'col-md-8', False) }}
                                             {{ form_input('Telefone','phone',catequista.phone,errors.phone, 'col-md-8', False) }}
                                             {{ form_input('Celular','cellphone',catequista.cellphone,errors.cellphone, 'col-md-8', False) }}
-                                            {{ form_input('Usuário','username',catequista.username,errors.username, 'col-md-4', True) }}
-                                            {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
+                                            {% if catequista.password %}
+                                                {{ form_input('Usuário','username',catequista.username,errors.username, 'col-md-4', True) }}
+                                                {{ input_pass('Senha','password',catequista.password,errors.password, 'col-md-4', True) }}
+                                            {% else %}
+                                                {{ form_input('Usuário','username',sugestao,errors.username, 'col-md-4', True) }}
+                                                {{ input_pass('Senha','password',1234,errors.password, 'col-md-4', True) }}
+                                            {% endif %}
                                             {% if _logged_user and _logged_user.groups and "COORDENADOR" in _logged_user.groups%}
                                                 {{ form_select_permission('Permissão','groups',groups,errors.groups, 'col-md-4', choice_groups, False) }}
                                             {% endif %}

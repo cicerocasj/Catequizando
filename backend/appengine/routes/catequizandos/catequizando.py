@@ -39,6 +39,7 @@ def index(_logged_user, id=0):
         context["groups"] = []
     list_permission = ALL_PERMISSIONS_LIST[:-1]
     context["choice_groups"] = list_permission
+    context["sugestao"] = "catequizando{}".format(Catequizando.query().count()+1)
     context["url_form"] = url_form
     context["nav_active"] = 'catequizandos'
     return TemplateResponse(context, template_path='/catequizandos/catequizando.html')
@@ -54,7 +55,7 @@ def save(_logged_user, **catequizandos_properties):
     cmd = catequizando_facade.save_catequizando_cmd(**catequizandos_properties)
     try:
         username_is_unique = catequizandos_properties.get('username') and User.is_unique(catequizandos_properties.get('username'))
-        email_is_unique = catequizandos_properties.get('email') and User.is_unique_email(catequizandos_properties.get('email'))
+        email_is_unique = User.is_unique_email(catequizandos_properties.get('email'))
         if not username_is_unique:
             erros['username'] = unicode(u'Usuário já existe.')
         if not email_is_unique:

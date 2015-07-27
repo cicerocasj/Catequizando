@@ -29,11 +29,11 @@ class User(MainUser):
         if email:
             users = User.query(User.email==email).fetch()
             return False if users else True
-        return False
+        return True
 
     @staticmethod
     def alter_user_email(email):
         if email:
             users = User.query(User.email==email).fetch()
             return False if len(users) > 1 else True
-        return False
+        return True

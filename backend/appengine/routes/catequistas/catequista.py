@@ -38,6 +38,7 @@ def index(_logged_user, id=0):
         context["groups"] = []
     list_permission = ALL_PERMISSIONS_LIST[2:-1]
     context["choice_groups"] = list_permission
+    context["sugestao"] = "catequista{}".format(Catequista.query().count()+1)
     context["url_form"] = url_form
     context["nav_active"] = 'catequistas'
     return TemplateResponse(context, template_path='/catequistas/catequista.html')

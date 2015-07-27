@@ -52,8 +52,13 @@
                                             <h4 class="text-center">Responsável 2</h4>
                                             {{ form_input('Nome','responsible_2_name',catequizando.responsible_2_name,errors.responsible_2_name, 'col-md-8') }}
                                             {{ form_input('Telefone','responsible_2_phone',catequizando.responsible_2_phone,errors.responsible_2_phone, 'col-md-4') }}
-                                            {{ form_input('Usuário','username',catequizando.username,errors.username, 'col-md-4', False) }}
-                                            {{ input_pass('Senha','password',catequizando.password,errors.password, 'col-md-4', False) }}
+                                            {% if catequizando.password %}
+                                                {{ form_input('Usuário','username',catequizando.username,errors.username, 'col-md-4', True) }}
+                                                {{ input_pass('Senha','password',catequizando.password,errors.password, 'col-md-4', True) }}
+                                            {% else %}
+                                                {{ form_input('Usuário','username',sugestao,errors.username, 'col-md-4', True) }}
+                                                {{ input_pass('Senha','password',1234,errors.password, 'col-md-4', True) }}
+                                            {% endif %}
                                             {#TODO troca este if pelo objeto e nao pelo nome#}
                                             {% if group %}
                                                 <div class="form-group">
