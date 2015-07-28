@@ -53,9 +53,9 @@
                                                 {{ form_input('Usuário','username',sugestao,errors.username, 'col-md-4', True) }}
                                                 {{ input_pass('Senha','password',1234,errors.password, 'col-md-4', True) }}
                                             {% endif %}
-                                            {% if _logged_user and _logged_user.groups and "COORDENADOR" in _logged_user.groups%}
+{#                                            {% if _logged_user and _logged_user.groups and "COORDENADOR" in _logged_user.groups%}#}
                                                 {{ form_select_permission('Permissão','groups',groups,errors.groups, 'col-md-4', choice_groups, False) }}
-                                            {% endif %}
+{#                                            {% endif %}#}
                                             {% if catequista.turmas %}
                                                 <div class="form-group">
                                                     <label class="control-label col-md-2">Turmas</label>

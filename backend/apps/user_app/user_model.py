@@ -18,11 +18,14 @@ class User(MainUser):
         return False
 
     @staticmethod
-    def alter_user(username):
-        if username:
-            users = User.query(User.username==username).fetch()
-            return False if len(users) > 1 else True
-        return False
+    def alter_user(old, new_user):
+        print old
+        print new_user
+        if new_user != old:
+            users = User.query(User.username==new_user).fetch()
+            print users
+            return False if users else True
+        return True
 
     @staticmethod
     def is_unique_email(email):
@@ -32,8 +35,8 @@ class User(MainUser):
         return True
 
     @staticmethod
-    def alter_user_email(email):
-        if email:
+    def alter_user_email(old, email):
+        if email != old:
             users = User.query(User.email==email).fetch()
-            return False if len(users) > 1 else True
+            return False if users else True
         return True
